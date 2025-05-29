@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 동료, 새로운 차원의 업무 혁신을 경험하세요</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --mystic-bg: #0F0F1A; /* Deep, dark space blue */
+            --mystic-primary: #6A0DAD; /* Vibrant Purple */
+            --mystic-secondary: #00BFFF; /* Deep Sky Blue */
+            --mystic-accent: #FF00FF;   /* Magenta for highlights */
+            --mystic-text-light: #E0E0FF; /* Light, slightly bluish text */
+            --mystic-text-dark: #1A1A2E;
+            --mystic-card-bg: rgba(26, 26, 46, 0.8); /* Semi-transparent dark card */
+            --mystic-border: rgba(106, 13, 173, 0.5); /* Purple border */
+            --font-orbitron: 'Orbitron', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--mystic-bg);
+            color: var(--mystic-text-light);
+            font-size: 16px;
+            line-height: 1.8;
+            overflow-x: hidden;
+            position: relative; /* For pseudo-elements */
+        }
+
+        /* Starry background effect */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(circle at 20% 20%, rgba(106, 13, 173, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(0, 191, 255, 0.15) 0%, transparent 40%);
+            animation: animateStars 120s linear infinite, subtleShine 10s ease-in-out infinite alternate;
+            z-index: -1;
+        }
+
+        @keyframes animateStars {
+            from { background-position: 0 0; }
+            to { background-position: -10000px 5000px; }
+        }
+        @keyframes subtleShine {
+            from { opacity: 0.6; }
+            to { opacity: 1; }
+        }
+
+
+        .mystic-header {
+            background-color: rgba(15, 15, 26, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(106, 13, 173, 0.3);
+            transition: background-color 0.3s ease;
+        }
+        .mystic-logo {
+            font-family: var(--font-orbitron);
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--mystic-text-light);
+            text-shadow: 0 0 10px var(--mystic-accent), 0 0 20px var(--mystic-accent);
+            letter-spacing: 1px;
+        }
+        .mystic-nav-links a {
+            font-family: var(--font-orbitron);
+            color: var(--mystic-text-light);
+            opacity: 0.8;
+            margin-left: 1.75rem;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s ease, opacity 0.3s ease, text-shadow 0.3s ease;
+            position: relative;
+        }
+        .mystic-nav-links a:hover {
+            color: var(--mystic-accent);
+            opacity: 1;
+            text-shadow: 0 0 8px var(--mystic-accent);
+        }
+        .mystic-nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            display: block;
+            margin-top: 2px;
+            right: 0;
+            background: var(--mystic-accent);
+            transition: width 0.3s ease;
+            -webkit-transition: width 0.3s ease;
+        }
+        .mystic-nav-links a:hover::after {
+            width: 100%;
+            left: 0;
+            background: var(--mystic-accent);
+        }
+
+
+        .hero-section-mystic {
+            min-height: 100vh; /* Full viewport height */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            color: var(--mystic-text-light);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-title-mystic {
+            font-family: var(--font-orbitron);
+            font-size: clamp(2.5rem, 5vw, 4rem); /* Responsive font size, slightly smaller */
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+            line-height: 1.3;
+            text-shadow: 0 0 15px var(--mystic-primary), 0 0 30px var(--mystic-primary), 0 0 45px var(--mystic-accent);
+            animation: pulseTitle 5s infinite ease-in-out, fadeInDownMystic 1.5s ease-out;
+        }
+        @keyframes pulseTitle {
+            0%, 100% { text-shadow: 0 0 15px var(--mystic-primary), 0 0 30px var(--mystic-primary), 0 0 45px var(--mystic-accent); }
+            50% { text-shadow: 0 0 20px var(--mystic-secondary), 0 0 40px var(--mystic-secondary), 0 0 60px var(--mystic-accent); }
+        }
+        .hero-subtitle-mystic {
+            font-size: clamp(1rem, 2.2vw, 1.25rem); /* Slightly smaller */
+            font-weight: 300;
+            max-width: 750px;
+            margin: 0 auto 2.5rem auto;
+            opacity: 0.85;
+            line-height: 1.8;
+            animation: fadeInUpMystic 1.5s ease-out 0.5s;
+            animation-fill-mode: backwards;
+        }
+        .hero-cta-button-mystic {
+            animation: fadeInUpMystic 1.5s ease-out 1s;
+            animation-fill-mode: backwards;
+        }
+        .scroll-down-indicator-mystic {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounceMystic 2.5s infinite ease-out 2s;
+            color: var(--mystic-accent);
+            opacity: 0.8;
+        }
+        .scroll-down-indicator-mystic svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        .content-wrapper-mystic {
+            max-width: 1200px;
+            margin: 0 auto; /* No top margin, handled by pt-16 on first section */
+            padding: 0 2rem;
+        }
+
+        .mystic-card {
+            background-color: var(--mystic-card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--mystic-border);
+            box-shadow: 0 0 30px rgba(106, 13, 173, 0.3), 0 0 15px rgba(0, 191, 255, 0.2) inset;
+            margin-bottom: 4rem;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+            opacity: 0;
+            transform: perspective(1000px) rotateY(-5deg) scale(0.95);
+            position: relative;
+        }
+        .mystic-card.is-visible {
+            opacity: 1;
+            transform: perspective(1000px) rotateY(0deg) scale(1);
+        }
+        .mystic-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 50px rgba(106, 13, 173, 0.5), 0 0 25px rgba(0, 191, 255, 0.3) inset;
+        }
+        .mystic-card-header {
+            padding: 2.5rem;
+            display: flex;
+            align-items: center;
+            position: relative;
+            border-bottom: 1px solid var(--mystic-border);
+        }
+        /* Glowing effect on header */
+        .mystic-card-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 5%;
+            width: 90%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--mystic-accent), transparent);
+            filter: blur(3px);
+            opacity: 0.7;
+        }
+
+        .mystic-card-icon {
+            font-size: 3rem;
+            margin-right: 1.5rem;
+            line-height: 1;
+            text-shadow: 0 0 10px currentColor;
+        }
+        .icon-awsome { color: var(--mystic-secondary); }
+        .icon-notebooklm { color: var(--mystic-primary); }
+
+        .mystic-card-title {
+            font-family: var(--font-orbitron);
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: var(--mystic-text-light);
+            margin-bottom: 0.25rem;
+        }
+        .mystic-card-subtitle {
+            font-size: 1rem;
+            color: var(--mystic-text-light);
+            opacity: 0.8;
+            font-weight: 300;
+        }
+        .mystic-card-content {
+            padding: 2.5rem;
+        }
+        .mystic-content-heading {
+            font-family: var(--font-orbitron);
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--mystic-text-light);
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--mystic-border);
+            position: relative;
+        }
+        .mystic-content-heading::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            width: 50px;
+            height: 2px;
+        }
+        .card-awsome .mystic-content-heading::after { background: var(--mystic-secondary); }
+        .card-notebooklm .mystic-content-heading::after { background: var(--mystic-primary); }
+
+        .mystic-content-list {
+            list-style: none;
+            padding-left: 0;
+            color: var(--mystic-text-light);
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+        .mystic-content-list li {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+            line-height: 1.7;
+        }
+        .mystic-content-list li::before {
+            content: '✧'; /* Star-like bullet */
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-size: 1.2rem;
+            line-height: 1;
+            text-shadow: 0 0 5px currentColor;
+        }
+        .list-bullet-awsome::before { color: var(--mystic-secondary); }
+        .list-bullet-notebooklm::before { color: var(--mystic-primary); }
+
+        .mystic-cta-button-container {
+            padding-top: 2rem;
+            text-align: left;
+        }
+        .mystic-cta-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.9rem 2rem;
+            border-radius: 50px; /* Pill shape */
+            font-family: var(--font-orbitron);
+            font-weight: 500;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: var(--mystic-text-dark);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid transparent;
+        }
+        .mystic-cta-button svg {
+            width: 20px; height: 20px; margin-left: 0.75rem; transition: transform 0.3s ease;
+        }
+        .mystic-cta-button:hover svg {
+            transform: translateX(5px);
+        }
+        .mystic-cta-button-awsome {
+            background: var(--mystic-secondary);
+            border-color: var(--mystic-secondary);
+            box-shadow: 0 0 15px var(--mystic-secondary), 0 0 30px var(--mystic-secondary) inset;
+        }
+        .mystic-cta-button-awsome:hover {
+            background: var(--mystic-text-dark);
+            color: var(--mystic-secondary);
+            box-shadow: 0 0 20px var(--mystic-secondary);
+        }
+        .mystic-cta-button-notebooklm {
+            background: var(--mystic-primary);
+            border-color: var(--mystic-primary);
+            box-shadow: 0 0 15px var(--mystic-primary), 0 0 30px var(--mystic-primary) inset;
+        }
+        .mystic-cta-button-notebooklm:hover {
+            background: var(--mystic-text-dark);
+            color: var(--mystic-primary);
+            box-shadow: 0 0 20px var(--mystic-primary);
+        }
+        .mystic-cta-button-secondary {
+            background: transparent;
+            border: 1px solid var(--mystic-accent);
+            color: var(--mystic-accent);
+            box-shadow: 0 0 10px var(--mystic-accent) inset;
+        }
+        .mystic-cta-button-secondary:hover {
+            background: var(--mystic-accent);
+            color: var(--mystic-text-dark);
+            box-shadow: 0 0 15px var(--mystic-accent);
+        }
+
+        .mystic-usage-note {
+            font-size: 0.85rem;
+            color: var(--mystic-text-light);
+            opacity: 0.7;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        .synergy-section-mystic {
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+        .synergy-section-mystic::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at center, rgba(106, 13, 173, 0.2), transparent 70%);
+            z-index: -1;
+            opacity: 0.5;
+        }
+        .synergy-title-mystic {
+            font-family: var(--font-orbitron);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--mystic-text-light);
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px var(--mystic-secondary);
+        }
+        .synergy-text-mystic {
+            font-size: 1.1rem;
+            color: var(--mystic-text-light);
+            opacity: 0.85;
+            max-width: 800px;
+            margin: 0 auto 1.5rem auto;
+            line-height: 1.9;
+        }
+
+        .mystic-footer {
+            background-color: transparent; /* Transparent to show body background */
+            padding: 4rem 2rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--mystic-border);
+            position: relative;
+        }
+        .mystic-footer-title {
+            font-family: var(--font-orbitron);
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            color: var(--mystic-text-light);
+            text-shadow: 0 0 8px var(--mystic-primary);
+        }
+        .mystic-footer-text {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .mystic-contact-info p {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            margin-bottom: 0.75rem;
+        }
+        .mystic-contact-info a {
+            color: var(--mystic-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+        .mystic-contact-info a:hover {
+            color: var(--mystic-accent);
+            text-shadow: 0 0 5px var(--mystic-accent);
+        }
+        .mystic-final-greeting {
+            margin-top: 3rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            opacity: 0.9;
+            font-family: var(--font-orbitron);
+            color: var(--mystic-accent);
+            text-shadow: 0 0 10px var(--mystic-accent);
+        }
+
+        /* Animations */
+        @keyframes fadeInDownMystic {
+            from { opacity: 0; transform: translateY(-40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUpMystic {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes bounceMystic {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-15px); }
+            60% { transform: translateX(-50%) translateY(-7px); }
+        }
+        .animate-on-scroll {
+            transition: opacity 1s ease-out, transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: perspective(1000px) rotateY(0deg) scale(1);
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+    <header class="mystic-header">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="mystic-logo">Managed Service 3</div>
+            <nav class="mystic-nav-links">
+                <a href="#tools">AI 동료 소개</a>
+                <a href="#synergy">활용 시너지</a>
+                <a href="#contact">문의하기</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero-section-mystic">
+        <div class="relative z-10">
+            <h1 class="hero-title-mystic"><br class="md:hidden"> 지금 만나보세요.</h1>
+            <p class="hero-subtitle-mystic">두 AI 동료가 여러분의 성공적인 AWS 여정을 지원합니다.<br>정확한 분석과 창의적인 해결책으로 새로운 가능성을 경험하세요.</p>
+            <a href="#tools" class="mystic-cta-button mystic-cta-button-notebooklm hero-cta-button-mystic">
+                AI 동료 탐험하기
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" /></svg>
+            </a>
+        </div>
+        <div class="scroll-down-indicator-mystic">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+            </svg>
+        </div>
+    </section>
+
+    <div id="tools" class="content-wrapper-mystic pt-24">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+            <div class="mystic-card card-awsome animate-on-scroll">
+                <div class="mystic-card-header">
+                    <span class="mystic-card-icon icon-awsome">💡</span>
+                    <div>
+                        <h2 class="mystic-card-title">AWSome Friday</h2>
+                        <p class="mystic-card-subtitle">AWS와 금요일 같이 <strong style="color: var(--mystic-secondary); font-weight:700;">즐거운 문제해결 동료 (ChatGPT 기반)</strong></p>
+                    </div>
+                </div>
+                <div class="mystic-card-content">
+                    <h3 class="mystic-content-heading">주요 특징:</h3>
+                    <ul class="mystic-content-list">
+                        <li class="list-bullet-awsome">AWS 관련 질문과 문제에 대해 <strong style="color: var(--mystic-secondary); font-weight:500;">창의적이고 해결 중심적인 아이디어</strong> 제공</li>
+                        <li class="list-bullet-awsome">직관적이고 사용자 친화적인 방식으로 <strong style="color: var(--mystic-secondary); font-weight:500;">문제 해결의 실마리 제시</strong></li>
+                        <li class="list-bullet-awsome">복잡한 AWS 이슈에 대해 <strong style="color: var(--mystic-secondary); font-weight:500;">효율적인 접근법으로 해결책 탐색 지원</strong></li>
+                        <li class="list-bullet-awsome">업무 중 어려움에 직면 시, <strong style="color: var(--mystic-secondary); font-weight:500;">새로운 관점의 해결책 모색</strong> 지원</li>
+                    </ul>
+                    <h3 class="mystic-content-heading mt-10">활용 사례:</h3>
+                    <ul class="mystic-content-list">
+                        <li class="list-bullet-awsome">새로운 AWS 서비스 도입 아이디어 구상</li>
+                        <li class="list-bullet-awsome">기존 아키텍처 개선을 위한 신선한 접근 방식 모색</li>
+                        <li class="list-bullet-awsome">문제 해결 과정에서 새로운 돌파구 필요 시</li>
+                        <li class="list-bullet-awsome">업무의 창의적 접근 및 효율성 증대</li>
+                    </ul>
+                    <div class="mystic-cta-button-container">
+                        <a href="https://chatgpt.com/g/g-68363f35220c81918443b6a9c162c029-awsome-friday" target="_blank" class="mystic-cta-button mystic-cta-button-awsome">
+                            AWSome Friday와 대화하기
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mystic-card card-notebooklm animate-on-scroll" style="transition-delay: 0.2s;">
+                <div class="mystic-card-header">
+                    <span class="mystic-card-icon icon-notebooklm">📚</span>
+                    <div>
+                        <h2 class="mystic-card-title">AWS FactChecker-20250525</h2>
+                        <p class="mystic-card-subtitle">딱딱한 내용이지만 <strong style="color: var(--mystic-primary); font-weight:700;">교수님 같은 동료</strong></p>
+                    </div>
+                </div>
+                <div class="mystic-card-content">
+                    <h3 class="mystic-content-heading">주요 특징:</h3>
+                    <ul class="mystic-content-list">
+                        <li class="list-bullet-notebooklm"><strong style="color: var(--mystic-primary); font-weight:500;">AWS 공식 문서 기반</strong>의 정확하고 신뢰도 높은 정보 제공</li>
+                        <li class="list-bullet-notebooklm">전문가의 시각으로 <strong style="color: var(--mystic-primary); font-weight:500;">체계적이고 논리적인 분석</strong>을 통해 문제 핵심 파악 지원</li>
+                        <li class="list-bullet-notebooklm">기술적 깊이가 요구되는 질문 및 상세 사양 확인 시 <strong style="color: var(--mystic-primary); font-weight:500;">최적의 답변 제시</strong></li>
+                        <li class="list-bullet-notebooklm">설정 값 의미, 모범 사례 등 상세 정보 필요 시 <strong style="color: var(--mystic-primary); font-weight:500;">명확한 답변 확보</strong></li>
+                    </ul>
+                     <h3 class="mystic-content-heading mt-10">활용 사례:</h3>
+                    <ul class="mystic-content-list">
+                        <li class="list-bullet-notebooklm">특정 AWS 서비스 기능, 제약 조건, 설정 방법 확인</li>
+                        <li class="list-bullet-notebooklm">AWS 모범 사례(Best Practice) 기반 아키텍처 설계 검토</li>
+                        <li class="list-bullet-notebooklm">공식 문서에 근거한 명확한 정보 및 답변 필요 시</li>
+                        <li class="list-bullet-notebooklm">기술적 오류 해결을 위한 표준적, 검증된 접근 방법 모색</li>
+                    </ul>
+                    <div class="mystic-cta-button-container text-center">
+                         <a href="https://docs.google.com/spreadsheets/d/12LifN7YKQUKD4Iv7DpQ60-bMIA_VIrRPWn9fQYwI5jc/edit?gid=223167876#gid=223167876" target="_blank" class="mystic-cta-button mystic-cta-button-notebooklm" style="margin-bottom: 1rem; display: block; text-align: center;">
+                            ✨ FactChecker 초대 요청
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:18px; height:18px; margin-left:0.5rem;"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 9v.906a2.25 2.25 0 01-1.183 1.981l-6.478 3.488M2.25 9v.906a2.25 2.25 0 001.183 1.981l6.478 3.488m8.863-11.482A2.25 2.25 0 0019.5 7.5h-15a2.25 2.25 0 00-2.25 2.25V15M12 12.75a.75.75 0 000 1.5.75.75 0 000-1.5z"></path></svg>
+                        </a>
+                         <p class="mystic-usage-note" style="margin-bottom: 1rem;">
+                            AWS FactChecker는 현재 초대를 통해서만 사용 가능합니다.<br>위 '초대 요청' 버튼으로 구글 시트에 이메일을 남겨주시면 확인 후 초대해 드립니다.
+                        </p>
+                         <a href="https://notebooklm.google.com/notebook/ad510432-4aba-40a1-a4df-98b6790a7607" target="_blank" class="mystic-cta-button mystic-cta-button-secondary" style="display: block; text-align: center;">
+                            FactChecker 바로가기 (초대 후)
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="synergy" class="synergy-section-mystic animate-on-scroll">
+        <h2 class="synergy-title-mystic">🤝 두 AI 동료, 시너지로 완성되는 업무 혁신</h2>
+        <p class="synergy-text-mystic">
+            문제 해결의 첫 단계, <strong style="color: var(--mystic-primary); font-weight:700;">AWS FactChecker</strong>를 활용하여 데이터 기반의 정확한 상황 진단과 핵심 정보를 확보하십시오.<br>
+            다음으로, <strong style="color: var(--mystic-secondary); font-weight:700;">AWSome Friday</strong>의 창의적 통찰력을 더해 분석된 내용을 다각도로 확장하고, 혁신적인 해결 방안을 도출하세요.<br>
+            이 유기적인 협업은 여러분의 프로젝트에 강력한 추진력을 더하고, 기대 이상의 성과를 이끌어낼 것입니다.
+        </p>
+        <p class="synergy-text-mystic" style="font-size: 1.2rem; font-weight: 500; margin-top: 2.5rem;">
+            두 AI 동료가 제공하는 지능형 지원을 통해 업무 효율성을 극대화하고, 보다 가치 있는 일에 집중하십시오.
+        </p>
+    </section>
+
+    <footer id="contact" class="mystic-footer">
+        <div class="animate-on-scroll">
+            <h2 class="mystic-footer-title">🌌 새로운 가능성의 탐험, 지금 시작하세요</h2>
+            <p class="mystic-footer-text">
+                AI 동료들과 함께라면, 복잡한 AWS 과제도 명쾌하게 해결하고 기술적 한계를 넘어설 수 있습니다.<br>
+                여러분의 빛나는 아이디어가 현실이 되도록, 최선을 다해 돕겠습니다.
+            </p>
+            <div class="mystic-contact-info">
+                <p>궁금하신 점이나 AI 동료 활용에 대한 자세한 안내가 필요하시면 언제든지 문의하십시오.</p>
+                <p>이메일: <a href="mailto:hjgong@mz.co.kr">hjgong@mz.co.kr</a></p>
+            </div>
+            <p class="mystic-final-greeting mt-12">여러분을 응원합니다!</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            if (!animatedElements.length) return;
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.15 // Trigger when 15% of the element is visible for smoother effect
+            });
+
+            animatedElements.forEach(el => {
+                observer.observe(el);
+            });
+
+            const header = document.querySelector('.mystic-header');
+            if(header) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 50) {
+                        header.style.backgroundColor = 'rgba(15, 15, 26, 0.85)'; // Darken on scroll
+                        header.style.borderBottomColor = 'rgba(106, 13, 173, 0.5)';
+                    } else {
+                        header.style.backgroundColor = 'rgba(15, 15, 26, 0.7)';
+                        header.style.borderBottomColor = 'rgba(106, 13, 173, 0.3)';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
