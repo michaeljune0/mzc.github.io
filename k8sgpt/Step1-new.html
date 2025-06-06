@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 1: 이 주제가 중요한 이유 - 운영자의 시야에서</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-abyss: #03001C; /* Deepest abyss black-blue */
+            --bg-nebula-start: #150050; /* Dark nebula purple */
+            --bg-nebula-end: #3F0071;   /* Lighter nebula violet */
+            --bg-starfield: transparent; /* Starfield will be pseudo-elements */
+
+            --text-luminous: #E0FBFC;  /* Luminous cyan-white */
+            --text-ethereal: #C7D2FE; /* Ethereal lavender */
+            --text-whisper: #A7B3D6;  /* Soft whisper blue */
+
+            --accent-aurora-cyan: #30BCED;
+            --accent-aurora-pink: #D741A7;
+            --accent-stardust-gold: #FBD46D;
+            --accent-cosmic-glow: rgba(48, 188, 237, 0.7);
+            /* Step1 specific accents - can be same as Step3 or new */
+            --accent-step1-primary: var(--accent-aurora-cyan);
+            --accent-step1-secondary: var(--accent-stardust-gold);
+
+
+            --font-primary: 'Inter', 'Noto Sans KR', sans-serif;
+            --font-display: 'Orbitron', 'Noto Sans KR', sans-serif; /* For titles */
+
+            --border-radius-celestial: 1rem; /* 16px */
+            --border-radius-dream: 0.75rem; /* 12px */
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--bg-abyss);
+            color: var(--text-luminous);
+            overflow-x: hidden;
+            line-height: 1.8;
+            min-height: 100vh;
+            position: relative; /* For starfield */
+        }
+
+        /* --- Starfield Background (Copied from Step3) --- */
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        body::before {
+            background-image: radial-gradient(circle at 20% 30%, var(--text-ethereal) 0.5px, transparent 1px),
+                              radial-gradient(circle at 80% 70%, var(--text-ethereal) 0.5px, transparent 1px),
+                              radial-gradient(circle at 50% 50%, var(--text-whisper) 0.3px, transparent 1px);
+            background-size: 100px 100px, 150px 150px, 50px 50px;
+            opacity: 0.3;
+            animation: twinkle 20s linear infinite alternate;
+        }
+        body::after {
+            background-image: radial-gradient(circle at 10% 90%, var(--text-luminous) 1px, transparent 1.5px),
+                              radial-gradient(circle at 70% 10%, var(--text-luminous) 1px, transparent 1.5px),
+                              radial-gradient(circle at 30% 60%, var(--accent-stardust-gold) 0.8px, transparent 1.2px);
+            background-size: 200px 200px, 250px 250px, 180px 180px;
+            opacity: 0.5;
+            animation: twinkle 15s linear infinite alternate-reverse;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.02); }
+            100% { opacity: 0.2; transform: scale(1); }
+        }
+
+        /* --- Global Transitions & Animations (Copied from Step3) --- */
+        .interactive-element, .content-portal, table, blockquote,
+        .dream-list li::before, .dream-list-decimal li::before, .luminous-link::after,
+        .nebula-conclusion, .problem-solution-diagram, .diagram-node, .diagram-connector, .operational-flow-step {
+            transition-property: all;
+            transition-duration: 0.5s;
+            transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        /* --- Hero Portal (Adapted from Step3) --- */
+        .hero-portal {
+            padding: 6rem 2rem 8rem;
+            border-radius: var(--border-radius-celestial);
+            margin-bottom: 5rem;
+            text-align: center;
+            position: relative;
+            overflow: visible;
+            background: radial-gradient(ellipse at 50% -50%, rgba(48, 188, 237, 0.15) 0%, transparent 60%), /* Top cyan glow */
+                        radial-gradient(ellipse at 50% 150%, rgba(251, 212, 109, 0.1) 0%, transparent 60%); /* Bottom gold glow */
+        }
+        .hero-portal h1 {
+            font-family: var(--font-display);
+            color: var(--text-luminous);
+            font-weight: 500;
+            font-size: clamp(2.8rem, 6vw, 4.2rem);
+            text-shadow: 0 0 15px var(--accent-step1-primary), 0 0 30px var(--accent-step1-secondary);
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+            animation: fadeInGlow 2s ease-out forwards;
+            opacity:0;
+        }
+        @keyframes fadeInGlow {
+            0% { opacity: 0; transform: translateY(20px) scale(0.95); text-shadow: 0 0 5px var(--accent-cosmic-glow); }
+            100% { opacity: 1; transform: translateY(0) scale(1); text-shadow: 0 0 15px var(--accent-step1-primary), 0 0 30px var(--accent-step1-secondary); }
+        }
+        .hero-portal p {
+            color: var(--text-ethereal);
+            font-size: clamp(1.1rem, 2.8vw, 1.35rem);
+            max-width: 750px;
+            margin: 0 auto;
+            opacity: 0;
+            animation: fadeInSimple 2s 0.5s ease-out forwards;
+            line-height: 1.7;
+        }
+        @keyframes fadeInSimple {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Main Content Nebula (Copied from Step3) --- */
+        .main-content-nebula {
+            background: linear-gradient(170deg, var(--bg-nebula-start) 0%, var(--bg-nebula-end) 100%);
+            padding: 3.5rem;
+            border-radius: var(--border-radius-celestial);
+            box-shadow: 0 0 60px rgba(0,0,0,0.5), inset 0 0 30px rgba(0,0,0,0.3);
+            border: 1px solid rgba(224, 251, 252, 0.1);
+        }
+        .main-content-nebula > h2 {
+            font-family: var(--font-display);
+            color: var(--text-luminous);
+            border-bottom: 2px solid;
+            border-image-slice: 1;
+            border-image-source: linear-gradient(to right, var(--accent-step1-primary), var(--accent-step1-secondary));
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            padding-bottom: 1.5rem;
+            margin-bottom: 3rem;
+        }
+         .main-content-nebula > h2 .subtitle {
+            display: block;
+            font-size: 0.6em;
+            color: var(--text-ethereal);
+            font-family: var(--font-primary);
+            letter-spacing: normal;
+            margin-top: 0.5rem;
+            font-weight: 400;
+        }
+
+        /* --- Content Portals (Cards - Copied and adapted from Step3) --- */
+        .content-portal {
+            background-color: rgba(3, 0, 28, 0.7);
+            backdrop-filter: blur(10px) saturate(150%);
+            -webkit-backdrop-filter: blur(10px) saturate(150%);
+            padding: 2.5rem;
+            border-radius: var(--border-radius-dream);
+            margin-bottom: 3rem;
+            border: 1px solid rgba(48, 188, 237, 0.2); /* Cyan border */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .content-portal::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: conic-gradient(
+                transparent,
+                rgba(48, 188, 237, 0.15) 20%, /* Cyan */
+                rgba(251, 212, 109, 0.15) 40%, /* Gold */
+                transparent 60%
+            );
+            opacity: 0;
+            transform-origin: center center;
+            transition: opacity 0.7s ease, transform 0.7s ease;
+            animation: portalSpin 15s linear infinite paused;
+        }
+        @keyframes portalSpin {
+            100% { transform: rotate(1turn); }
+        }
+        .content-portal:hover {
+            transform: translateY(-10px) scale(1.015);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.45), 0 0 25px var(--accent-step1-primary);
+            border-color: rgba(251, 212, 109, 0.3); /* Gold border on hover */
+        }
+        .content-portal:hover::before {
+            opacity: 1;
+            animation-play-state: running;
+        }
+        .content-portal h3 {
+            font-family: var(--font-display);
+            color: var(--text-luminous);
+            font-weight: 500;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 8px var(--accent-step1-primary);
+        }
+        .content-portal p, .content-portal li {
+            color: var(--text-ethereal);
+            font-size: 1.05rem;
+        }
+        .content-portal .highlight {
+            color: var(--accent-step1-primary);
+            font-weight: 600;
+        }
+         .content-portal .sub-highlight {
+            color: var(--accent-step1-secondary);
+            font-weight: 500;
+        }
+
+        /* --- Problem & Solution Diagram --- */
+        .problem-solution-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            margin: 3rem auto;
+            padding: 1rem;
+            position: relative;
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+            .problem-solution-diagram {
+                flex-direction: row;
+                justify-content: center;
+                align-items: center; /* Vertically center items */
+            }
+        }
+
+        .diagram-node {
+            background-color: rgba(21, 0, 80, 0.6); /* Dark purple transparent */
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--accent-step1-primary);
+            border-radius: var(--border-radius-dream);
+            padding: 1.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(48, 188, 237, 0.3), 0 0 30px rgba(251, 212, 109, 0.2);
+            width: 100%;
+            max-width: 280px;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .diagram-node.problem-node {
+            border-color: var(--accent-stardust-gold);
+            box-shadow: 0 0 25px rgba(251, 212, 109, 0.4);
+        }
+        .diagram-node:hover {
+            transform: scale(1.05) translateY(-5px);
+            border-color: var(--accent-aurora-pink);
+            box-shadow: 0 0 25px var(--accent-step1-primary), 0 0 35px var(--accent-aurora-pink);
+        }
+        .diagram-node .icon {
+            font-size: 2.5rem; /* Tailwind text-4xl */
+            margin-bottom: 0.75rem;
+            line-height: 1;
+        }
+        .diagram-node h4 {
+            font-family: var(--font-display);
+            color: var(--text-luminous);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        .diagram-node p {
+            font-size: 0.9rem;
+            color: var(--text-ethereal);
+            line-height: 1.5;
+        }
+        .diagram-solutions-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: center; /* Center solutions vertically on mobile */
+        }
+        @media (min-width: 768px) {
+             .diagram-solutions-group {
+                align-items: stretch; /* Allow solutions to have different heights but align */
+             }
+        }
+
+        .diagram-connector {
+            font-size: 2.5rem; /* Tailwind text-4xl */
+            color: var(--accent-step1-secondary);
+            opacity: 0.8;
+            margin: 0 1.5rem; /* Space for horizontal layout */
+            align-self: center;
+        }
+         @media (max-width: 767px) { /* Stack connector vertically on mobile */
+            .diagram-connector {
+                transform: rotate(90deg);
+                margin: 1rem 0;
+            }
+        }
+
+
+        /* --- Operational Flow Diagram --- */
+        .operational-flow-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch; /* Make steps full width on mobile */
+            gap: 1rem;
+            margin: 3rem auto;
+            padding: 1rem;
+        }
+        @media (min-width: 1024px) { /* lg breakpoint */
+            .operational-flow-diagram {
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+        .operational-flow-step {
+            background-color: rgba(21, 0, 80, 0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--accent-aurora-cyan);
+            border-radius: var(--border-radius-dream);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(48, 188, 237, 0.3);
+            flex-grow: 1; /* Allow steps to grow */
+            min-width: 200px; /* Minimum width for a step */
+            max-width: 280px; /* Max width for a step in row layout */
+            margin: 0 auto; /* Center steps when stacked */
+        }
+        .operational-flow-step:hover {
+            transform: scale(1.05);
+            border-color: var(--accent-aurora-pink);
+            box-shadow: 0 0 20px var(--accent-cosmic-glow);
+        }
+        .operational-flow-step .step-label {
+            font-family: var(--font-display);
+            color: var(--text-luminous);
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            display: block;
+            font-weight: 500;
+        }
+        .operational-flow-step .step-description {
+            font-size: 0.9rem;
+            color: var(--text-ethereal);
+            line-height: 1.5;
+        }
+        .flow-arrow {
+            font-size: 2rem; /* Tailwind text-3xl */
+            color: var(--accent-aurora-cyan);
+            opacity: 0.7;
+            margin: 0.5rem;
+            align-self: center;
+        }
+        @media (max-width: 1023px) { /* Stack arrows vertically on mobile/tablet */
+            .flow-arrow {
+                transform: rotate(90deg);
+                margin: 0.5rem 0;
+            }
+        }
+
+
+        /* --- Echoes (Blockquotes - Copied from Step3) --- */
+        blockquote.echoes {
+            border-left: 4px solid var(--accent-stardust-gold);
+            background: linear-gradient(to right, rgba(251, 212, 109, 0.03), transparent);
+            color: var(--accent-stardust-gold);
+            padding: 2.5rem;
+            margin: 3rem 0;
+            border-radius: var(--border-radius-dream);
+            font-style: normal;
+            font-size: 1.2rem;
+            box-shadow: inset 0 0 20px rgba(251, 212, 109, 0.1);
+            position: relative;
+        }
+        blockquote.echoes p { color: var(--accent-stardust-gold) !important; opacity: 0.9; }
+        blockquote.echoes ul { list-style-type: none; padding-left: 0; }
+        blockquote.echoes ul li { margin-bottom: 0.75rem; position:relative; padding-left: 1.5em; }
+        blockquote.echoes ul li::before {
+            content: "✨"; /* Using a star emoji or similar */
+            color: var(--accent-stardust-gold);
+            display: inline-block;
+            width: 1em;
+            margin-left: -1.5em;
+            position: absolute;
+            left: 0.2em; /* Adjust for emoji */
+            top: -0.1em;
+        }
+        blockquote.echoes::before {
+            content: '“';
+            font-family: serif;
+            font-size: 5rem;
+            color: rgba(251, 212, 109, 0.2);
+            position: absolute;
+            left: 1rem;
+            top: -0.5rem;
+            line-height: 1;
+        }
+        blockquote.echoes:hover {
+            border-left-width: 6px;
+            transform: translateX(3px);
+            box-shadow: inset 0 0 25px rgba(251, 212, 109, 0.15), 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        /* --- Data Constellations (Tables - Copied and adapted from Step3) --- */
+        .table-constellation { margin-top: 2.5rem; margin-bottom: 2.5rem; }
+        table.data-constellation {
+            border-radius: var(--border-radius-dream);
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            border: 1px solid rgba(48, 188, 237, 0.15); /* Cyan border */
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            overflow: hidden;
+        }
+        table.data-constellation thead th {
+            background: linear-gradient(to right, rgba(48, 188, 237, 0.15), rgba(251, 212, 109, 0.15)); /* Cyan & Gold */
+            backdrop-filter: blur(5px);
+            color: var(--text-luminous);
+            font-weight: 600;
+            padding: 1.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.8rem;
+            border-bottom: 1px solid rgba(48, 188, 237, 0.2);
+        }
+        table.data-constellation tbody tr {
+            background-color: rgba(21, 0, 80, 0.2);
+            border-bottom: 1px solid rgba(224, 251, 252, 0.05);
+        }
+        table.data-constellation tbody tr:last-child { border-bottom: none; }
+        table.data-constellation tbody tr:hover {
+            background-color: rgba(48, 188, 237, 0.1); /* Cyan hover */
+            transform: scale(1.003);
+        }
+        table.data-constellation tbody tr:hover td { color: var(--text-luminous); }
+        table.data-constellation td {
+            padding: 1.25rem;
+            color: var(--text-ethereal);
+        }
+        table.data-constellation td.font-medium {
+            font-weight: 500;
+            color: var(--text-luminous);
+        }
+
+        /* --- Dream Lists (Copied and adapted from Step3) --- */
+        .dream-list { list-style: none; padding-left: 0; }
+        .dream-list-decimal { list-style: none; padding-left: 0; counter-reset: decimal-list-counter; }
+
+        .dream-list li, .dream-list-decimal li {
+            padding-left: 1.2rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .dream-list li::before {
+            content: '';
+            position: absolute;
+            left: -0.5rem; top: 0.5em;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background-color: var(--accent-aurora-pink);
+            box-shadow: 0 0 8px var(--accent-aurora-pink), 0 0 12px var(--accent-aurora-pink);
+            animation: pulseOrb 2s infinite ease-in-out;
+            transition: all 0.4s ease;
+        }
+        @keyframes pulseOrb {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.3); opacity: 1; }
+        }
+        .dream-list li:hover::before {
+            background-color: var(--accent-aurora-cyan);
+            box-shadow: 0 0 10px var(--accent-aurora-cyan), 0 0 15px var(--accent-aurora-cyan);
+            transform: scale(1.5) rotate(360deg);
+        }
+        .dream-list-decimal li {
+            counter-increment: decimal-list-counter;
+            display: flex;
+            align-items: flex-start;
+        }
+        .dream-list-decimal li::before {
+            content: counter(decimal-list-counter);
+            font-weight: 700;
+            margin-right: 1.2rem;
+            color: var(--bg-abyss);
+            background: linear-gradient(135deg, var(--accent-aurora-cyan), var(--accent-aurora-pink));
+            border-radius: 50%;
+            width: 2.5rem; height: 2.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(48, 188, 237, 0.5), 0 0 15px rgba(215, 65, 167, 0.4);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            flex-shrink: 0;
+        }
+        .dream-list-decimal li:hover::before {
+            transform: scale(1.25) rotate(-15deg) translateY(-2px);
+            box-shadow: 0 0 15px var(--accent-cosmic-glow), 0 0 25px rgba(215, 65, 167, 0.5);
+        }
+        .dream-list-decimal li span { flex-grow: 1; }
+
+
+        /* --- Luminous Links & Accents (Copied from Step3) --- */
+        .luminous-link, a {
+            color: var(--accent-aurora-cyan);
+            font-weight: 500;
+            text-decoration: none;
+            position: relative;
+            padding-bottom: 3px;
+        }
+        .luminous-link::after, a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1.5px;
+            display: block;
+            left: 50%; bottom: 0;
+            transform: translateX(-50%);
+            background: linear-gradient(to right, var(--accent-aurora-cyan), var(--accent-aurora-pink));
+            transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.4s ease;
+            opacity: 0.7;
+        }
+        .luminous-link:hover::after, a:hover::after { width: 100%; opacity: 1; }
+        a:hover { color: var(--accent-aurora-pink); }
+
+        /* --- Nebula Conclusion (Copied and adapted from Step3) --- */
+        .nebula-conclusion {
+            background: radial-gradient(ellipse at center, rgba(48, 188, 237, 0.05) 0%, transparent 70%),
+                        linear-gradient(160deg, rgba(21,0,80,0.3) 0%, rgba(63,0,113,0.3) 100%);
+            border-top: 2px solid;
+            border-image-slice: 1;
+            border-image-source: linear-gradient(to right, var(--accent-step1-primary), var(--accent-step1-secondary));
+            padding: 3.5rem;
+            border-radius: var(--border-radius-dream) var(--border-radius-dream) 0 0;
+            margin-top: 4rem;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
+        }
+        .nebula-conclusion:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 -15px 40px rgba(0,0,0,0.4), 0 0 20px var(--accent-step1-primary);
+        }
+        .nebula-conclusion h3 {
+            font-family: var(--font-display);
+            color: var(--text-luminous);
+            font-weight: 700;
+            font-size: 2.5rem;
+            letter-spacing: 0.01em;
+            text-align: center;
+            text-shadow: 0 0 10px var(--accent-step1-primary);
+        }
+        .nebula-conclusion p {
+            color: var(--text-ethereal);
+            font-size: 1.15rem;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .nebula-conclusion strong {
+            color: var(--text-luminous);
+            font-weight: 600;
+        }
+
+        /* --- Footer (Copied from Step3) --- */
+        footer.cosmic-dust {
+            border-top: 1px solid rgba(224, 251, 252, 0.08);
+            padding-top: 3.5rem;
+            margin-top: 6rem;
+            opacity:0.8;
+        }
+        footer.cosmic-dust p {
+            color: var(--text-whisper);
+            font-size: 0.9rem;
+        }
+        footer.cosmic-dust p:hover { color: var(--text-ethereal); }
+
+        /* Scrollbar Styling (Copied from Step3) */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-abyss); }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--accent-aurora-cyan), var(--accent-aurora-pink));
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            box-shadow: 0 0 10px var(--accent-cosmic-glow);
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
+
+        <header class="hero-portal interactive-element">
+            <h1 class="mb-6">Step 1</h1>
+            <p>이 주제가 중요한 이유 - 운영자의 시야에서 통찰을 얻다</p>
+        </header>
+
+        <section id="step1-content" class="mb-20">
+            <div class="main-content-nebula">
+                <h2 class="text-4xl sm:text-5xl font-bold mb-16 pb-8 text-center">
+                    Step 1. 이 주제가 중요한 이유
+                    <span class="subtitle">- 운영자의 시야에서 -</span>
+                </h2>
+
+                <div class="content-portal interactive-element">
+                    <h3>시작하기 전에: 두 가지 핵심 흐름</h3>
+                    <p class="mb-6">이번 세션에서는 클라우드 운영의 효율성을 높이는 두 가지 중요한 흐름을 탐구합니다. 이 흐름들은 서로 보완하며 운영자에게 더 넓고 깊은 시야를 제공합니다.</p>
+                    <ol class="list-none mb-5 pl-0 space-y-5 dream-list-decimal">
+                        <li><span><strong class="highlight">Kubecost</strong>로 비용 흐름을 투명하게 들여다보는 방법</span></li>
+                        <li><span><strong class="sub-highlight">AI (K8sGPT + Bedrock)</strong>로 EKS 클러스터 문제를 효과적으로 진단하는 실험 사례</span></li>
+                    </ol>
+                    <p class="italic text-gray-400 mt-7">본 세션의 핵심 목표는 클라우드 운영 경험이 많지 않은 분들도 쉽게 이해하고 따라올 수 있도록, 동시에 숙련된 운영자분들께도 새로운 관점과 아이디어를 제공하는 것입니다.</p>
+                </div>
+
+                <div class="problem-solution-diagram my-12">
+                    <div class="diagram-node problem-node interactive-element">
+                        <div class="icon" style="color: var(--accent-stardust-gold);">⚠️</div>
+                        <h4>운영자의 핵심 고민</h4>
+                        <p>비용 가시성 부족 및<br>클러스터 문제 해결의 어려움</p>
+                    </div>
+                    <div class="diagram-connector md:block hidden">✨</div>
+                     <div class="diagram-connector md:hidden block">✨</div>
+                    <div class="diagram-solutions-group">
+                        <div class="diagram-node interactive-element">
+                            <div class="icon" style="color: var(--accent-aurora-cyan);">📊</div>
+                            <h4>Kubecost 활용</h4>
+                            <p>클라우드 비용 흐름을<br>명확하게 시각화</p>
+                        </div>
+                        <div class="diagram-node interactive-element mt-4 md:mt-0">
+                             <div class="icon" style="color: var(--accent-aurora-pink);">🤖</div>
+                            <h4>K8sGPT + Bedrock</h4>
+                            <p>AI 기반 클러스터 문제<br>신속 진단 및 해결 지원</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="content-portal interactive-element">
+                    <h3>왜 이 이야기를 꺼내야 하는가? "보이지 않는 것들"</h3>
+                    <p class="mb-6">대부분의 경우, 클러스터는 겉으로 보기에는 문제없이 잘 운영되는 것처럼 보입니다. 서비스는 정상적으로 작동하고, 사용자들은 큰 불편을 느끼지 못할 수 있습니다.</p>
+                    <p>하지만, 그 이면에는 "<strong class="highlight">우리가 정말 한정된 리소스를 제대로, 효율적으로 사용하고 있는가?</strong>"라는 중요한 질문이 숨겨져 있습니다. 이 질문에 대한 답은 안타깝게도 쉽게 드러나지 않습니다.</p>
+                </div>
+
+                <div class="content-portal interactive-element">
+                    <h3>운영 현장의 반복되는 목소리: '시야'의 문제</h3>
+                    <p class="mb-6">실제 운영 환경에서는 다음과 같은 어려움을 토로하는 목소리들이 반복적으로 들려옵니다:</p>
+                    <blockquote class="echoes interactive-element">
+                        <ul>
+                           <li><p>"분명 리소스는 계속 사용되고 있는데, 정확히 어떤 부분에서 문제가 발생하는지, 혹은 비효율이 있는지 파악하기가 너무 어렵습니다."</p></li>
+                           <li><p>"특별한 장애 상황은 아닌데, 시스템 전반적으로 무언가 미묘하게 이상하거나 최적화되지 않았다는 느낌을 지울 수 없어요."</p></li>
+                           <li><p>"경고 알람은 확인했지만, 너무 많은 정보 속에서 실제로 어떤 부분을 집중적으로 점검하고 조치해야 할지 막막할 때가 많습니다."</p></li>
+                        </ul>
+                    </blockquote>
+                    <p class="mt-9 text-xl font-semibold text-center">이러한 문제들은 단순히 특정 기술의 부족함에서 비롯된 것이 아닙니다. 근본적으로는 운영 상황을 정확히 꿰뚫어 볼 수 있는 <span class="text-red-400 underline decoration-wavy decoration-red-500/70 hover:decoration-red-300 transition-all duration-300 text-2xl filter hover:brightness-150">'시야(Visibility)'의 부재</span>에서 기인하는 경우가 많습니다.</p>
+                </div>
+
+                <div class="content-portal interactive-element">
+                    <h3>고객 니즈: 명확한 이해와 통제</h3>
+                    <p class="mb-4">클라우드 환경을 운영하는 다양한 역할의 담당자들은 공통적으로 다음과 같은 핵심적인 니즈를 가지고 있습니다:</p>
+                    <div class="table-constellation">
+                        <table class="data-constellation interactive-element">
+                            <thead>
+                                <tr>
+                                    <th scope="col">담당자 유형</th>
+                                    <th scope="col">핵심 필요 이유 (Pain Point)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-medium">서비스 운영자</td>
+                                    <td>"현재 지출되는 클라우드 비용이 정확히 어떤 서비스와 리소스에서 발생하는지, 왜 이렇게 책정되었는지 명확히 이해하고 싶다."</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">인프라 담당자</td>
+                                    <td>"현재 설정된 리소스(CPU, 메모리, 스토리지 등)가 실제 워크로드에 비해 과도하거나 부족하지는 않은지, 적절한 수준인지 객관적인 데이터를 기반으로 판단하고 싶다."</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="content-portal interactive-element">
+                    <h3>핵심 운영 흐름 구조: 시너지를 통한 통찰력 확보</h3>
+                    <p class="mb-6">운영 효율성을 극대화하고 잠재적인 문제를 사전에 방지하기 위해, 다음과 같은 단계별 도구와 전략을 유기적으로 결합하는 핵심 운영 흐름을 제안합니다:</p>
+                    
+                    <div class="operational-flow-diagram my-8">
+                        <div class="operational-flow-step interactive-element">
+                            <span class="step-label" style="color: var(--accent-step1-primary);">1단계: Trust Advisor</span>
+                            <p class="step-description">AWS Trusted Advisor 등의 도구를 활용하여 사용하지 않거나 불필요하게 할당된 기본적인 리소스(예: 미사용 EBS 볼륨, 유휴 ELB, 할당되지 않은 EIP 등)를 식별하고 정리하여 초기 비용 최적화 기반을 마련합니다.</p>
+                        </div>
+                        <div class="flow-arrow lg:block hidden">➔</div>
+                        <div class="flow-arrow lg:hidden block">➔</div>
+                        <div class="operational-flow-step interactive-element">
+                            <span class="step-label" style="color: var(--accent-aurora-pink);">2단계: Kubecost</span>
+                            <p class="step-description">Kubernetes 환경에 특화된 비용 분석 도구인 Kubecost를 통해 네임스페이스, 워크로드, 컨테이너 단위까지 상세한 비용 흐름을 시각화합니다. "누가, 얼마나, 왜 사용하고 있는가?"에 대한 명확한 답을 찾습니다.</p>
+                        </div>
+                         <div class="flow-arrow lg:block hidden">➔</div>
+                         <div class="flow-arrow lg:hidden block">➔</div>
+                        <div class="operational-flow-step interactive-element">
+                            <span class="step-label" style="color: var(--accent-step1-secondary);">3단계: K8sGPT (+ Bedrock)</span>
+                            <p class="step-description">AI 기반의 Kubernetes 진단 도구인 K8sGPT와 Amazon Bedrock과 같은 LLM을 연동하여, 클러스터 내의 이상 징후나 잠재적 문제를 자동으로 탐지하고, 그 원인과 해결 방안에 대한 가이드를 Slack 등의 채널로 신속하게 받아봅니다.</p>
+                        </div>
+                    </div>
+
+                    <div class="table-constellation mt-8">
+                        <table class="data-constellation interactive-element">
+                            <thead>
+                                <tr>
+                                    <th scope="col">단계</th>
+                                    <th scope="col">핵심 역할 및 활동</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-medium">Trust Advisor (또는 유사 도구)</td>
+                                    <td>불필요한 클라우드 리소스 정리 (EBS, ELB, EIP 등 기본 인프라 점검)</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">Kubecost</td>
+                                    <td>Kubernetes 비용 흐름의 상세 시각화 (누가, 얼마나, 왜 특정 리소스를 사용하는지 분석)</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">K8sGPT (+ Bedrock)</td>
+                                    <td>AI 기반 Kubernetes 클러스터 이상 징후 자동 탐지 및 분석, Slack 등을 통한 알림 전송</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="mt-9 text-lg">이 세 단계를 유기적으로 결합함으로써, 운영자는 직감이나 경험에만 의존하던 판단 과정을 시스템화하고, 데이터를 기반으로 문제를 더 빠르고 명확하게 인지하며, 선제적으로 대응할 수 있는 강력한 <strong class="highlight">운영 인텔리전스</strong>를 구축할 수 있습니다.</p>
+                </div>
+
+                <div class="nebula-conclusion mt-16 interactive-element">
+                    <h3>결론: 단순한 도구를 넘어, 운영의 '시야'를 확장하는 전략</h3>
+                    <p class="mb-6 text-xl">여기서 제시된 구조는 단순히 여러 도구를 나열한 것이 아닙니다. 이는 클라우드 운영의 <strong class="highlight">가시성을 획기적으로 개선</strong>하고, 잠재된 문제를 더욱 신속하고 정확하게 감지할 수 있도록 지원하는 <strong class="sub-highlight">실질적이고 통합적인 운영 가이드</strong>입니다.</p>
+                    <p class="font-bold text-2xl text-sky-200 mt-9">이러한 시스템을 성공적으로 도입하고 운영하기 위해서는, 각 도구의 기술적인 이해도 중요하지만, 그보다 <strong class="underline decoration-2 decoration-dotted hover:decoration-solid transition-all duration-300 filter brightness-110">실제 운영 흐름에 맞는 명확한 활용 목적 설정과, 어떤 대상(팀, 서비스, 리소스)에 적용할 것인지 구체적으로 정의하는 과정</strong>이 더욱 중요합니다.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <footer class="cosmic-dust text-center">
+            <p class="interactive-element">&copy; <script>document.write(new Date().getFullYear())</script> copyright 2025 megazoncloud corp. All rights reserved</p>
+            <p class="slogan">Our Vision: Transform Tomorrow Together</p>
+        </footer>
+
+    </div>
+</body>
+</html>

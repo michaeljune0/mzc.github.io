@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EKS 운영 효율성 분석 및 AI 기반 진단 시리즈</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep-space: #020010;
+            --bg-cosmic-void-start: #0A0028;
+            --bg-cosmic-void-end: #1C0030;
+            
+            --text-stellar-white: #F0F8FF;
+            --text-nebula-blue: #A0C4FF;
+            --text-galaxy-lavender: #D8B4FE;
+
+            --accent-pulsar-pink: #F472B6;
+            --accent-supernova-cyan: #22D3EE;
+            --accent-quasar-gold: #FBBF24;
+            --accent-comet-green: #34D399;
+
+            --font-primary: 'Inter', 'Noto Sans KR', sans-serif;
+            --font-display: 'Orbitron', 'Noto Sans KR', sans-serif;
+
+            --border-radius-orbit: 1.5rem; /* 24px */
+            --border-radius-star: 1rem; /* 16px */
+            --border-radius-moon: 0.75rem; /* 12px */
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--bg-deep-space);
+            color: var(--text-stellar-white);
+            overflow-x: hidden;
+            line-height: 1.7;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Starfield Background - Subtle Version for Landing */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            background-image: 
+                radial-gradient(circle at 15% 25%, var(--text-nebula-blue) 0.3px, transparent 0.8px),
+                radial-gradient(circle at 85% 75%, var(--text-nebula-blue) 0.3px, transparent 0.8px),
+                radial-gradient(circle at 50% 50%, var(--text-galaxy-lavender) 0.2px, transparent 0.6px),
+                radial-gradient(circle at 30% 80%, var(--accent-quasar-gold) 0.4px, transparent 1px),
+                radial-gradient(circle at 70% 10%, var(--accent-supernova-cyan) 0.4px, transparent 1px);
+            background-size: 
+                120px 120px, 180px 180px, 70px 70px, 
+                200px 200px, 250px 250px;
+            opacity: 0.25;
+            animation: twinkleSubtle 30s linear infinite alternate;
+        }
+
+        @keyframes twinkleSubtle {
+            0% { opacity: 0.15; transform: scale(1) rotate(0deg); }
+            50% { opacity: 0.35; transform: scale(1.01) rotate(5deg); }
+            100% { opacity: 0.15; transform: scale(1) rotate(0deg); }
+        }
+        
+        .interactive-element {
+            transition-property: transform, box-shadow, border-color, opacity, background-color;
+            transition-duration: 0.4s;
+            transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1); /* Smooth out-back easing */
+        }
+
+        /* Hero Section */
+        .cosmic-gateway-hero {
+            padding: 8rem 2rem 10rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: 
+                radial-gradient(ellipse at 50% 20%, rgba(34, 211, 238, 0.1) 0%, transparent 50%), /* Supernova Cyan glow */
+                radial-gradient(ellipse at 50% 80%, rgba(244, 114, 182, 0.08) 0%, transparent 50%); /* Pulsar Pink glow */
+        }
+
+        .cosmic-gateway-hero::after { /* Nebula clouds effect */
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: 
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 800 800' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='b' x='0' y='0' width='100%25' height='100%25'%3E%3CfeGaussianBlur stdDeviation='60' edgeMode='duplicate'/%3E%3C/filter%3E%3Cg filter='url(%23b)'%3E%3Ccircle fill='%230A0028' cx='400' cy='400' r='400'/%3E%3Ccircle fill='%231C0030' cx='150' cy='200' r='250'/%3E%3Ccircle fill='%2330BCED' cx='600' cy='650' r='200'/%3E%3Ccircle fill='%23F472B6' cx='300' cy='700' r='150'/%3E%3Ccircle fill='%23FBBF24' cx='700' cy='100' r='180'/%3E%3C/g%3E%3C/svg%3E");
+            background-size: cover;
+            opacity: 0.15;
+            z-index: -1;
+            animation: subtleNebulaShift 45s ease-in-out infinite alternate;
+        }
+
+        @keyframes subtleNebulaShift {
+            0% { transform: scale(1.1) translate(0%, 0%) rotate(0deg); }
+            100% { transform: scale(1.3) translate(5%, -5%) rotate(15deg); }
+        }
+
+        .cosmic-gateway-hero h1 {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(2.8rem, 6.5vw, 5rem);
+            line-height: 1.15;
+            color: var(--text-stellar-white);
+            text-shadow: 0 0 10px var(--accent-supernova-cyan), 0 0 20px var(--accent-pulsar-pink), 0 0 30px rgba(255,255,255,0.3);
+            letter-spacing: 0.02em;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(30px) scale(0.9);
+            animation: heroTitleAppear 1.5s 0.2s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+        }
+        @keyframes heroTitleAppear {
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .cosmic-gateway-hero .tagline {
+            font-size: clamp(1.05rem, 2.2vw, 1.4rem);
+            color: var(--text-nebula-blue);
+            max-width: 850px;
+            margin: 0 auto 3.5rem auto;
+            line-height: 1.65;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: heroSubtitleAppear 1.5s 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+        }
+        @keyframes heroSubtitleAppear {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Navigation Section */
+        .navigation-nexus {
+            padding: 4.5rem 2rem;
+            background: linear-gradient(180deg, var(--bg-cosmic-void-start) 0%, var(--bg-cosmic-void-end) 100%);
+            border-top: 1px solid rgba(34, 211, 238, 0.2); 
+            border-bottom: 1px solid rgba(244, 114, 182, 0.2); 
+        }
+
+        .navigation-nexus h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+            font-weight: 700;
+            color: var(--text-stellar-white);
+            text-align: center;
+            margin-bottom: 4.5rem;
+            text-shadow: 0 0 8px var(--accent-supernova-cyan);
+        }
+
+        .step-navigation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* [수정] 카드 디자인 및 효과 조정 */
+        .step-card {
+            background-color: rgba(10, 0, 40, 0.7);
+            backdrop-filter: blur(10px) saturate(160%);
+            -webkit-backdrop-filter: blur(10px) saturate(160%);
+            border-radius: var(--border-radius-star);
+            padding: 2.8rem 2.2rem;
+            /* 기본 테두리를 은은하게 설정 */
+            border: 1px solid rgba(160, 196, 255, 0.15); 
+            box-shadow: 0 12px 35px rgba(0,0,0,0.55), inset 0 0 18px rgba(0,0,0,0.25);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* [수정] 과한 회전 애니메이션 효과 제거 */
+        /* .step-card::before, @keyframes spin, @property --angle 등 관련 코드 삭제 */
+        
+        /* [수정] 마우스 오버 효과를 은은한 빛으로 변경 */
+        .step-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            /* 테두리 색상 변경으로 빛나는 효과 주기 */
+            border-color: rgba(34, 211, 238, 0.5); 
+            /* 그림자 효과를 조정하여 부드러운 빛 추가 */
+            box-shadow: 0 20px 45px rgba(0,0,0,0.6), 0 0 25px rgba(34, 211, 238, 0.4);
+        }
+
+        .step-card .step-number {
+            font-family: var(--font-display);
+            font-size: 3.2rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 1.2rem;
+            background: linear-gradient(135deg, var(--accent-supernova-cyan), var(--accent-pulsar-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 7px var(--accent-supernova-cyan));
+            opacity: 0;
+            animation: numberAppear 1s 0.3s ease forwards;
+        }
+
+        @keyframes numberAppear {
+            to { opacity: 1; }
+        }
+
+        .step-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: var(--text-stellar-white);
+            margin-bottom: 1rem;
+            min-height: 2.8em;
+        }
+
+        .step-card p {
+            font-size: 0.9rem;
+            color: var(--text-nebula-blue);
+            line-height: 1.65;
+            flex-grow: 1; 
+            margin-bottom: 1.8rem;
+            min-height: 5.4em;
+        }
+
+        .step-card .cta-button {
+            display: inline-block;
+            font-family: var(--font-primary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--bg-deep-space);
+            background: linear-gradient(135deg, var(--accent-supernova-cyan), var(--accent-comet-green));
+            padding: 0.8rem 1.8rem;
+            border-radius: var(--border-radius-moon);
+            text-decoration: none;
+            box-shadow: 0 5px 18px rgba(34, 211, 238, 0.35);
+            transition: all 0.3s ease;
+        }
+
+        .step-card .cta-button:hover {
+            transform: translateY(-4px) scale(1.04);
+            box-shadow: 0 7px 22px rgba(34, 211, 238, 0.55), 0 0 18px var(--accent-comet-green);
+            filter: brightness(1.1);
+        }
+        
+        /* Footer */
+        .cosmic-footer {
+            text-align: center;
+            padding: 4.5rem 2rem;
+            margin-top: 6.5rem;
+            border-top: 1px solid rgba(160, 196, 255, 0.15); 
+            background: radial-gradient(ellipse at bottom center, var(--bg-cosmic-void-start) 0%, var(--bg-deep-space) 70%);
+        }
+
+        .cosmic-footer p {
+            color: var(--text-nebula-blue);
+            font-size: 0.85rem;
+            opacity: 0.75;
+        }
+        .cosmic-footer p:hover {
+            opacity: 1;
+            color: var(--text-stellar-white);
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep-space); }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--accent-supernova-cyan), var(--accent-pulsar-pink));
+            border-radius: var(--border-radius-moon);
+            border: 2px solid var(--bg-deep-space);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(var(--accent-pulsar-pink), var(--accent-supernova-cyan));
+            box-shadow: 0 0 10px var(--accent-supernova-cyan);
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="cosmic-gateway-hero">
+        <h1>EKS 운영 효율성 및 AI 기반 진단 심층 분석</h1>
+        <p class="tagline">클라우드 네이티브 환경의 EKS 운영 효율 증대 방안과 AI를 활용한 지능형 클러스터 진단 방법을 단계별로 안내합니다.</p>
+    </header>
+
+    <main>
+        <section class="navigation-nexus">
+            <h2>시리즈 구성 안내</h2>
+            <div class="step-navigation-grid">
+                <!-- Step 1 Card -->
+                <a href="Step1-new.html" class="step-card interactive-element">
+                    <!-- [수정] z-index를 위해 사용되던 .step-card-content 래퍼 제거 -->
+                    <div class="step-number">01</div>
+                    <h3>EKS 운영과 비용 관리의 중요성</h3>
+                    <p>클라우드 운영의 현재 상황을 점검하고, EKS 환경에서의 비용 및 리소스 관리 문제 해결의 필요성을 알아봅니다.</p>
+                    <span class="cta-button">1단계 확인하기 &rarr;</span>
+                </a>
+
+                <!-- Step 2 Card -->
+                <a href="Step2-new.html" class="step-card interactive-element">
+                    <div class="step-number">02</div>
+                    <h3>Kubecost: 비용 가시성 확보</h3>
+                    <p>Kubecost를 도입하여 Kubernetes 클러스터의 비용 구조를 투명하게 분석하고, 상세한 가시성을 확보하는 방법을 설명합니다.</p>
+                    <span class="cta-button">2단계 확인하기 &rarr;</span>
+                </a>
+
+                <!-- Step 3 Card -->
+                <a href="Step3-new.html" class="step-card interactive-element">
+                    <div class="step-number">03</div>
+                    <h3>FinOps 기반 리소스 최적화</h3>
+                    <p>FinOps 접근 방식을 이해하고, Kubecost를 활용하여 실제 EKS 리소스 사용 효율성을 측정 및 최적화하는 전략을 제시합니다.</p>
+                    <span class="cta-button">3단계 확인하기 &rarr;</span>
+                </a>
+
+                <!-- Step 4 Card -->
+                <a href="Step4-new.html" class="step-card interactive-element">
+                    <div class="step-number">04</div>
+                    <h3>AI 기반 클러스터 진단 시스템 구축</h3>
+                    <p>Amazon Bedrock과 K8sGPT를 연동하여 EKS 클러스터의 문제를 AI가 진단하고 해결 방안을 제시하는 시스템 구성법을 안내합니다.</p>
+                    <span class="cta-button">4단계 확인하기 &rarr;</span>
+                </a>
+
+                <!-- Step 5 Card -->
+                <a href="Step5-new.html" class="step-card interactive-element">
+                    <div class="step-number">05</div>
+                    <h3>AI 진단 운영 전략 비교 분석</h3>
+                    <p>다양한 K8sGPT 운영 전략(CLI, Operator, Ollama 연동)의 장단점을 비교 분석하고, 상황별 최적의 적용 방안을 검토합니다.</p>
+                    <span class="cta-button">5단계 확인하기 &rarr;</span>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="cosmic-footer">
+        <p class="interactive-element">&copy; <script>document.write(new Date().getFullYear())</script> copyright 2025 megazoncloud corp. All rights reserved</p>
+        <p class="slogan">Our Vision: Transform Tomorrow Together</p>
+    </footer>
+
+    <script>
+        // Optional: Add subtle parallax or animations on scroll if desired
+        document.addEventListener('scroll', () => {
+            const hero = document.querySelector('.cosmic-gateway-hero');
+            if (hero) {
+                const scrollPosition = window.pageYOffset;
+                // Example: hero.style.backgroundPositionY = `${scrollPosition * 0.3}px`;
+            }
+        });
+    </script>
+
+</body>
+</html>

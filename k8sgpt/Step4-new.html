@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 4: 사용자의 손과 눈을 확장하는 도구 - Bedrock + K8sGPT 구성</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-abyss: #03001C; 
+            --bg-nebula-start: #150050; 
+            --bg-nebula-end: #3F0071;   
+            --bg-starfield: transparent; 
+
+            --text-luminous: #E0FBFC;  
+            --text-ethereal: #C7D2FE; 
+            --text-whisper: #A7B3D6;  
+
+            --accent-aurora-cyan: #30BCED;
+            --accent-aurora-pink: #D741A7;
+            --accent-stardust-gold: #FBD46D;
+            --accent-cosmic-glow: rgba(48, 188, 237, 0.7);
+            --accent-ai-teal: #14B8A6; 
+            --accent-ai-purple: #8B5CF6; 
+            --accent-kubecost-blue: #207AB9; 
+            --accent-kubecost-green: #38A169; 
+
+
+            --font-primary: 'Inter', 'Noto Sans KR', sans-serif;
+            --font-display: 'Orbitron', 'Noto Sans KR', sans-serif; 
+            --font-code: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", monospace;
+
+
+            --border-radius-celestial: 1rem; 
+            --border-radius-dream: 0.75rem; 
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--bg-abyss);
+            color: var(--text-luminous);
+            overflow-x: hidden; 
+            line-height: 1.8;
+            min-height: 100vh;
+            position: relative; 
+        }
+
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        body::before {
+            background-image: radial-gradient(circle at 20% 30%, var(--text-ethereal) 0.5px, transparent 1px),
+                                radial-gradient(circle at 80% 70%, var(--text-ethereal) 0.5px, transparent 1px),
+                                radial-gradient(circle at 50% 50%, var(--text-whisper) 0.3px, transparent 1px);
+            background-size: 100px 100px, 150px 150px, 50px 50px;
+            opacity: 0.3;
+            animation: twinkle 20s linear infinite alternate;
+        }
+        body::after {
+            background-image: radial-gradient(circle at 10% 90%, var(--text-luminous) 1px, transparent 1.5px),
+                                radial-gradient(circle at 70% 10%, var(--text-luminous) 1px, transparent 1.5px),
+                                radial-gradient(circle at 30% 60%, var(--accent-stardust-gold) 0.8px, transparent 1.2px);
+            background-size: 200px 200px, 250px 250px, 180px 180px;
+            opacity: 0.5;
+            animation: twinkle 15s linear infinite alternate-reverse;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.02); }
+            100% { opacity: 0.2; transform: scale(1); }
+        }
+
+        .interactive-element, .content-portal, table, blockquote,
+        .dream-list li::before, .dream-list-decimal li::before, .luminous-link::after,
+        .nebula-conclusion, .ai-feature-card, .ai-flow-step, .bedrock-layer-card-animated {
+            transition-property: transform, box-shadow, border-color, opacity; 
+            transition-duration: 0.5s;
+            transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        .hero-portal {
+            padding: 6rem 2rem 8rem;
+            border-radius: var(--border-radius-celestial);
+            margin-bottom: 5rem;
+            text-align: center;
+            position: relative;
+            overflow: visible;
+            background: radial-gradient(ellipse at 50% -50%, rgba(20, 184, 166, 0.15) 0%, transparent 60%), 
+                        radial-gradient(ellipse at 50% 150%, rgba(139, 92, 246, 0.1) 0%, transparent 60%); 
+        }
+        .hero-portal h1 {
+            font-family: var(--font-display);
+            color: var(--text-luminous);
+            font-weight: 500;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            text-shadow: 0 0 15px var(--accent-ai-teal), 0 0 30px var(--accent-ai-purple);
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+            animation: fadeInGlow 2s ease-out forwards;
+            opacity:0;
+        }
+        @keyframes fadeInGlow {
+            0% { opacity: 0; transform: translateY(20px) scale(0.95); text-shadow: 0 0 5px var(--accent-cosmic-glow); }
+            100% { opacity: 1; transform: translateY(0) scale(1); text-shadow: 0 0 15px var(--accent-ai-teal), 0 0 30px var(--accent-ai-purple); }
+        }
+        .hero-portal p {
+            color: var(--text-ethereal);
+            font-size: clamp(1.1rem, 2.8vw, 1.35rem);
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0;
+            animation: fadeInSimple 2s 0.5s ease-out forwards;
+            line-height: 1.7;
+        }
+        @keyframes fadeInSimple {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        main {
+            background: linear-gradient(170deg, var(--bg-nebula-start) 0%, var(--bg-nebula-end) 100%);
+            padding: 3.5rem;
+            border-radius: var(--border-radius-celestial);
+            box-shadow: 0 0 60px rgba(0,0,0,0.5), inset 0 0 30px rgba(0,0,0,0.3);
+            border: 1px solid rgba(224, 251, 252, 0.1);
+        }
+        main > h2 { 
+            font-family: var(--font-display);
+            color: var(--text-luminous);
+            border-bottom: 2px solid;
+            border-image-slice: 1;
+            border-image-source: linear-gradient(to right, var(--accent-ai-teal), var(--accent-ai-purple));
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            padding-bottom: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        main > h2 .subtitle { 
+            display: block;
+            font-size: 0.6em;
+            color: var(--text-ethereal);
+            font-family: var(--font-primary);
+            letter-spacing: normal;
+            margin-top: 0.5rem;
+            font-weight: 400;
+        }
+
+        .content-portal { 
+            background-color: rgba(3, 0, 28, 0.7);
+            backdrop-filter: blur(10px) saturate(150%);
+            -webkit-backdrop-filter: blur(10px) saturate(150%);
+            padding: 2.5rem;
+            border-radius: var(--border-radius-dream);
+            margin-bottom: 3rem;
+            border: 1px solid rgba(20, 184, 166, 0.2); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden; /* 배경 애니메이션 효과를 위해 유지 */
+        }
+        .content-portal::before { 
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: conic-gradient(
+                transparent,
+                rgba(20, 184, 166, 0.15) 20%, 
+                rgba(139, 92, 246, 0.15) 40%, 
+                transparent 60%
+            );
+            opacity: 0;
+            transform-origin: center center;
+            transition: opacity 0.7s ease, transform 0.7s ease;
+            animation: portalSpin 15s linear infinite paused; 
+            z-index: -1; 
+        }
+        @keyframes portalSpin {
+            100% { transform: rotate(1turn); }
+        }
+        .content-portal:hover {
+            transform: translateY(-10px) scale(1.015);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.45), 0 0 25px var(--accent-ai-teal);
+            border-color: rgba(139, 92, 246, 0.3); 
+        }
+        .content-portal h3 {
+            font-family: var(--font-display);
+            color: var(--text-luminous);
+            font-weight: 500;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 8px var(--accent-ai-teal);
+        }
+        .content-portal p, .content-portal li {
+            color: var(--text-ethereal);
+            font-size: 1.05rem;
+        }
+        .content-portal .highlight {
+            color: var(--accent-ai-teal);
+            font-weight: 600;
+        }
+        .content-portal .sub-highlight {
+            color: var(--accent-ai-purple);
+            font-weight: 500;
+        }
+        
+        .code-block-container {
+            background-color: #0A0A14;
+            border-radius: var(--border-radius-dream);
+            margin: 2rem 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            overflow: visible; /* 변경: 내부 pre 요소의 스크롤바가 잘리지 않도록 */
+        }
+        .code-block-header {
+            background: linear-gradient(90deg, rgba(139, 92, 246, 0.25) 0%, rgba(20, 184, 166, 0.25) 100%);
+            padding: 0.8rem 1.5rem;
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            color: var(--text-luminous);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+        }
+        .code-block pre {
+            padding: 1.5rem;
+            font-family: var(--font-code);
+            font-size: 0.9em;
+            color: #DCDCDC;
+            white-space: pre;      /* 변경: 자동 줄바꿈 안 함 */
+            /* word-break: break-all; */ /* white-space: pre 사용 시 보통 불필요 */
+            line-height: 1.75;
+            overflow-x: auto;   /* 가로 스크롤 자동 생성 */
+            overflow-y: auto;   /* 세로 스크롤 자동 생성 */
+            max-height: 400px;  /* 세로 최대 높이, 필요시 조절 */
+        }
+        .code-block .comment { color: #608B4E; font-style: italic; }
+        .code-block .command-prompt { color: var(--accent-stardust-gold); font-weight: bold; }
+        .code-block .command { color: #9CDCFE; }
+        .code-block .variable { color: #CE9178; }
+        .code-block .keyword { color: #C586C0; font-weight: bold; }
+        .code-block .operator { color: #D4D4D4; }
+        .code-block .string { color: #CE9178; }
+        .code-block .parameter { color: #4EC9B0; }
+        .code-block .output-line { color: #B5CEA8; }
+        .code-block .error-line { color: #F44747; font-weight: bold; }
+
+        .scrollable-text-block { 
+            max-height: 300px; 
+            overflow-y: auto;  
+            padding-right: 1em; 
+            margin-bottom: 1em; 
+        }
+
+        /* ... (나머지 CSS 및 HTML, JavaScript는 이전과 동일하게 유지) ... */
+
+        .k8sgpt-diagram-container {
+            margin: 3.5rem auto;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .k8sgpt-central-hub {
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, rgba(139, 92, 246, 0.1) 70%);
+            border: 2px solid var(--accent-ai-purple);
+            border-radius: 50%;
+            width: 190px;
+            height: 190px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1rem;
+            box-shadow: 0 0 45px rgba(139, 92, 246, 0.8), 0 0 20px var(--bg-abyss) inset;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        .k8sgpt-central-hub .icon { font-size: 3.8rem; color: var(--accent-ai-purple); margin-bottom: 0.6rem; filter: drop-shadow(0 0 10px var(--accent-ai-purple));}
+        .k8sgpt-central-hub h4 { font-family: var(--font-display); font-size: 1.8rem; color: var(--text-luminous); text-shadow: 0 0 5px var(--text-luminous);}
+
+        .k8sgpt-feature-nodes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            width: 100%;
+            max-width: 900px;
+        }
+        .feature-node {
+            background-color: rgba(20, 184, 166, 0.1);
+            border: 1px solid var(--accent-ai-teal);
+            border-radius: var(--border-radius-dream);
+            padding: 1.8rem;
+            text-align: center;
+            box-shadow: 0 0 25px rgba(20, 184, 166, 0.25);
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .feature-node:hover {
+            transform: translateY(-6px) scale(1.04);
+            box-shadow: 0 0 30px var(--accent-ai-teal), 0 6px 15px rgba(0,0,0,0.35);
+            border-color: rgba(20, 184, 166, 0.7);
+        }
+        .feature-node .node-icon { font-size: 2.2rem; color: var(--accent-ai-teal); margin-bottom: 0.8rem; filter: drop-shadow(0 0 8px var(--accent-ai-teal));}
+        .feature-node h5 { font-family: var(--font-display); font-size: 1.2rem; color: var(--text-luminous); margin-bottom: 0.6rem;}
+        .feature-node p { font-size: 0.9rem; color: var(--text-ethereal); line-height: 1.6;}
+
+        .bedrock-diagram-container-animated {
+            margin: 4rem auto;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0; 
+            min-height: 450px; 
+            position: relative;
+            perspective: 1500px;
+        }
+        .bedrock-layer-card-animated {
+            background-color: rgba(18, 2, 50, 0.9); 
+            border: 2px solid;
+            border-radius: var(--border-radius-dream);
+            padding: 1.8rem 1.5rem; 
+            width: 100%;
+            max-width: 420px; 
+            text-align: center;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.8), 0 0 20px var(--bg-abyss) inset;
+            opacity: 0;
+            transform: translateY(40px) rotateX(-25deg) scale(0.85); 
+            animation: bedrockLayerEntryDramatic 1s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+                         bedrockLayerPulseDramatic 4s infinite alternate ease-in-out;
+            transform-origin: bottom center;
+        }
+        .bedrock-layer-card-animated.security {
+            border-color: var(--accent-stardust-gold);
+            color: var(--accent-stardust-gold);
+            animation-delay: 0s, 0s;
+            z-index: 1;
+            width: 100%;
+        }
+        .bedrock-layer-card-animated.models {
+            border-color: var(--accent-kubecost-blue); 
+            color: var(--accent-kubecost-blue); 
+            animation-delay: 0.3s, 0.7s;
+            z-index: 2;
+            margin-top: -2.5rem; 
+            width: 90%;
+        }
+        .bedrock-layer-card-animated.core-platform {
+            border-color: var(--accent-ai-teal);
+            color: var(--accent-ai-teal);
+            animation-delay: 0.6s, 1.4s;
+            z-index: 3;
+            margin-top: -2.5rem;
+            width: 80%;
+        }
+
+        @keyframes bedrockLayerEntryDramatic {
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0deg) scale(1);
+            }
+        }
+        @keyframes bedrockLayerPulseDramatic {
+            0%, 100% {
+                box-shadow: 0 15px 45px rgba(0,0,0,0.8), 0 0 20px var(--bg-abyss) inset, 0 0 25px currentColor, 0 0 10px currentColor;
+                transform: scale(1) rotateX(0deg);
+            }
+            50% {
+                box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 25px var(--bg-abyss) inset, 0 0 70px currentColor, 0 0 35px currentColor;
+                transform: scale(1.05) rotateX(-3deg);
+            }
+        }
+
+        .bedrock-layer-card-animated h4 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            color: var(--text-luminous);
+            margin-bottom: 0.6rem;
+            text-shadow: 0 0 15px currentColor;
+        }
+        .bedrock-layer-card-animated p {
+            font-size: 0.875rem;
+            color: var(--text-ethereal);
+            line-height: 1.6;
+            min-height: 3.2em; 
+        }
+        .bedrock-layer-card-animated.core-platform h4 { font-size: 1.3rem; font-weight: bold; }
+        .bedrock-layer-card-animated.core-platform p { display: none; }
+
+        .image-placeholder-container {
+            background-color: rgba(18, 2, 50, 0.7); 
+            border: 2px dashed var(--accent-ai-purple);
+            border-radius: var(--border-radius-dream);
+            padding: 2rem; 
+            margin: 2.5rem auto;
+            text-align: center;
+            color: var(--text-whisper);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px; 
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.2);
+        }
+        .image-placeholder-container .placeholder-icon {
+            font-size: 3rem;
+            color: var(--accent-ai-purple);
+            opacity: 0.6;
+            margin-bottom: 1rem;
+        }
+        .image-placeholder-container .placeholder-title {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            color: var(--text-luminous);
+            margin-bottom: 0.35rem;
+        }
+        .image-placeholder-container .placeholder-note {
+            font-size: 0.8rem;
+            color: var(--text-whisper);
+            margin-top: 0.75rem;
+        }
+        .image-placeholder-container .embedded-image {
+            display: block;
+            width: 100%; 
+            max-width: 100%;
+            height: auto;   
+            border-radius: calc(var(--border-radius-dream) - 8px); 
+            margin-top: 1.5rem;
+            border: 2px solid rgba(139, 92, 246, 0.4); 
+            cursor: zoom-in;
+            object-fit: contain; 
+            background-color: rgba(0,0,0,0.3); 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .image-placeholder-container .embedded-image:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+        }
+        
+        .image-modal {
+            display: none; 
+            position: fixed;
+            z-index: 1001; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.95); 
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            opacity: 0; 
+            transition: opacity 0.3s ease-in-out;
+        }
+        .image-modal.show { 
+            display: flex;
+            opacity: 1;
+        }
+        .image-modal .modal-content-image { 
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90vh;
+            animation: zoomInModal 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border-radius: 4px;
+            box-shadow: 0 0 30px rgba(255,255,255,0.2);
+        }
+        .image-modal .close-modal { 
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #fff;
+            font-size: 45px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+            line-height: 1;
+            text-shadow: 0 0 10px var(--accent-aurora-pink);
+        }
+        .image-modal .close-modal:hover,
+        .image-modal .close-modal:focus {
+            color: var(--accent-aurora-pink);
+            transform: scale(1.1);
+        }
+        @keyframes zoomInModal {
+            from {transform: scale(0.8) translateY(15px); opacity: 0;}
+            to {transform: scale(1) translateY(0px); opacity: 1;}
+        }
+
+        blockquote.echoes {
+            border-left: 4px solid var(--accent-stardust-gold);
+            background: linear-gradient(to right, rgba(251, 212, 109, 0.03), transparent);
+            color: var(--accent-stardust-gold);
+            padding: 2.5rem;
+            margin: 3rem 0;
+            border-radius: var(--border-radius-dream);
+            font-style: normal;
+            font-size: 1.2rem;
+            box-shadow: inset 0 0 20px rgba(251, 212, 109, 0.1);
+            position: relative;
+        }
+        blockquote.echoes p { color: var(--accent-stardust-gold) !important; opacity: 0.9; }
+        blockquote.echoes::before {
+            content: '“';
+            font-family: serif;
+            font-size: 5rem;
+            color: rgba(251, 212, 109, 0.2);
+            position: absolute;
+            left: 1rem;
+            top: -0.5rem;
+            line-height: 1;
+        }
+        blockquote.echoes:hover {
+            border-left-width: 6px;
+            transform: translateX(3px);
+            box-shadow: inset 0 0 25px rgba(251, 212, 109, 0.15), 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .table-constellation { margin-top: 2.5rem; margin-bottom: 2.5rem; overflow-x: auto; }
+        table.data-constellation {
+            border-radius: var(--border-radius-dream);
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            border: 1px solid rgba(20, 184, 166, 0.15); 
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            min-width: 600px; 
+            overflow: hidden;
+        }
+        table.data-constellation thead th {
+            background: linear-gradient(to right, rgba(20, 184, 166, 0.15), rgba(139, 92, 246, 0.15)); 
+            backdrop-filter: blur(5px);
+            color: var(--text-luminous);
+            font-weight: 600;
+            padding: 1.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.8rem;
+            border-bottom: 1px solid rgba(20, 184, 166, 0.2);
+        }
+        table.data-constellation tbody tr {
+            background-color: rgba(21, 0, 80, 0.2);
+            border-bottom: 1px solid rgba(224, 251, 252, 0.05);
+        }
+        table.data-constellation tbody tr:last-child { border-bottom: none; }
+        table.data-constellation tbody tr:hover {
+            background-color: rgba(20, 184, 166, 0.1); 
+            transform: scale(1.003);
+        }
+        table.data-constellation tbody tr:hover td { color: var(--text-luminous); }
+        table.data-constellation td {
+            padding: 1.25rem;
+            color: var(--text-ethereal);
+        }
+        table.data-constellation td.font-medium {
+            font-weight: 500;
+            color: var(--text-luminous);
+        }
+
+        .dream-list { list-style: none; padding-left: 0; }
+        .dream-list li {
+            padding-left: 1.2rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .dream-list li::before {
+            content: '';
+            position: absolute;
+            left: -0.5rem; top: 0.5em;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background-color: var(--accent-ai-teal);
+            box-shadow: 0 0 8px var(--accent-ai-teal), 0 0 12px var(--accent-ai-teal);
+            animation: pulseOrb 2s infinite ease-in-out;
+            transition-property: background-color, box-shadow, transform; 
+            transition-duration: 0.4s;
+            transition-timing-function: ease;
+        }
+        @keyframes pulseOrb {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.3); opacity: 1; }
+        }
+        .dream-list li:hover::before {
+            background-color: var(--accent-ai-purple);
+            box-shadow: 0 0 10px var(--accent-ai-purple), 0 0 15px var(--accent-ai-purple);
+            transform: scale(1.5) rotate(360deg);
+        }
+
+        .luminous-link, a {
+            color: var(--accent-aurora-cyan);
+            font-weight: 500;
+            text-decoration: none;
+            position: relative;
+            padding-bottom: 3px;
+        }
+        .luminous-link::after, a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1.5px;
+            display: block;
+            left: 50%; bottom: 0;
+            transform: translateX(-50%);
+            background: linear-gradient(to right, var(--accent-aurora-cyan), var(--accent-aurora-pink));
+            transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.4s ease;
+            opacity: 0.7;
+        }
+        .luminous-link:hover::after, a:hover::after { width: 100%; opacity: 1; }
+        a:hover { color: var(--accent-aurora-pink); }
+
+        .nebula-conclusion {
+            background: radial-gradient(ellipse at center, rgba(20, 184, 166, 0.05) 0%, transparent 70%),
+                        linear-gradient(160deg, rgba(21,0,80,0.3) 0%, rgba(63,0,113,0.3) 100%);
+            border-top: 2px solid;
+            border-image-slice: 1;
+            border-image-source: linear-gradient(to right, var(--accent-ai-teal), var(--accent-ai-purple));
+            padding: 3.5rem;
+            border-radius: var(--border-radius-dream) var(--border-radius-dream) 0 0;
+            margin-top: 4rem;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
+        }
+        .nebula-conclusion:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 -15px 40px rgba(0,0,0,0.4), 0 0 20px var(--accent-ai-teal);
+        }
+        .nebula-conclusion h3 {
+            font-family: var(--font-display);
+            color: var(--text-luminous);
+            font-weight: 700;
+            font-size: 2.5rem;
+            letter-spacing: 0.01em;
+            text-align: center;
+            text-shadow: 0 0 10px var(--accent-ai-teal);
+        }
+        .nebula-conclusion p {
+            color: var(--text-ethereal);
+            font-size: 1.15rem;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .nebula-conclusion strong {
+            color: var(--text-luminous);
+            font-weight: 600;
+        }
+
+        footer.cosmic-dust {
+            border-top: 1px solid rgba(224, 251, 252, 0.08);
+            padding-top: 3.5rem;
+            margin-top: 6rem;
+            opacity:0.8;
+        }
+        footer.cosmic-dust p {
+            color: var(--text-whisper);
+            font-size: 0.9rem;
+        }
+        footer.cosmic-dust p:hover { color: var(--text-ethereal); }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-abyss); }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--accent-aurora-cyan), var(--accent-aurora-pink));
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            box-shadow: 0 0 10px var(--accent-cosmic-glow);
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+    <div id="imageModal" class="image-modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content-image" id="modalImageContent" loading="lazy">
+    </div>
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
+
+        <header class="hero-portal interactive-element">
+            <h1 class="mb-6">Step 4</h1>
+            <p>사용자의 손과 눈을 확장하는 도구 - Bedrock + K8sGPT 연동 및 구성 심층 분석</p>
+        </header>
+
+        <main id="step4-content" class="mb-20">
+            <h2 class="text-4xl sm:text-5xl font-bold mb-16 pb-8 text-center">
+                Step 4. 사용자의 손과 눈을 확장하는 도구
+                <span class="subtitle">- Amazon Bedrock과 K8sGPT를 활용한 AI 기반 Kubernetes 진단 시스템 구축 -</span>
+            </h2>
+
+            <section class="content-portal interactive-element">
+                <h3>왜 이 실험을 시작하게 되었는가?</h3>
+                <p>EKS 클러스터를 운영하다 보면 익숙한 문제들이 반복됩니다.</p>
+                <p>예: Pending 상태 Pod, 연결되지 않은 Service, 바인딩 실패한 PVC 등.</p>
+                <p>매번 사람이 보던 문제를, 이제는 AI가 '보고 말해주는 구조'로 바꾸고 싶었습니다.</p>
+                <p>그 상상에서 실험은 시작됐고, 핵심은 이것이었습니다:</p>
+                <blockquote class="echoes interactive-element">
+                    <p class="text-xl font-semibold text-center">"명령어 없이도 클러스터 상태를 진단하고 Slack 에 결과를 보내자."</p>
+                </blockquote>
+                <p>그리고 이 실험에서 AI 분석 엔진으로 사용한 것이 바로 Amazon Bedrock 입니다. Bedrock 은 AWS 가 제공하는 AI 모델 허브입니다. 단순히 API를 넘는 수준이 아니라, 운영 자동화에 특화된 "AI 내장 플랫폼"입니다. 이 실험에선 Claude 3.5 Sonnet 모델을 서버리스 방식으로 연동했습니다.</p>
+                <p class="mt-4 text-sm text-gray-400">이벤트 트리거 기반으로 작동된다고 하나 확인해본 결과 수동으로 Operator POD를 restart 하거나 재생성시에만 리벤트가 트리거 되고 있습니다. cronjob을 활용하여 주기적으로 사용 가능한 방법으로 생각해야합니다.</p>
+            </section>
+
+            <section class="content-portal interactive-element">
+                <h3>K8sGPT 란?</h3>
+                <div class="k8sgpt-diagram-container my-8">
+                    <div class="k8sgpt-central-hub interactive-element">
+                        <span class="icon">🤖</span>
+                        <h4>K8sGPT</h4>
+                    </div>
+                    <div class="k8sgpt-feature-nodes">
+                        <div class="feature-node interactive-element">
+                            <span class="node-icon">🧠</span>
+                            <h5>AI 백엔드 연동</h5>
+                            <p>OpenAI, Amazon Bedrock, Ollama 등 다양한 LLM 지원</p>
+                        </div>
+                        <div class="feature-node interactive-element">
+                            <span class="node-icon">🔍</span>
+                            <h5>문제 감지</h5>
+                            <p>Pod Crash, PVC 오류, Ingress 문제 등 Kubernetes 이상 감지</p>
+                        </div>
+                        <div class="feature-node interactive-element">
+                            <span class="node-icon">⚙️</span>
+                            <h5>사용 방식</h5>
+                            <p>CLI, Helm 기반 Operator, API 직접 호출</p>
+                        </div>
+                        <div class="feature-node interactive-element">
+                            <span class="node-icon">🔔</span>
+                            <h5>알림 및 보고</h5>
+                            <p>Slack 연동, 결과 리소스(CRD) 생성</p>
+                        </div>
+                         <div class="feature-node interactive-element">
+                            <span class="node-icon">🌐</span>
+                            <h5>커뮤니티 및 발전</h5>
+                            <p>활발한 오픈소스 커뮤니티, 빠른 업그레이드 주기</p>
+                        </div>
+                    </div>
+                </div>
+                <p>K8sGPT는 Kubernetes 클러스터 내 리소스를 AI 기반으로 분석하여 문제를 진단하고, 자연어 형태로 그 결과를 제공하는 도구입니다. OpenAl, Amazon Bedrock, Ollama 등 다양한 AI 백엔드를 연동할 수 있으며, Pod Crash, PVC 오류, Ingress 문제 등 일반적인 Kubernetes 이상을 빠르게 원인 해결 방법을 설명해줍니다.</p>
+                <ul class="dream-list space-y-2 mt-4">
+                    <li>kubectl 처럼 CLI 방식으로 사용할 수 있고,</li>
+                    <li>Helm 기반 Operator 형태로도 배포 가능하며,</li>
+                    <li>Slack 과 연동하여 보고가 가능합니다.</li>
+                </ul>
+                <p>K8sGPT Operator 는 2023년에 최초 오픈소스로 등장했으며, 활발한 커뮤니티와 빠른 업그레이드 주기를 바탕으로 꾸준히 개선되고 있습니다.</p>
+            </section>
+
+            <section class="content-portal interactive-element">
+                <h3>🧭 Amazon Bedrock이란?</h3>
+                <p>AWS에서 제공하는 서버리스 AI 서비스 플랫폼입니다.</p>
+                <p>Anthropic(Claude), Meta(LLaMA) 등 다양한 파운데이션 모델을 바로 연결할 수 있고, IAM, IRSA 등을 통한 보안 통제 및 API 호출이 쉬우며, 운영 자동화와 매우 잘 어울리는 구조를 제공합니다.</p>
+                <h4 class="text-xl font-semibold mb-4 mt-6 font-display text-center" style="color: var(--accent-ai-purple);">Amazon Bedrock 플랫폼 구조</h4>
+                <div class="bedrock-diagram-container-animated my-8">
+                    <div class="bedrock-layer-card-animated security">
+                        <h4>보안 통제</h4>
+                        <p>안전한 API 호출 및 데이터 관리</p>
+                    </div>
+                    <div class="bedrock-layer-card-animated models">
+                         <h4>파운데이션 모델</h4>
+                         <p>다양한 AI 모델에 대한 접근</p>
+                    </div>
+                    <div class="bedrock-layer-card-animated core-platform">
+                         <h4>Amazon Bedrock</h4>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-portal interactive-element">
+                <h3>K8sGPT Operator + Claude 3.5 연동 최소 구성 가이드 (EKS + Slack)</h3>
+                <h4 class="text-xl font-semibold mb-3 mt-2 font-display" style="color: var(--accent-ai-purple);">핵심 구성 정리 K8sGPT Operator + Claude 3.5 Sonnet (EKS 1.31 + Slack 연동)</h4>
+                <div class="table-constellation">
+                    <table class="data-constellation interactive-element">
+                        <thead>
+                            <tr>
+                                <th scope="col">구성 요소</th>
+                                <th scope="col">설명</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-medium">Region</td>
+                                <td>ap-southeast-1 (Singapore)</td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">사용 모델</td>
+                                <td>anthropic.claude-3-5-sonnet-20240620-v1:0 (서버리스, Bedrock 지원)</td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">EKS 버전</td>
+                                <td>1.31</td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Operator 배포</td>
+                                <td>Helm Chart 기반, Custom CRD(K8sGPT)로 분석 실행</td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">AI 연결</td>
+                                <td>Bedrock IAM 정책 + IRSA 생성 Claude 호출</td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">Slack 연동</td>
+                                <td>Webhook Secret 생성 후 Sink 설정</td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">진단 대상</td>
+                                <td>Pod, Node, Service, Ingress, PVC, Deployment, ReplicaSet</td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium">결과 리소스</td>
+                                <td>results.k8sgpt.ai 로 생성 → kubectl describe results...로 확인 가능</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h4 class="text-xl font-semibold mb-3 mt-8 font-display" style="color: var(--accent-ai-purple);">특징</h4>
+                 <ul class="dream-list space-y-2 mt-4">
+                    <li>서버리스 모델 조회 여기에서 k8sgpt에 연동 가능한 것은 2가지 모델만 가능함. (20250408 기준)</li>
+                    <li>각 리전마다 지원되는 모델이 상이함.</li>
+                    <li>나머지 모델은 aws console 에서 활성화 시킨 후 pod로 동작 시키면 없는 모델로 확인됨.</li>
+                </ul>
+            </section>
+
+            <section class="content-portal interactive-element">
+                <h3>Bedrock 모델 활성화 및 확인</h3>
+                <div class="image-placeholder-container my-6 interactive-element">
+                    <span class="placeholder-icon">🖼️</span>
+                    <p class="placeholder-title">Bedrock 모델 활성화</p>
+                    <p class="placeholder-note">(고객님께서 여기에 스크린샷 URL을 넣어주세요: PDF 6페이지 AWS 콘솔 - "yaml code 등록에 필요한 모델명 확인 (anthropic.claude-3-5-sonnet-20240620-v1:0)")</p>
+                    <img src="https://raw.githubusercontent.com/michaeljune0/mzc.github.io/refs/heads/main/k8sgpt/Step4-1-Bedrock-model.png?raw=true" alt="Bedrock 모델 활성화 및 모델명 확인 (anthropic.claude-3-5-sonnet-20240620-v1:0)" class="embedded-image clickable-image" loading="lazy">
+                </div>
+                
+                <div class="code-block-container">
+                    <div class="code-block-header"><span>AWS CLI: 사용 가능한 On-Demand Bedrock 모델 확인 (ap-southeast-1 리전 예시)</span></div>
+                    <pre class="code-block"><span class="command">aws bedrock list-foundation-models <span class="variable">\\</span></span>
+<span class="command">  --region ap-southeast-1 <span class="variable">\\</span></span>
+<span class="command">  --query <span class="string">"modelSummaries[?inferenceTypesSupported!=null && contains(inferenceTypesSupported, 'ON_DEMAND')].{Provider:providerName, Model:modelId, Streaming:responseStreamingSupported}"</span> <span class="variable">\\</span></span>
+<span class="command">  --output table</span></pre>
+                </div>
+                 <p class="mt-4">아래는 위 명령어 실행 결과 예시입니다. (표 형식)</p>
+                <div class="table-constellation">
+                    <table class="data-constellation interactive-element">
+                        <thead>
+                            <tr>
+                                <th>Provider</th>
+                                <th>Model</th>
+                                <th>Streaming</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr> <td>Anthropic</td> <td>anthropic.claude-instant-v1:2</td> <td>True</td> </tr>
+                            <tr> <td>Anthropic</td> <td>anthropic.claude-instant-v1</td> <td>True</td> </tr>
+                            <tr> <td>Anthropic</td> <td>anthropic.claude-v2:0</td> <td>True</td> </tr>
+                            <tr> <td>Anthropic</td> <td>anthropic.claude-v2</td> <td>True</td> </tr>
+                            <tr> <td>Anthropic</td> <td>anthropic.claude-3-haiku-20240307-v1:0 <span class="text-xs" style="color: var(--accent-kubecost-green);">(>> 동작 가능)</span></td> <td>True</td> </tr>
+                            <tr> <td>Anthropic</td> <td>anthropic.claude-3-5-sonnet-20240620-v1:0 <span class="text-xs" style="color: var(--accent-kubecost-green);">(>> 동작 가능)</span></td> <td>True</td> </tr>
+                            <tr> <td>Cohere</td> <td>cohere.embed-english-v3</td> <td>False</td> </tr>
+                            <tr> <td>Cohere</td> <td>cohere.embed-multilingual-v3</td> <td>False</td> </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="content-portal interactive-element">
+                <h3>결과 확인 방법</h3>
+                <p>여기까지 확인 되면 serverless 모델 사용 준비가 완료되었습니다. 최초 설치시 POD 진단이 처음 1회 자동으로 됩니다. 확인 방법은 2가지입니다.</p>
+                <h4 class="text-lg font-semibold my-3 font-display" style="color: var(--accent-ai-teal);">1. 명령어로 이벤트 조회 후 describe 로 확인</h4>
+                <div class="code-block-container">
+                    <div class="code-block-header"><span>kubectl: K8sGPT 결과 조회</span></div>
+                    <pre class="code-block"><span class="command">kubectl get results -A</span>
+<span class="comment"># 예시 출력:</span>
+<span class="output-line">NAMESPACE                   NAME                    BACKEND         KIND    AGE</span>
+<span class="output-line">k8sgpt-operator-system    defaultpendingpod       amazonbedrock   Pod     10s</span>
+<span class="output-line">k8sgpt-operator-system    defaultservice2048      amazonbedrock   Service 4h36m</span></pre>
+                </div>
+                <h4 class="text-lg font-semibold my-3 mt-6 font-display" style="color: var(--accent-ai-teal);">2. 결과 / 문제 확인</h4>
+                <div class="image-placeholder-container my-6 interactive-element">
+                    <span class="placeholder-icon">🖼️</span>
+                    <p class="placeholder-title">결과 / 문제 확인 (1): defaultservice2048</p>
+                    <p class="placeholder-note">"kubectl describe results defaultservice2048 -n k8sgpt-operator-system" 결과</p>
+                    <img src="https://raw.githubusercontent.com/michaeljune0/mzc.github.io/refs/heads/main/k8sgpt/Step4-2-Results-2048.png" alt="kubectl describe results defaultservice2048 -n k8sgpt-operator-system 결과" class="embedded-image clickable-image" loading="lazy">
+                </div>
+                 <div class="image-placeholder-container my-6 interactive-element">
+                    <span class="placeholder-icon">🖼️</span>
+                    <p class="placeholder-title">결과 / 문제 확인 (2): defaultpendingpod</p>
+                     <p class="placeholder-note">"kubectl describe results defaultpendingpod -n k8sgpt-operator-system" 결과</p>
+                    <img src="https://raw.githubusercontent.com/michaeljune0/mzc.github.io/refs/heads/main/k8sgpt/Step4-2-Results-pods.png" alt="kubectl describe results defaultpendingpod -n k8sgpt-operator-system 결과" class="embedded-image clickable-image" loading="lazy">
+                </div>
+            </section>
+
+            <section class="content-portal interactive-element">
+                <h3>Slack 에서 메시지 확인</h3>
+                <p>설치 후 이런 메시지가 자동으로 Slack 에 듭니다.</p>
+                <p>"누가, 왜, 어디서 문제가 생겼는지"를 에러 메시지를 보고 Slack 으로 알려줍니다.</p>
+                <div class="image-placeholder-container my-6 interactive-element">
+                    <span class="placeholder-icon">🖼️</span>
+                    <p class="placeholder-title">Slack 메시지 확인</p>
+                    <p class="placeholder-note">K8sGPT 진단 결과 알림 예시</p>
+                    <img src="https://raw.githubusercontent.com/michaeljune0/mzc.github.io/refs/heads/main/k8sgpt/Step4-2-slack.png" alt="Slack K8sGPT 알림 메시지" class="embedded-image clickable-image" loading="lazy">
+                </div>
+            </section>
+
+            <section class="content-portal interactive-element">
+                <h3>K8SGPT Operator 자동 재시작 CronJob 구성 (with RBAC)</h3>
+                <h4 class="text-lg font-semibold my-3 font-display" style="color: var(--accent-ai-teal);">목적</h4>
+                <p>K8sGPT 의 Slack Sink는 Pod 재시작 시점에만 진단 메시지를 전송합니다.</p>
+                <p>하지만 bedrock-config Pod 만 재시작해도 트리거가 발생하지 않으며, 실제로는 operator pod 가 재시작되어야만 Slack 으로 메시지가 전달됩니다.</p>
+                <p>이를 자동화하기 위해 Operator Deployment를 주기적으로 Rolling Restart 하는 CronJob 을 설정합니다.</p>
+                <h4 class="text-lg font-semibold my-3 mt-6 font-display" style="color: var(--accent-ai-teal);">문제</h4>
+                 <ul class="dream-list space-y-2 mt-2">
+                    <li>operator pod 재시작 시 Slack 메시지 5회 이상 중복 전송됨</li>
+                    <li>따라서 의도적이고 정기적인 재시작이 필요하며, Slack sink 의 중복 전송 현상은 인지하고 제한해야 함</li>
+                </ul>
+            </section>
+
+            <section class="content-portal interactive-element">
+                <h3>Cli 기반 K8sGPT 설치 및 사용</h3>
+                <div class="code-block-container">
+                    <div class="code-block-header"><span>K8sGPT CLI 설치 (RPM 방식 예시)</span></div>
+                    <pre class="code-block"><span class="comment">#최신 버전 확인 및 다운로드</span>
+<span class="command">VERSION<span class="operator">=</span>$(curl -s https://api.github.com/repos/k8sgpt-ai/k8sgpt/releases/latest <span class="operator">|</span> grep tag_name <span class="operator">|</span> cut -d <span class="string">'"'</span> -f 4)</span>
+<span class="command">curl -LO https://github.com/k8sgpt-ai/k8sgpt/releases/download/<span class="variable">$VERSION</span>/k8sgpt_amd64.rpm</span>
+<span class="comment">#다운 확인</span>
+<span class="output-line">$ ll </span>
+<span class="output-line">-rw-rw-r--. 1 ems-poc ems-poc 30328734 Mar 18 10:36 k8sgpt_amd64.rpm</span>
+<span class="comment">#RPM 패키지 설치</span>
+<span class="keyword">sudo</span> <span class="command">rpm -ivh k8sgpt_amd64.rpm</span>
+<span class="output-line">Verifying...                         ##### [100%]</span>
+<span class="output-line">Preparing...                         ##### [100%]</span>
+<span class="output-line">Updating / installing...</span>
+<span class="output-line">1:k8sgpt-0.4.1-1                       ##### [100%]</span></pre>
+                </div>
+                <h4 class="text-lg font-semibold my-3 mt-6 font-display" style="color: var(--accent-ai-teal);">명령어 수준 사용 결과값</h4>
+                <div class="code-block-container">
+                    <div class="code-block-header"><span>k8sgpt analyze 실행 결과 예시</span></div>
+                    <pre class="code-block"><span class="command">k8sgpt analyze</span>
+<span class="output-line">AI Provider: AI not used; --explain not set</span>
+<span class="output-line">0: Pod default/readiness-fail()</span>
+<span class="error-line">- Error: Readiness probe failed: Get "http://172.0.2.41:8080/healthz": dial tcp 172.0.2.41:8080: connect: connection refused</span>
+<span class="output-line">1: Pod default/command-error()</span>
+<span class="error-line">- Error: 0/1 nodes are available: 1 Too many pods. preemption: 0/1 nodes are available: 1 No preemption victims found for incoming pod.</span>
+<span class="output-line">2: Pod default/image-pull-error()</span>
+<span class="error-line">- Error: Back-off pulling image "nginx:999.999.999"</span>
+<span class="output-line">3: Pod default/pvc-mount-error()</span>
+<span class="error-line">- Error: 0/1 nodes are available: persistentvolumeclaim "pvc-does-not-exist" not found. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.</span>
+<span class="output-line">4: Ingress default/wrong-backend()</span>
+<span class="error-line">- Error: Ingress default/wrong-backend does not specify an Ingress class.</span>
+<span class="error-line">- Error: Ingress uses the service default/nonexistent-service which does not exist.</span></pre>
+                </div>
+            </section>
+
+            <div class="nebula-conclusion mt-16 interactive-element">
+                <h3>구성 소감</h3>
+                <p class="mb-6 text-xl">이번 K8sGPT Operator + Claude 3.5 연동 실험은 단순한 기술 연결을 넘어, AI 기반 Kubernetes 운영이 실제로 가능한가? 라는 질문에 대한 검증이었습니다.</p>
+                <p class="mb-6">처음엔 "이게 과연 잘 될까?" 하는 의심도 있었지만, Bedrock 기반의 Claude 3.5 Sonnet 모델이 실제 진단에 사용되고, 그 결과가 Slack 에 자연스럽게 전송되는 것을 확인하면서 비록 100% 자동은 아니지만 AI가 인프라 운영의 언어를 이해하고 행동하는 구조를 직접 체감할 수 있었습니다.</p>
+                <p class="font-bold text-xl mt-8">특히 다음과 같은 점에서 의미가 컸습니다:</p>
+                <ul class="dream-list mt-4 space-y-2 text-lg">
+                    <li>모델을 눈으로 보고 활성화한 뒤 실질적으로 동작하는 구조를 만들었다다는 점</li>
+                    <li>결과 리소스가 실제로 생성되고, 이를 describe 로 확인하는 과정에서 "AI가 분석했다"는 실감이 들었던 순간입니다.</li>
+                </ul>
+            </div>
+
+        </main>
+        <footer class="cosmic-dust text-center">
+            <p class="interactive-element">&copy; <script>document.write(new Date().getFullYear())</script> copyright 2025 megazoncloud corp. All rights reserved</p>
+            <p class="slogan">Our Vision: Transform Tomorrow Together</p>
+        </footer>
+
+    </div>
+
+    <script>
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            if (modal) {
+                modal.classList.remove('show');
+                setTimeout(() => {
+                    modal.style.display = "none";
+                }, 300); 
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const clickableImages = document.querySelectorAll('.clickable-image');
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImageContent');
+            const closeModalButton = document.querySelector('.close-modal');
+
+            if(closeModalButton) { 
+                closeModalButton.addEventListener('click', closeModal);
+            }
+
+            clickableImages.forEach(img => {
+                img.addEventListener('click', function() {
+                    if (modal && modalImg) {
+                        modalImg.src = this.src;
+                        modalImg.alt = this.alt;
+                        modal.style.display = "flex"; 
+                        setTimeout(() => { 
+                             modal.classList.add('show');
+                        }, 10); 
+                    }
+                });
+            });
+
+            if(modal){
+                modal.addEventListener('click', function(event) {
+                    if (event.target === modal) { 
+                        closeModal();
+                    }
+                });
+            }
+            
+            document.addEventListener('keydown', function(event) {
+                if (event.key === "Escape" && modal && modal.classList.contains('show')) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
