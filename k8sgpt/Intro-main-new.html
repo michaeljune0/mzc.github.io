@@ -162,14 +162,12 @@
             margin: 0 auto;
         }
 
-        /* [수정] 카드 디자인 및 효과 조정 */
         .step-card {
             background-color: rgba(10, 0, 40, 0.7);
             backdrop-filter: blur(10px) saturate(160%);
             -webkit-backdrop-filter: blur(10px) saturate(160%);
             border-radius: var(--border-radius-star);
             padding: 2.8rem 2.2rem;
-            /* 기본 테두리를 은은하게 설정 */
             border: 1px solid rgba(160, 196, 255, 0.15); 
             box-shadow: 0 12px 35px rgba(0,0,0,0.55), inset 0 0 18px rgba(0,0,0,0.25);
             display: flex;
@@ -180,16 +178,10 @@
             position: relative;
             overflow: hidden;
         }
-
-        /* [수정] 과한 회전 애니메이션 효과 제거 */
-        /* .step-card::before, @keyframes spin, @property --angle 등 관련 코드 삭제 */
         
-        /* [수정] 마우스 오버 효과를 은은한 빛으로 변경 */
         .step-card:hover {
             transform: translateY(-10px) scale(1.02);
-            /* 테두리 색상 변경으로 빛나는 효과 주기 */
             border-color: rgba(34, 211, 238, 0.5); 
-            /* 그림자 효과를 조정하여 부드러운 빛 추가 */
             box-shadow: 0 20px 45px rgba(0,0,0,0.6), 0 0 25px rgba(34, 211, 238, 0.4);
         }
 
@@ -296,7 +288,6 @@
             <div class="step-navigation-grid">
                 <!-- Step 1 Card -->
                 <a href="Step1-new.html" class="step-card interactive-element">
-                    <!-- [수정] z-index를 위해 사용되던 .step-card-content 래퍼 제거 -->
                     <div class="step-number">01</div>
                     <h3>EKS 운영과 비용 관리의 중요성</h3>
                     <p>클라우드 운영의 현재 상황을 점검하고, EKS 환경에서의 비용 및 리소스 관리 문제 해결의 필요성을 알아봅니다.</p>
@@ -334,6 +325,14 @@
                     <p>다양한 K8sGPT 운영 전략(CLI, Operator, Ollama 연동)의 장단점을 비교 분석하고, 상황별 최적의 적용 방안을 검토합니다.</p>
                     <span class="cta-button">5단계 확인하기 &rarr;</span>
                 </a>
+
+                <!-- Step 6 Card -->
+                <a href="Step6-new.html" class="step-card interactive-element">
+                    <div class="step-number">06</div>
+                    <h3>AI 트렌드 2025 및 전망</h3>
+                    <p>최신 AI 트렌드 리포트를 기반으로, AI 기술의 발전과 미래 전망을 인터랙티브 인포그래픽으로 확인합니다.</p>
+                    <span class="cta-button">6단계 확인하기 &rarr;</span>
+                </a>
             </div>
         </section>
     </main>
@@ -348,7 +347,6 @@
         document.addEventListener('scroll', () => {
             const hero = document.querySelector('.cosmic-gateway-hero');
             if (hero) {
-                const scrollPosition = window.pageYOffset;
                 // Example: hero.style.backgroundPositionY = `${scrollPosition * 0.3}px`;
             }
         });
