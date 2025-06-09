@@ -838,10 +838,10 @@
                 
                 <div class="code-block-container">
                     <div class="code-block-header"><span>AWS CLI: 사용 가능한 On-Demand Bedrock 모델 확인 (ap-southeast-1 리전 예시)</span></div>
-                    <pre class="code-block"><span class="command">aws bedrock list-foundation-models <span class="variable">\\</span></span>
-<span class="command">  --region ap-southeast-1 <span class="variable">\\</span></span>
-<span class="command">  --query <span class="string">"modelSummaries[?inferenceTypesSupported!=null && contains(inferenceTypesSupported, 'ON_DEMAND')].{Provider:providerName, Model:modelId, Streaming:responseStreamingSupported}"</span> <span class="variable">\\</span></span>
-<span class="command">  --output table</span></pre>
+                    <pre class="code-block" style="overflow-x: auto;"><span class="command">aws bedrock list-foundation-models <span class="variable">\</span></span>
+                <span class="command">  --region ap-southeast-1 <span class="variable">\</span></span>
+                <span class="command">  --query <span class="string">"modelSummaries[?inferenceTypesSupported!=null && contains(inferenceTypesSupported, 'ON_DEMAND')].{Provider:providerName, Model:modelId, Streaming:responseStreamingSupported}"</span> <span class="variable">\</span></span>
+                <span class="command">  --output table</span></pre>
                 </div>
                  <p class="mt-4">아래는 위 명령어 실행 결과 예시입니다. (표 형식)</p>
                 <div class="table-constellation">
@@ -919,8 +919,9 @@
             <section class="content-portal interactive-element">
                 <h3>Cli 기반 K8sGPT 설치 및 사용</h3>
                 <div class="code-block-container">
-                    <div class="code-block-header"><span>K8sGPT CLI 설치 (RPM 방식 예시)</span></div>
-                    <pre class="code-block"><span class="comment">#최신 버전 확인 및 다운로드</span>
+                    <div class="code-block-container">
+                        <div class="code-block-header"><span>K8sGPT CLI 설치 (RPM 방식 예시)</span></div>
+                        <pre class="code-block" style="overflow-x: auto;"><span class="comment">#최신 버전 확인 및 다운로드</span>
 <span class="command">VERSION<span class="operator">=</span>$(curl -s https://api.github.com/repos/k8sgpt-ai/k8sgpt/releases/latest <span class="operator">|</span> grep tag_name <span class="operator">|</span> cut -d <span class="string">'"'</span> -f 4)</span>
 <span class="command">curl -LO https://github.com/k8sgpt-ai/k8sgpt/releases/download/<span class="variable">$VERSION</span>/k8sgpt_amd64.rpm</span>
 <span class="comment">#다운 확인</span>
@@ -928,15 +929,15 @@
 <span class="output-line">-rw-rw-r--. 1 ems-poc ems-poc 30328734 Mar 18 10:36 k8sgpt_amd64.rpm</span>
 <span class="comment">#RPM 패키지 설치</span>
 <span class="keyword">sudo</span> <span class="command">rpm -ivh k8sgpt_amd64.rpm</span>
-<span class="output-line">Verifying...                         ##### [100%]</span>
-<span class="output-line">Preparing...                         ##### [100%]</span>
+<span class="output-line">Verifying...         ##################### [100%]</span>
+<span class="output-line">Preparing...         ##################### [100%]</span>
 <span class="output-line">Updating / installing...</span>
-<span class="output-line">1:k8sgpt-0.4.1-1                       ##### [100%]</span></pre>
-                </div>
+<span class="output-line">1:k8sgpt-0.4.1-1     ##################### [100%]</span></pre>
+                    </div>
                 <h4 class="text-lg font-semibold my-3 mt-6 font-display" style="color: var(--accent-ai-teal);">명령어 수준 사용 결과값</h4>
                 <div class="code-block-container">
                     <div class="code-block-header"><span>k8sgpt analyze 실행 결과 예시</span></div>
-                    <pre class="code-block"><span class="command">k8sgpt analyze</span>
+                    <pre class="code-block" style="overflow-x: auto;"><span class="command">k8sgpt analyze</span>
 <span class="output-line">AI Provider: AI not used; --explain not set</span>
 <span class="output-line">0: Pod default/readiness-fail()</span>
 <span class="error-line">- Error: Readiness probe failed: Get "http://172.0.2.41:8080/healthz": dial tcp 172.0.2.41:8080: connect: connection refused</span>
