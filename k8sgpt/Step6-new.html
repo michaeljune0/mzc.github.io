@@ -3,51 +3,267 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 트렌드 2025: 인터랙티브 인포그래픽</title>
+    <title>AI 트렌드 2025: 인터랙티브 인포그래픽 (Dark Theme)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <!--
-    Narrative Plan:
-    The infographic tells a story about the unprecedented rise of AI, structured similarly to the source report.
-    1. Introduction: Hook the user with the staggering speed of AI's evolution.
-    2. Section 1: Unprecedented Growth - Showcase the explosive user adoption and investment (CapEx) in AI, establishing its scale.
-    3. Section 2: The Dichotomy of AI Economics - Explain the paradox of soaring training costs versus plummeting inference costs.
-    4. Section 3: The Competitive Landscape - Visualize the fierce competition, the rise of open-source, and China's strategic ascent.
-    5. Section 4: AI in the Real World - Demonstrate AI's impact beyond the digital realm, in industries like automotive and defense.
-    6. Section 5: The Future of Work - Illustrate how AI is reshaping jobs and productivity, focusing on collaboration rather than replacement.
-    7. Conclusion & Author Info: Summarize the key takeaways and provide info on the report's source (BOND) to establish credibility at the end.
-
-    Chosen Color Palette: Energetic & Playful (Bright Theme)
-    - Background: #FFFFFF (White)
-    - Card/Section Background: #F3F4F6 (gray-100)
-    - Primary Text: #111827 (gray-900)
-    - Secondary Text: #6B7280 (gray-500)
-    - Accent Orange: #F97316
-    - Accent Pink: #EC4899
-    - Accent Purple: #8B5CF6
-    - Accent Blue: #3B82F6
-
-    Visualization Plan:
-    - AI User Adoption Speed (Time to 100M Users): Goal: Compare. Visualization: Horizontal Bar Chart using Chart.js. Justification: Effectively compares the rapid adoption of ChatGPT against well-known tech products, highlighting its unprecedented speed. NO SVG.
-    - Big Six Tech CapEx Growth: Goal: Change. Visualization: Vertical Bar Chart using Chart.js. Justification: Clearly shows the dramatic, accelerating investment trend over time, emphasizing the financial scale of the AI race. NO SVG.
-    - Global Industrial Robot Installations: Goal: Compare/Change. Visualization: Multi-line Chart using Chart.js. Justification: Best way to compare the trends of three different entities (China, USA, Rest of World) over time, showcasing China's dominance. NO SVG.
-    - AI's Impact on the Workforce (US IT Jobs): Goal: Compare/Change. Visualization: Dual Line Chart using Chart.js. Justification: Visually contrasts the diverging trends between AI and non-AI jobs, telling a powerful story about labor market shifts. NO SVG.
-    - Enterprise AI Adoption Objectives: Goal: Compare. Visualization: Horizontal Bar Chart using Chart.js. Justification: Ranks corporate priorities for AI adoption, clearly showing the focus on productivity and revenue over simple cost-cutting. NO SVG.
-    - Big Number Stats (e.g., ChatGPT WAU, FSD Miles): Goal: Inform. Visualization: Styled HTML/Tailwind text. Justification: Large, bold typography is the most direct and impactful way to present a single, powerful statistic. NO SVG.
-    - AI Development Timeline: Goal: Organize. Visualization: Styled HTML/CSS with Tailwind. Justification: A vertical timeline built with divs and borders provides a clear, chronological flow of key milestones without using prohibited SVG or Mermaid JS.
-
-    SVG/Mermaid Confirmation:
-    NEITHER Mermaid JS NOR SVG were used anywhere in this output. All visuals are rendered via Chart.js on Canvas or constructed with standard HTML and Tailwind CSS.
-    -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500;700;900&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-            background-color: #FFFFFF;
-            color: #111827;
+        /* =================================================================
+         STYLE FROM Step5-new.html (DARK THEME)
+         ================================================================= */
+        :root {
+            --bg-abyss: #03001C;
+            --bg-nebula-start: #150050;
+            --bg-nebula-end: #3F0071;
+            --bg-starfield: transparent;
+
+            --text-luminous: #E0FBFC;
+            --text-ethereal: #C7D2FE;
+            --text-whisper: #A7B3D6;
+
+            --accent-aurora-cyan: #30BCED;
+            --accent-aurora-pink: #D741A7;
+            --accent-stardust-gold: #FBD46D;
+            --accent-cosmic-glow: rgba(48, 188, 237, 0.7);
+            --accent-ai-teal: #14B8A6;
+            --accent-ai-purple: #8B5CF6;
+            
+            --font-primary: 'Inter', 'Noto Sans KR', sans-serif;
+            --font-display: 'Orbitron', 'Noto Sans KR', sans-serif;
+
+            --border-radius-celestial: 1rem;
+            --border-radius-dream: 0.75rem;
         }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--bg-abyss);
+            color: var(--text-luminous);
+            overflow-x: hidden;
+            line-height: 1.8;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        body::before {
+            background-image: radial-gradient(circle at 20% 30%, var(--text-ethereal) 0.5px, transparent 1px),
+                                radial-gradient(circle at 80% 70%, var(--text-ethereal) 0.5px, transparent 1px),
+                                radial-gradient(circle at 50% 50%, var(--text-whisper) 0.3px, transparent 1px);
+            background-size: 100px 100px, 150px 150px, 50px 50px;
+            opacity: 0.3;
+            animation: twinkle 20s linear infinite alternate;
+        }
+        body::after {
+            background-image: radial-gradient(circle at 10% 90%, var(--text-luminous) 1px, transparent 1.5px),
+                                radial-gradient(circle at 70% 10%, var(--text-luminous) 1px, transparent 1.5px),
+                                radial-gradient(circle at 30% 60%, var(--accent-stardust-gold) 0.8px, transparent 1.2px);
+            background-size: 200px 200px, 250px 250px, 180px 180px;
+            opacity: 0.5;
+            animation: twinkle 15s linear infinite alternate-reverse;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.02); }
+            100% { opacity: 0.2; transform: scale(1); }
+        }
+
+        .interactive-element, .content-portal, table, blockquote,
+        .luminous-link::after {
+            transition-property: transform, box-shadow, border-color, opacity;
+            transition-duration: 0.5s;
+            transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        .hero-portal {
+            padding: 6rem 2rem 8rem;
+            margin-bottom: 5rem;
+            text-align: center;
+            position: relative;
+            overflow: visible;
+            background: radial-gradient(ellipse at 50% -50%, rgba(20, 184, 166, 0.15) 0%, transparent 60%),
+                        radial-gradient(ellipse at 50% 150%, rgba(139, 92, 246, 0.1) 0%, transparent 60%);
+        }
+        .hero-portal h1 {
+            font-family: var(--font-display);
+            color: var(--text-luminous);
+            font-weight: 500;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            text-shadow: 0 0 15px var(--accent-ai-teal), 0 0 30px var(--accent-ai-purple);
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+            animation: fadeInGlow 2s ease-out forwards;
+            opacity:0;
+        }
+        @keyframes fadeInGlow {
+            0% { opacity: 0; transform: translateY(20px) scale(0.95); text-shadow: 0 0 5px var(--accent-cosmic-glow); }
+            100% { opacity: 1; transform: translateY(0) scale(1); text-shadow: 0 0 15px var(--accent-ai-teal), 0 0 30px var(--accent-ai-purple); }
+        }
+        .hero-portal .section-subtitle {
+            color: var(--text-ethereal);
+            font-size: clamp(1.1rem, 2.8vw, 1.35rem);
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0;
+            animation: fadeInSimple 2s 0.5s ease-out forwards;
+            line-height: 1.7;
+        }
+        @keyframes fadeInSimple {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        main.nebula-background {
+            background: linear-gradient(170deg, var(--bg-nebula-start) 0%, var(--bg-nebula-end) 100%);
+            padding: 3.5rem;
+            border-radius: var(--border-radius-celestial);
+            box-shadow: 0 0 60px rgba(0,0,0,0.5), inset 0 0 30px rgba(0,0,0,0.3);
+            border: 1px solid rgba(224, 251, 252, 0.1);
+        }
+        
+        .section-title {
+            font-family: var(--font-display);
+            color: var(--text-luminous);
+            border-bottom: 2px solid;
+            border-image-slice: 1;
+            border-image-source: linear-gradient(to right, var(--accent-ai-teal), var(--accent-ai-purple));
+            font-weight: 500;
+            font-size: clamp(2rem, 5vw, 2.5rem);
+            letter-spacing: 0.02em;
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .section-subtitle {
+            font-size: 1.125rem;
+            font-weight: 400;
+            line-height: 1.8;
+            color: var(--text-ethereal);
+            max-width: 52rem;
+            margin: 0 auto 3rem auto;
+            text-align: center;
+        }
+
+        .content-portal, .stat-card {
+            background-color: rgba(3, 0, 28, 0.7);
+            backdrop-filter: blur(10px) saturate(150%);
+            -webkit-backdrop-filter: blur(10px) saturate(150%);
+            padding: 2.5rem;
+            border-radius: var(--border-radius-dream);
+            margin-bottom: 3rem;
+            border: 1px solid rgba(20, 184, 166, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+            color: var(--text-ethereal);
+        }
+        .content-portal:hover, .stat-card:hover {
+            transform: translateY(-10px) scale(1.015);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.45), 0 0 25px var(--accent-ai-teal);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+        .content-portal h3, .stat-card h3 {
+            font-family: var(--font-display);
+            color: var(--text-luminous);
+            font-weight: 500;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 8px var(--accent-ai-teal);
+        }
+
+        blockquote.echoes {
+            border-left: 4px solid var(--accent-stardust-gold);
+            background: linear-gradient(to right, rgba(251, 212, 109, 0.03), transparent);
+            padding: 2rem 2.5rem;
+            margin: 3rem 0;
+            border-radius: var(--border-radius-dream);
+            font-style: normal;
+            font-size: 1.2rem;
+            box-shadow: inset 0 0 20px rgba(251, 212, 109, 0.1);
+            position: relative;
+        }
+        blockquote.echoes p, blockquote.echoes footer { 
+            color: var(--accent-stardust-gold) !important; 
+            opacity: 0.9; 
+        }
+        blockquote.echoes footer { font-size: 0.9em; margin-top: 1rem; }
+        blockquote.echoes::before {
+            content: '“';
+            font-family: serif;
+            font-size: 5rem;
+            color: rgba(251, 212, 109, 0.2);
+            position: absolute;
+            left: 1rem;
+            top: -0.5rem;
+            line-height: 1;
+        }
+        blockquote.echoes:hover {
+            border-left-width: 6px;
+            transform: translateX(3px);
+            box-shadow: inset 0 0 25px rgba(251, 212, 109, 0.15), 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .luminous-link, a {
+            color: var(--accent-aurora-cyan);
+            font-weight: 500;
+            text-decoration: none;
+            position: relative;
+            padding-bottom: 3px;
+        }
+        .luminous-link::after, a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1.5px;
+            display: block;
+            left: 50%; bottom: 0;
+            transform: translateX(-50%);
+            background: linear-gradient(to right, var(--accent-aurora-cyan), var(--accent-aurora-pink));
+            transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.4s ease;
+            opacity: 0.7;
+        }
+        .luminous-link:hover::after, a:hover::after { width: 100%; opacity: 1; }
+        a:hover { color: var(--accent-aurora-pink); }
+        
+        .nav-link.active {
+            color: var(--accent-aurora-pink);
+            border-bottom-color: var(--accent-aurora-pink);
+        }
+
+        footer.cosmic-dust {
+            border-top: 1px solid rgba(224, 251, 252, 0.08);
+            padding-top: 3.5rem;
+            margin-top: 6rem;
+            opacity:0.8;
+            color: var(--text-whisper);
+        }
+        footer.cosmic-dust p:hover { color: var(--text-ethereal); }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-abyss); }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--accent-aurora-cyan), var(--accent-aurora-pink));
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            box-shadow: 0 0 10px var(--accent-cosmic-glow);
+        }
+        
+        /* =================================================================
+         ADAPTED STYLES FOR Step6-new.html CONTENT
+         ================================================================= */
         .chart-container {
             position: relative;
             margin: auto;
@@ -56,362 +272,333 @@
             max-width: 800px;
             max-height: 450px;
         }
-        .stat-card {
-            background-color: #F3F4F6;
-            border-radius: 1rem;
-            padding: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid #E5E7EB;
-        }
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
-        }
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #111827;
-            margin-bottom: 1rem;
-        }
-        .section-subtitle {
-            font-size: 1.125rem;
-            font-weight: 400;
-            line-height: 1.8;
-            color: #4B5563;
-            max-width: 52rem;
-            margin: 0 auto 3rem auto;
-        }
         .kpi-title {
-            color: #6B7280;
+            color: var(--text-whisper);
             font-weight: 500;
             font-size: 1.125rem;
         }
         .kpi-value {
+            font-family: var(--font-display);
             font-size: 3.5rem;
-            font-weight: 900;
-            color: #F97316;
+            font-weight: 700;
+            color: var(--accent-stardust-gold);
+            text-shadow: 0 0 10px var(--accent-stardust-gold);
         }
         .kpi-unit {
             font-size: 1.25rem;
-            color: #4B5563;
+            color: var(--text-ethereal);
             margin-left: 0.5rem;
         }
-        .nav-link {
-            transition: color 0.3s, border-bottom-color 0.3s;
-        }
-        .nav-link:hover, .nav-link.active {
-            color: #F97316;
-            border-bottom-color: #F97316;
-        }
-        blockquote {
-            border-left: 4px solid #F97316;
-            padding-left: 1rem;
-            margin-top: 1.5rem;
-            font-style: italic;
-            color: #374151;
-        }
-        .highlight {
-            font-weight: 700;
-            color: #F97316;
-        }
-         .highlight-pink {
-            font-weight: 700;
-            color: #EC4899;
-        }
-         .highlight-purple {
-            font-weight: 700;
-            color: #8B5CF6;
-        }
+        
+        /* Remapping highlight colors */
+        .highlight { font-weight: 700; color: var(--accent-stardust-gold); }
+        .highlight-pink { font-weight: 700; color: var(--accent-aurora-pink); }
+        .highlight-purple { font-weight: 700; color: var(--accent-ai-purple); }
+
+        /* Override specific text colors to match the theme */
+        .text-gray-900, .text-gray-800 { color: var(--text-luminous); }
+        .text-gray-600, .text-gray-500, .text-gray-400 { color: var(--text-ethereal); }
+        .border-gray-200, .border { border-color: rgba(224, 251, 252, 0.15) !important; }
+        .bg-gray-50 { background-color: transparent !important; }
+        .bg-gray-100 { background-color: rgba(21, 0, 80, 0.3) !important; }
+        .bg-white { background-color: rgba(3, 0, 28, 0.7) !important; }
     </style>
 </head>
 <body class="antialiased">
 
-    <header class="bg-white/80 backdrop-blur-sm sticky top-0 z-50 shadow-md">
+    <header class="bg-abyss/80 backdrop-blur-sm sticky top-0 z-50 shadow-lg shadow-black/20 border-b border-white/10">
         <nav class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
-                <div class="text-2xl font-bold text-gray-900">
-                    <span class="text-[#F97316]">AI</span> 트렌드 2025
+                <div class="text-2xl font-bold" style="font-family: var(--font-display);">
+                    <span style="color: var(--accent-ai-teal);">AI</span> 트렌드 2025
                 </div>
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#growth" class="nav-link text-gray-600 border-b-2 border-transparent pb-1">성장과 투자</a>
-                    <a href="#economics" class="nav-link text-gray-600 border-b-2 border-transparent pb-1">AI 경제학</a>
-                    <a href="#competition" class="nav-link text-gray-600 border-b-2 border-transparent pb-1">경쟁 구도</a>
-                    <a href="#real-world" class="nav-link text-gray-600 border-b-2 border-transparent pb-1">현실 세계 AI</a>
-                    <a href="#work" class="nav-link text-gray-600 border-b-2 border-transparent pb-1">일의 미래</a>
+                    <a href="#growth" class="nav-link border-b-2 border-transparent pb-1">성장과 투자</a>
+                    <a href="#economics" class="nav-link border-b-2 border-transparent pb-1">AI 경제학</a>
+                    <a href="#competition" class="nav-link border-b-2 border-transparent pb-1">경쟁 구도</a>
+                    <a href="#real-world" class="nav-link border-b-2 border-transparent pb-1">현실 세계 AI</a>
+                    <a href="#work" class="nav-link border-b-2 border-transparent pb-1">일의 미래</a>
                 </div>
             </div>
         </nav>
     </header>
 
-    <main class="container mx-auto px-6 py-12">
-        <section class="text-center mb-16 pt-8">
-            <h1 class="text-4xl md:text-6xl font-black text-gray-900 leading-tight mb-4">
-                인공지능, <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#F97316] to-[#EC4899]">전례 없는 속도</span>로 세상을 재편하다
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
+        
+        <header class="hero-portal interactive-element text-center mb-16 pt-8">
+            <h1 class="leading-tight mb-4">
+                인공지능, <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-pink-400">전례 없는 속도</span>로 세상을 재편하다
             </h1>
             <p class="section-subtitle">
                 과거 인터넷 혁명이 세상을 바꾸는 데 수십 년이 걸렸다면, AI는 단 몇 년 만에 산업, 경제, 그리고 우리 일상의 모든 것을 근본적으로 바꾸고 있습니다. 1999년 '인터넷의 1년은 현실의 7년'이라는 말이 무색할 만큼, AI는 그보다 훨씬 빠른 속도로 진화하며 기계가 인간을 추월할 수 있는 시대를 열고 있습니다. 이 거대한 변화는 <span class="highlight">글로벌 인터넷망</span>, 30여 년간 축적된 <span class="highlight">디지털 데이터</span>, 그리고 <span class="highlight">획기적인 대규모 언어 모델(LLM)</span>이라는 세 가지 동력이 결합하여 만들어낸 필연적인 결과입니다. 이 인포그래픽은 데이터로 증명되는 AI 시대의 거대한 변화를 심도 있게 조망합니다.
             </p>
-        </section>
+        </header>
 
-        <div id="growth" class="mb-20 pt-16">
-            <h2 class="section-title text-center">1. AI 도입 및 성장: 상상을 초월하는 속도</h2>
-            <p class="section-subtitle">
-                AI 기술, 특히 ChatGPT의 등장은 과거 어떤 기술과도 비교할 수 없는 속도로 전 세계 사용자들을 사로잡았습니다. 이는 단순히 새로운 기술의 등장을 넘어, 기술이 확산되고 채택되는 방식 자체의 패러다임이 완전히 바뀌었음을 보여주는 강력한 증거입니다. 과거 인터넷이 북미에서 시작해 점진적으로 확산된 것과 달리, AI는 출시와 동시에 전 세계(북미 외 지역 사용자 90%)에서 폭발적으로 채택되며, 진정한 의미의 <span class="highlight-pink">'글로벌 동시 혁명'</span>을 일으키고 있습니다.
-            </p>
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-                <div class="lg:col-span-2 stat-card flex flex-col justify-center">
-                    <h3 class="text-2xl font-bold mb-4 text-gray-900">사용자 1억 명 달성 기간 비교</h3>
-                    <p class="text-gray-600 mb-6">ChatGPT는 인프라가 이미 갖춰진 인터넷 위에서 탄생했습니다. 덕분에 불과 2개월 만에 1억 사용자를 확보하며, 다른 주요 서비스들이 수년에 걸쳐 이룬 성과를 단숨에 뛰어넘었습니다. 이는 잘 구축된 플랫폼 위에서 탄생한 혁신이 얼마나 폭발적인 파급력을 가질 수 있는지 보여주는 대표적인 사례이며, 미래 기술의 확산 속도는 더욱 빨라질 것을 예고합니다.</p>
-                    <div class="chart-container h-[450px] max-h-[450px]">
-                        <canvas id="timeTo100mChart"></canvas>
+        <main class="nebula-background mb-20">
+
+            <div id="growth" class="mb-20 pt-16">
+                <h2 class="section-title">1. AI 도입 및 성장: 상상을 초월하는 속도</h2>
+                <p class="section-subtitle">
+                    AI 기술, 특히 ChatGPT의 등장은 과거 어떤 기술과도 비교할 수 없는 속도로 전 세계 사용자들을 사로잡았습니다. 이는 단순히 새로운 기술의 등장을 넘어, 기술이 확산되고 채택되는 방식 자체의 패러다임이 완전히 바뀌었음을 보여주는 강력한 증거입니다. 과거 인터넷이 북미에서 시작해 점진적으로 확산된 것과 달리, AI는 출시와 동시에 전 세계(북미 외 지역 사용자 90%)에서 폭발적으로 채택되며, 진정한 의미의 <span class="highlight-pink">'글로벌 동시 혁명'</span>을 일으키고 있습니다.
+                </p>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+                    <div class="lg:col-span-2 content-portal flex flex-col justify-center">
+                        <h3 class="text-2xl font-bold mb-4">사용자 1억 명 달성 기간 비교</h3>
+                        <p class="mb-6">ChatGPT는 인프라가 이미 갖춰진 인터넷 위에서 탄생했습니다. 덕분에 불과 2개월 만에 1억 사용자를 확보하며, 다른 주요 서비스들이 수년에 걸쳐 이룬 성과를 단숨에 뛰어넘었습니다. 이는 잘 구축된 플랫폼 위에서 탄생한 혁신이 얼마나 폭발적인 파급력을 가질 수 있는지 보여주는 대표적인 사례이며, 미래 기술의 확산 속도는 더욱 빨라질 것을 예고합니다.</p>
+                        <div class="chart-container h-[450px] max-h-[450px]">
+                            <canvas id="timeTo100mChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-8">
+                        <div class="content-portal flex-grow flex flex-col justify-center text-center">
+                            <h3 class="kpi-title">ChatGPT 주간 활성 사용자</h3>
+                            <div>
+                                <span class="kpi-value">800</span>
+                                <span class="kpi-unit text-2xl">백만+</span>
+                            </div>
+                            <p class="mt-2">(2025년 4월 기준, 출시 1.5년 만에 달성)</p>
+                        </div>
+                        <div class="content-portal flex-grow flex flex-col justify-center">
+                            <h3 class="text-2xl font-bold mb-2">AI를 향한 거대한 투자</h3>
+                            <p class="mb-4">미국 6대 빅테크(Apple, NVIDIA, MS, Alphabet, Amazon, Meta)의 2024년 자본 지출(CapEx)은 AI 인프라 확보를 위해 폭발적으로 증가했습니다. 이는 단순한 투자를 넘어, 미래 기술 패권을 차지하기 위한 <span class="highlight-purple">'쩐의 전쟁'</span>이 시작되었음을 의미합니다.</p>
+                            <div class="text-center">
+                                <span class="text-5xl font-extrabold" style="color:var(--accent-ai-purple); text-shadow: 0 0 10px var(--accent-ai-purple)">$212B</span>
+                                <p class="text-2xl font-bold">약 290조 원</p>
+                                <p class="text-lg mt-1">(전년 대비 +63% 증가)</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="flex flex-col gap-8">
-                    <div class="stat-card flex-grow flex flex-col justify-center text-center">
-                        <h3 class="kpi-title">ChatGPT 주간 활성 사용자</h3>
+                 <div class="mt-8 content-portal">
+                    <h3 class="text-2xl font-bold mb-4 text-center">개발자 생태계의 폭발적 성장: 혁신의 새로운 엔진</h3>
+                    <p class="mb-6 text-center">AI 혁명은 소수의 기업이 아닌, 수백만 개발자들의 참여로 가속화되고 있습니다. 개발 도구의 발전과 오픈소스의 확산은 아이디어를 가진 누구나 AI 개발에 참여할 수 있는 환경을 만들었고, 이는 전례 없는 속도의 혁신으로 이어지고 있습니다.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                         <div>
-                            <span class="kpi-value">800</span>
-                            <span class="kpi-unit text-2xl">백만+</span>
+                            <p class="text-4xl font-bold" style="color:var(--accent-aurora-cyan)">600만</p>
+                            <p class="mt-1">NVIDIA 생태계 개발자 수 (7년 만에 6배 증가)</p>
                         </div>
-                        <p class="text-gray-500 mt-2">(2025년 4월 기준, 출시 1.5년 만에 달성)</p>
-                    </div>
-                    <div class="stat-card flex-grow flex flex-col justify-center">
-                        <h3 class="text-2xl font-bold mb-2 text-gray-900">AI를 향한 거대한 투자</h3>
-                        <p class="text-gray-600 mb-4">미국 6대 빅테크(Apple, NVIDIA, MS, Alphabet, Amazon, Meta)의 2024년 자본 지출(CapEx)은 AI 인프라 확보를 위해 폭발적으로 증가했습니다. 이는 단순한 투자를 넘어, 미래 기술 패권을 차지하기 위한 <span class="highlight-purple">'쩐의 전쟁'</span>이 시작되었음을 의미합니다.</p>
-                        <div class="text-center">
-                            <span class="text-5xl font-extrabold text-[#8B5CF6]">$212B</span>
-                            <p class="text-2xl font-bold text-gray-900">약 290조 원</p>
-                            <p class="text-lg text-gray-600 mt-1">(전년 대비 +63% 증가)</p>
+                        <div>
+                            <p class="text-4xl font-bold" style="color:var(--accent-aurora-cyan)">700만</p>
+                            <p class="mt-1">Google Gemini 개발자 수 (1년 만에 5배 증가)</p>
+                        </div>
+                        <div>
+                            <p class="text-4xl font-bold" style="color:var(--accent-aurora-cyan)">50배</p>
+                            <p class="mt-1">Google의 월별 토큰 처리량 증가 (전년 대비)</p>
                         </div>
                     </div>
                 </div>
             </div>
-             <div class="mt-8 stat-card">
-                <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">개발자 생태계의 폭발적 성장: 혁신의 새로운 엔진</h3>
-                <p class="text-gray-600 mb-6 text-center">AI 혁명은 소수의 기업이 아닌, 수백만 개발자들의 참여로 가속화되고 있습니다. 개발 도구의 발전과 오픈소스의 확산은 아이디어를 가진 누구나 AI 개발에 참여할 수 있는 환경을 만들었고, 이는 전례 없는 속도의 혁신으로 이어지고 있습니다.</p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                    <div>
-                        <p class="text-4xl font-bold text-[#3B82F6]">600만</p>
-                        <p class="text-gray-600 mt-1">NVIDIA 생태계 개발자 수 (7년 만에 6배 증가)</p>
+            
+            <div id="economics" class="mb-20 pt-16">
+                <h2 class="section-title">2. AI 모델의 경제학: 비용과 성능의 역설</h2>
+                <p class="section-subtitle">
+                    AI 시장은 흥미로운 경제적 역설 위에 서 있습니다. 모델을 '만드는(훈련)' 비용은 천문학적으로 치솟는 반면, 모델을 '쓰는(추론)' 비용은 급격히 하락하며 기술의 대중화를 이끌고 있습니다. 이러한 <span class="highlight">'고비용 R&D'</span>와 <span class="highlight">'저비용 서비스'</span>의 공존은 AI 산업의 독특한 비즈니스 모델과 치열한 경쟁 구도를 만들어내는 핵심 요인입니다. 이는 마치 엄청난 효율 개선이 오히려 전체 자원 소비량을 늘리는 <span class="highlight-pink">'제본스의 역설(Jevons Paradox)'</span>을 연상시킵니다.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="content-portal text-center">
+                         <div class="text-6xl mb-4">📈</div>
+                        <h3 class="text-2xl font-bold mb-2">모델 훈련(Training) 비용: '수직 상승'</h3>
+                        <p>최신 AI 모델을 하나 훈련시키는 데 드는 비용은 이미 수천억 원에 달하며, 곧 **수조 원** 규모의 투자가 예상됩니다. 이는 AI 기술 개발이 극소수의 거대 자본 기업에 의해 주도될 수밖에 없는 이유이며, 기술 패권 경쟁의 진입 장벽이 얼마나 높은지를 보여줍니다. 이 경쟁은 단순한 기술 우위를 넘어, 막대한 자본과 인프라를 동원할 수 있는 능력의 대결이 되었습니다.</p>
+                        <blockquote class="echoes">
+                            <p class="font-semibold">"100억 달러(약 13조 원) 규모의 모델 훈련이 2025년에 시작될 수 있습니다."</p>
+                            <footer>- Anthropic CEO Dario Amodei (2024.06)</footer>
+                        </blockquote>
                     </div>
-                    <div>
-                        <p class="text-4xl font-bold text-[#3B82F6]">700만</p>
-                        <p class="text-gray-600 mt-1">Google Gemini 개발자 수 (1년 만에 5배 증가)</p>
-                    </div>
-                    <div>
-                        <p class="text-4xl font-bold text-[#3B82F6]">50배</p>
-                        <p class="text-gray-600 mt-1">Google의 월별 토큰 처리량 증가 (전년 대비)</p>
+                    <div class="content-portal text-center">
+                         <div class="text-6xl mb-4">📉</div>
+                        <h3 class="text-2xl font-bold mb-2">모델 사용(Inference) 비용: '수직 하강'</h3>
+                        <p>반면, GPU 성능 향상과 알고리즘 최적화 덕분에 최종 사용자가 AI를 활용하는 비용은 극적으로 저렴해지고 있습니다. 100만 토큰(약 75만 단어)을 처리하는 비용이 지난 2년간 **99.7%** 나 하락했습니다. 이로 인해 개발자와 기업들이 AI를 부담 없이 도입하고, 과거에는 상상할 수 없었던 다양한 서비스와 애플리케이션을 창조하는 <span class="highlight">'혁신의 선순환'</span>이 일어나고 있습니다.</p>
+                         <div class="mt-6 rounded-lg p-4 border bg-abyss/50">
+                            <p class="font-semibold" style="color:var(--text-luminous)">100만 토큰 처리 비용 99.7% 감소</p>
+                            <p class="text-sm">(2022.11 ~ 2024.12)</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <div id="economics" class="mb-20 pt-16">
-            <h2 class="section-title text-center">2. AI 모델의 경제학: 비용과 성능의 역설</h2>
-            <p class="section-subtitle">
-                AI 시장은 흥미로운 경제적 역설 위에 서 있습니다. 모델을 '만드는(훈련)' 비용은 천문학적으로 치솟는 반면, 모델을 '쓰는(추론)' 비용은 급격히 하락하며 기술의 대중화를 이끌고 있습니다. 이러한 <span class="highlight">'고비용 R&D'</span>와 <span class="highlight">'저비용 서비스'</span>의 공존은 AI 산업의 독특한 비즈니스 모델과 치열한 경쟁 구도를 만들어내는 핵심 요인입니다. 이는 마치 엄청난 효율 개선이 오히려 전체 자원 소비량을 늘리는 <span class="highlight-pink">'제본스의 역설(Jevons Paradox)'</span>을 연상시킵니다.
-            </p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="stat-card text-center">
-                     <div class="text-6xl mb-4">📈</div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-2">모델 훈련(Training) 비용: '수직 상승'</h3>
-                    <p class="text-gray-600">최신 AI 모델을 하나 훈련시키는 데 드는 비용은 이미 수천억 원에 달하며, 곧 **수조 원** 규모의 투자가 예상됩니다. 이는 AI 기술 개발이 극소수의 거대 자본 기업에 의해 주도될 수밖에 없는 이유이며, 기술 패권 경쟁의 진입 장벽이 얼마나 높은지를 보여줍니다. 이 경쟁은 단순한 기술 우위를 넘어, 막대한 자본과 인프라를 동원할 수 있는 능력의 대결이 되었습니다.</p>
-                    <blockquote>
-                        <p class="text-gray-800 font-semibold">"100억 달러(약 13조 원) 규모의 모델 훈련이 2025년에 시작될 수 있습니다."</p>
-                        <footer class="text-sm text-gray-500 mt-2">- Anthropic CEO Dario Amodei (2024.06)</footer>
+
+            <div id="competition" class="mb-20 pt-16">
+                <h2 class="section-title">3. AI 패권 경쟁: 거인들의 전쟁</h2>
+                <p class="section-subtitle">
+                    Meta의 CTO 앤드류 보스워스가 현재 상황을 <span class="highlight-pink">'우리의 우주 경쟁'</span>이라 표현했듯, AI 시장은 단순한 기술 경쟁을 넘어 기업과 국가의 명운을 건 패권 경쟁의 장이 되었습니다. 특히 미국과 중국의 <span class="highlight-purple">'기술 냉전'</span>, 그리고 판도를 흔드는 <span class="highlight-purple">'오픈소스의 확산'</span>이 시장 구도를 복잡하고 역동적으로 만들고 있습니다. 승자는 기술뿐 아니라 지정학적 리더십까지 거머쥘 수 있습니다.
+                </p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="content-portal">
+                        <h3 class="text-2xl font-bold mb-4">미-중 기술 패권과 산업용 로봇</h3>
+                        <p class="mb-6">AI 기술력의 바로미터 중 하나인 산업용 로봇 도입 규모에서 중국은 전 세계 나머지 국가들을 압도하며, AI를 통한 산업 자동화에 국가적 역량을 쏟아붓고 있음을 보여줍니다. 이는 미래 제조업과 공급망의 주도권을 잡고, <span class="highlight">'중국제조 2025'</span>를 실현하기 위한 중국의 강력한 의지를 나타냅니다.</p>
+                        <div class="chart-container">
+                            <canvas id="robotInstallationsChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="content-portal">
+                        <h3 class="text-2xl font-bold mb-4">오픈소스의 약진: 혁신의 민주화</h3>
+                        <p class="mb-6">Meta의 'Llama'와 같은 고성능 오픈소스 모델의 등장은 AI <span class="highlight">'개발의 민주화'</span>를 이끌고 있습니다. 누구나 무료로 강력한 AI 모델을 활용할 수 있게 되면서, OpenAI 등이 주도하는 폐쇄형(독점) 모델의 상업적 지배력에 큰 도전이 되고 있습니다. 이는 마치 과거 PC 시장에서 개방형 아키텍처가 독점적 시스템을 위협했던 것과 유사합니다.</p>
+                         <div class="text-center p-6 rounded-lg border bg-abyss/50">
+                            <p class="text-5xl font-bold" style="color: var(--accent-aurora-pink)">12억+</p>
+                            <p class="text-lg mt-2">Meta Llama 모델 다운로드 횟수</p>
+                            <p class="text-sm">(2025년 4월 기준)</p>
+                        </div>
+                        <p class="mt-6">최고 성능 모델과의 격차가 줄어들면서, 비용 효율적인 오픈소스 모델은 특히 개발자 커뮤니티와 스타트업 사이에서 폭발적인 인기를 얻으며 새로운 AI 생태계를 만들어가고 있습니다. 이는 혁신의 속도를 더욱 가속화하는 기폭제 역할을 합니다.</p>
+                    </div>
+                </div>
+                 <div class="mt-8 content-portal">
+                    <h3 class="text-2xl font-bold mb-4 text-center">주권 AI(Sovereign AI)의 부상</h3>
+                    <p class="mb-6">각국 정부는 더 이상 기술을 민간 기업에만 의존하지 않습니다. AI를 전기나 인터넷과 같은 국가 핵심 인프라로 인식하고, 자국의 데이터와 인력, 인프라를 활용하여 AI를 개발하는 <span class="highlight">'주권 AI'</span> 정책을 적극적으로 추진하고 있습니다. 이는 AI 기술이 경제적 가치를 넘어 국가 안보와 직결되는 전략 자산이 되었음을 의미합니다.</p>
+                     <blockquote class="echoes">
+                        <p class="font-semibold">"각국은 과거 전기와 인터넷에 투자했듯이 AI 인프라에 투자하고 있습니다."</p>
+                        <footer>- NVIDIA CEO 젠슨 황</footer>
                     </blockquote>
                 </div>
-                <div class="stat-card text-center">
-                     <div class="text-6xl mb-4">📉</div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-2">모델 사용(Inference) 비용: '수직 하강'</h3>
-                    <p class="text-gray-600">반면, GPU 성능 향상과 알고리즘 최적화 덕분에 최종 사용자가 AI를 활용하는 비용은 극적으로 저렴해지고 있습니다. 100만 토큰(약 75만 단어)을 처리하는 비용이 지난 2년간 **99.7%** 나 하락했습니다. 이로 인해 개발자와 기업들이 AI를 부담 없이 도입하고, 과거에는 상상할 수 없었던 다양한 서비스와 애플리케이션을 창조하는 <span class="highlight">'혁신의 선순환'</span>이 일어나고 있습니다.</p>
-                     <div class="mt-6 bg-white rounded-lg p-4 border">
-                        <p class="text-gray-800 font-semibold">100만 토큰 처리 비용 99.7% 감소</p>
-                        <p class="text-gray-500 text-sm">(2022.11 ~ 2024.12)</p>
-                    </div>
-                </div>
             </div>
-        </div>
 
-        <div id="competition" class="mb-20 pt-16">
-            <h2 class="section-title text-center">3. AI 패권 경쟁: 거인들의 전쟁</h2>
-            <p class="section-subtitle">
-                Meta의 CTO 앤드류 보스워스가 현재 상황을 <span class="highlight-pink">'우리의 우주 경쟁'</span>이라 표현했듯, AI 시장은 단순한 기술 경쟁을 넘어 기업과 국가의 명운을 건 패권 경쟁의 장이 되었습니다. 특히 미국과 중국의 <span class="highlight-purple">'기술 냉전'</span>, 그리고 판도를 흔드는 <span class="highlight-purple">'오픈소스의 확산'</span>이 시장 구도를 복잡하고 역동적으로 만들고 있습니다. 승자는 기술뿐 아니라 지정학적 리더십까지 거머쥘 수 있습니다.
-            </p>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div class="stat-card">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">미-중 기술 패권과 산업용 로봇</h3>
-                    <p class="text-gray-600 mb-6">AI 기술력의 바로미터 중 하나인 산업용 로봇 도입 규모에서 중국은 전 세계 나머지 국가들을 압도하며, AI를 통한 산업 자동화에 국가적 역량을 쏟아붓고 있음을 보여줍니다. 이는 미래 제조업과 공급망의 주도권을 잡고, <span class="highlight">'중국제조 2025'</span>를 실현하기 위한 중국의 강력한 의지를 나타냅니다.</p>
-                    <div class="chart-container">
-                        <canvas id="robotInstallationsChart"></canvas>
+            <div id="real-world" class="mb-20 pt-16">
+                <h2 class="section-title">4. 현실 세계로 확장되는 AI</h2>
+                <p class="section-subtitle">
+                    AI는 더 이상 디지털 세상에만 머무르지 않습니다. 자동차, 국방, 농업 등 우리의 삶과 직결된 <span class="highlight">물리적 세계의 핵심 인프라</span>로 자리 잡으며, 이전에는 상상할 수 없었던 방식으로 효율성과 가능성을 극대화하고 있습니다. 이는 자본 자산을 소프트웨어 엔드포인트로 전환하여, 물리적 세계를 데이터 기반으로 최적화하고 제어하는 거대한 변화의 시작입니다.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="content-portal text-center hover:border-[var(--accent-stardust-gold)]">
+                        <div class="text-5xl mb-3">🚗</div>
+                        <h3 class="text-xl font-bold">자율주행</h3>
+                        <p class="text-3xl font-bold my-3" style="color:var(--accent-stardust-gold)">27%</p>
+                        <p>Waymo의 샌프란시스코 내 차량 공유 시장 점유율 (20개월 만에 달성)</p>
+                    </div>
+                    <div class="content-portal text-center hover:border-[var(--accent-aurora-pink)]">
+                        <div class="text-5xl mb-3">🛡️</div>
+                        <h3 class="text-xl font-bold">AI 국방</h3>
+                        <p class="text-3xl font-bold my-3" style="color:var(--accent-aurora-pink)">2년 연속 2배</p>
+                        <p>AI 자율 방어 시스템 기업 Anduril의 매출 성장률</p>
+                    </div>
+                    <div class="content-portal text-center hover:border-[var(--accent-ai-purple)]">
+                        <div class="text-5xl mb-3">🌿</div>
+                        <h3 class="text-xl font-bold">AI 농업</h3>
+                        <p class="text-3xl font-bold my-3" style="color:var(--accent-ai-purple)">10만 갤런</p>
+                        <p>AI 제초 로봇이 절감한 제초제 사용량</p>
+                    </div>
+                    <div class="content-portal text-center hover:border-[var(--accent-aurora-cyan)]">
+                        <div class="text-5xl mb-3">🛰️</div>
+                        <h3 class="text-xl font-bold">위성 인터넷</h3>
+                        <p class="text-3xl font-bold my-3" style="color:var(--accent-aurora-cyan)">500만+</p>
+                        <p>SpaceX 스타링크 가입자 수 (글로벌 인터넷 격차 해소)</p>
                     </div>
                 </div>
-                <div class="stat-card">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">오픈소스의 약진: 혁신의 민주화</h3>
-                    <p class="text-gray-600 mb-6">Meta의 'Llama'와 같은 고성능 오픈소스 모델의 등장은 AI <span class="highlight">'개발의 민주화'</span>를 이끌고 있습니다. 누구나 무료로 강력한 AI 모델을 활용할 수 있게 되면서, OpenAI 등이 주도하는 폐쇄형(독점) 모델의 상업적 지배력에 큰 도전이 되고 있습니다. 이는 마치 과거 PC 시장에서 개방형 아키텍처가 독점적 시스템을 위협했던 것과 유사합니다.</p>
-                     <div class="text-center p-6 bg-white rounded-lg border">
-                        <p class="text-5xl font-bold text-[#EC4899]">12억+</p>
-                        <p class="text-lg text-gray-600 mt-2">Meta Llama 모델 다운로드 횟수</p>
-                        <p class="text-sm text-gray-400">(2025년 4월 기준)</p>
+                 <div class="mt-8 content-portal">
+                     <h3 class="text-2xl font-bold mb-4 text-center">산업별 특화 AI 솔루션의 부상</h3>
+                    <p class="mb-6 text-center">범용 AI 모델을 넘어, 특정 산업의 문제를 해결하는 '버티컬 AI' 솔루션들이 빠르게 성장하고 있습니다. 이들은 해당 산업의 깊은 전문 지식과 데이터를 바탕으로, 범용 모델이 제공할 수 없는 맞춤형 가치를 창출하며 새로운 시장을 열고 있습니다.</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                        <div>
+                            <p class="text-lg font-bold">헬스케어</p>
+                            <p class="text-2xl font-bold" style="color:var(--accent-stardust-gold)">Abridge</p>
+                            <p class="text-sm">AI 의료 기록 자동화</p>
+                        </div>
+                         <div>
+                            <p class="text-lg font-bold">금융 서비스</p>
+                            <p class="text-2xl font-bold" style="color:var(--accent-aurora-pink)">AlphaSense</p>
+                            <p class="text-sm">AI 리서치/분석 플랫폼</p>
+                        </div>
+                         <div>
+                            <p class="text-lg font-bold">광업</p>
+                            <p class="text-2xl font-bold" style="color:var(--accent-ai-purple)">KoBold Metals</p>
+                            <p class="text-sm">AI 광물 탐사</p>
+                        </div>
+                         <div>
+                            <p class="text-lg font-bold">고객 서비스</p>
+                            <p class="text-2xl font-bold" style="color:var(--accent-aurora-cyan)">Yum! Brands</p>
+                            <p class="text-sm">Byte by Yum! 플랫폼</p>
+                        </div>
                     </div>
-                    <p class="text-gray-600 mt-6">최고 성능 모델과의 격차가 줄어들면서, 비용 효율적인 오픈소스 모델은 특히 개발자 커뮤니티와 스타트업 사이에서 폭발적인 인기를 얻으며 새로운 AI 생태계를 만들어가고 있습니다. 이는 혁신의 속도를 더욱 가속화하는 기폭제 역할을 합니다.</p>
                 </div>
             </div>
-             <div class="mt-8 stat-card">
-                <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">주권 AI(Sovereign AI)의 부상</h3>
-                <p class="text-gray-600 mb-6">각국 정부는 더 이상 기술을 민간 기업에만 의존하지 않습니다. AI를 전기나 인터넷과 같은 국가 핵심 인프라로 인식하고, 자국의 데이터와 인력, 인프라를 활용하여 AI를 개발하는 <span class="highlight">'주권 AI'</span> 정책을 적극적으로 추진하고 있습니다. 이는 AI 기술이 경제적 가치를 넘어 국가 안보와 직결되는 전략 자산이 되었음을 의미합니다.</p>
-                 <blockquote>
-                    <p class="text-gray-800 font-semibold">"각국은 과거 전기와 인터넷에 투자했듯이 AI 인프라에 투자하고 있습니다."</p>
-                    <footer class="text-sm text-gray-500 mt-2">- NVIDIA CEO 젠슨 황</footer>
-                </blockquote>
-            </div>
-        </div>
 
-        <div id="real-world" class="mb-20 pt-16">
-            <h2 class="section-title text-center">4. 현실 세계로 확장되는 AI</h2>
-            <p class="section-subtitle text-center">
-                AI는 더 이상 디지털 세상에만 머무르지 않습니다. 자동차, 국방, 농업 등 우리의 삶과 직결된 <span class="highlight">물리적 세계의 핵심 인프라</span>로 자리 잡으며, 이전에는 상상할 수 없었던 방식으로 효율성과 가능성을 극대화하고 있습니다. 이는 자본 자산을 소프트웨어 엔드포인트로 전환하여, 물리적 세계를 데이터 기반으로 최적화하고 제어하는 거대한 변화의 시작입니다.
-            </p>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="stat-card text-center hover:border-[#F97316]">
-                    <div class="text-5xl mb-3">🚗</div>
-                    <h3 class="text-xl font-bold text-gray-900">자율주행</h3>
-                    <p class="text-3xl font-bold text-[#F97316] my-3">27%</p>
-                    <p class="text-gray-600">Waymo의 샌프란시스코 내 차량 공유 시장 점유율 (20개월 만에 달성)</p>
+            <div id="work" class="mb-20 pt-16">
+                <h2 class="section-title">5. AI와 일의 미래: 파괴가 아닌 재창조</h2>
+                <p class="section-subtitle">
+                    AI는 인간의 일자리를 대체하는 것이 아니라, <span class="highlight">'일하는 방식'을 근본적으로 바꾸고 있습니다.</span> 단순 반복적인 작업은 자동화되고, 인간은 더 창의적이고 전략적인 역할, 즉 <span class="highlight-pink">'AI 조련사', 'AI 감독관'</span>으로서의 역할에 집중하게 됩니다. Shopify, Duolingo와 같은 혁신 기업들은 이미 AI 활용을 직원들의 기본 역량으로 요구하며 이러한 변화를 주도하고 있습니다. <span class="highlight-purple">AI 리터러시</span>가 미래 인재의 핵심 역량으로 자리 잡고 있습니다.
+                </p>
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                    <div class="lg:col-span-3 content-portal">
+                        <h3 class="text-2xl font-bold mb-4">미국 IT 고용 시장의 지각 변동 (2018.01 ~ 2025.04)</h3>
+                        <p class="mb-6">AI 기술에 대한 수요가 폭발하면서 관련 직무는 급증한 반면, 전통적인 IT 직무는 감소세로 돌아섰습니다. 이는 노동 시장의 요구 역량이 AI 중심으로 빠르게 재편되고 있음을 명확하게 보여줍니다. 이제 AI 스킬은 특정 직무가 아닌, 모든 직무의 기반이 되어가고 있습니다.</p>
+                        <div class="chart-container h-[350px] max-h-[350px]">
+                            <canvas id="jobMarketChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 content-portal flex flex-col justify-center">
+                        <h3 class="text-2xl font-bold mb-4">AI, 생산성을 끌어올리다</h3>
+                        <p class="mb-6">기업들은 비용 절감보다 생산성 향상과 새로운 가치 창출을 위해 AI를 도입하고 있습니다. 실제로 AI를 활용하는 직원들은 업무 효율성 향상을 뚜렷하게 체감하고 있습니다. AI는 더 적은 시간으로 더 나은 결과를 만들 수 있는 강력한 '증강 도구'입니다.</p>
+                        <div class="chart-container h-[350px] max-h-[350px]">
+                            <canvas id="productivityChart"></canvas>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-card text-center hover:border-[#EC4899]">
-                    <div class="text-5xl mb-3">🛡️</div>
-                    <h3 class="text-xl font-bold text-gray-900">AI 국방</h3>
-                    <p class="text-3xl font-bold text-[#EC4899] my-3">2년 연속 2배</p>
-                    <p class="text-gray-600">AI 자율 방어 시스템 기업 Anduril의 매출 성장률</p>
-                </div>
-                <div class="stat-card text-center hover:border-[#8B5CF6]">
-                    <div class="text-5xl mb-3">🌿</div>
-                    <h3 class="text-xl font-bold text-gray-900">AI 농업</h3>
-                    <p class="text-3xl font-bold text-[#8B5CF6] my-3">10만 갤런</p>
-                    <p class="text-gray-600">AI 제초 로봇이 절감한 제초제 사용량</p>
-                </div>
-                <div class="stat-card text-center hover:border-[#3B82F6]">
-                    <div class="text-5xl mb-3">🛰️</div>
-                    <h3 class="text-xl font-bold text-gray-900">위성 인터넷</h3>
-                    <p class="text-3xl font-bold text-[#3B82F6] my-3">500만+</p>
-                    <p class="text-gray-600">SpaceX 스타링크 가입자 수 (글로벌 인터넷 격차 해소)</p>
+                 <div class="mt-12 text-center p-8 rounded-lg border bg-abyss/50">
+                    <p class="text-2xl font-semibold italic max-w-3xl mx-auto" style="color:var(--text-luminous)">"당신은 AI에게 일자리를 뺏기는 것이 아니라, <span class="highlight">AI를 잘 다루는 사람에게</span> 일자리를 뺏기게 될 것입니다."</p>
+                    <p class="mt-4">- 젠슨 황 (NVIDIA CEO)</p>
                 </div>
             </div>
-             <div class="mt-8 stat-card">
-                 <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">산업별 특화 AI 솔루션의 부상</h3>
-                <p class="text-gray-600 mb-6 text-center">범용 AI 모델을 넘어, 특정 산업의 문제를 해결하는 '버티컬 AI' 솔루션들이 빠르게 성장하고 있습니다. 이들은 해당 산업의 깊은 전문 지식과 데이터를 바탕으로, 범용 모델이 제공할 수 없는 맞춤형 가치를 창출하며 새로운 시장을 열고 있습니다.</p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-                    <div>
-                        <p class="text-lg font-bold text-gray-800">헬스케어</p>
-                        <p class="text-2xl font-bold text-[#F97316]">Abridge</p>
-                        <p class="text-gray-600 text-sm">AI 의료 기록 자동화</p>
-                    </div>
-                     <div>
-                        <p class="text-lg font-bold text-gray-800">금융 서비스</p>
-                        <p class="text-2xl font-bold text-[#EC4899]">AlphaSense</p>
-                        <p class="text-gray-600 text-sm">AI 리서치/분석 플랫폼</p>
-                    </div>
-                     <div>
-                        <p class="text-lg font-bold text-gray-800">광업</p>
-                        <p class="text-2xl font-bold text-[#8B5CF6]">KoBold Metals</p>
-                        <p class="text-gray-600 text-sm">AI 광물 탐사</p>
-                    </div>
-                     <div>
-                        <p class="text-lg font-bold text-gray-800">고객 서비스</p>
-                        <p class="text-2xl font-bold text-[#3B82F6]">Yum! Brands</p>
-                        <p class="text-gray-600 text-sm">Byte by Yum! 플랫폼</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+            
+            <section class="text-center mt-24 py-16 border-t">
+                <h2 class="section-title">결론: AI는 새로운 인프라다</h2>
+                <p class="section-subtitle">
+                    AI는 단순히 새로운 기술이 아니라, 마치 전기나 인터넷처럼 모든 산업과 국가에 필수적인 <span class="highlight">새로운 종류의 인프라</span>가 되고 있습니다. NVIDIA CEO 젠슨 황이 말했듯, AI 데이터 센터는 사실상 <span class="highlight-pink">'AI 공장'</span>입니다. 이 전례 없는 변화의 물결 속에서, AI의 발전과 확산은 계속될 것이며, 이는 전 세계에 걸쳐 새로운 기회와 도전을 동시에 제시할 것입니다.
+                     <br><br>
+                    결국 지식과 그 분배 방식이 근본적으로 재편되고 있습니다. 과거 인쇄술이 지식의 대중화를 이끌었듯, AI는 초개인화된 지식의 생성과 유통을 가능하게 합니다. 이러한 시대에 AI를 이해하고, 비즈니스의 핵심에 통합하여 새로운 기회를 창출하는 조직만이 미래의 승자가 될 것입니다.
+                </p>
+            </section>
 
-        <div id="work" class="mb-20 pt-16">
-            <h2 class="section-title text-center">5. AI와 일의 미래: 파괴가 아닌 재창조</h2>
-            <p class="section-subtitle text-center">
-                AI는 인간의 일자리를 대체하는 것이 아니라, <span class="highlight">'일하는 방식'을 근본적으로 바꾸고 있습니다.</span> 단순 반복적인 작업은 자동화되고, 인간은 더 창의적이고 전략적인 역할, 즉 <span class="highlight-pink">'AI 조련사', 'AI 감독관'</span>으로서의 역할에 집중하게 됩니다. Shopify, Duolingo와 같은 혁신 기업들은 이미 AI 활용을 직원들의 기본 역량으로 요구하며 이러한 변화를 주도하고 있습니다. <span class="highlight-purple">AI 리터러시</span>가 미래 인재의 핵심 역량으로 자리 잡고 있습니다.
-            </p>
-            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
-                <div class="lg:col-span-3 stat-card">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">미국 IT 고용 시장의 지각 변동 (2018.01 ~ 2025.04)</h3>
-                    <p class="text-gray-600 mb-6">AI 기술에 대한 수요가 폭발하면서 관련 직무는 급증한 반면, 전통적인 IT 직무는 감소세로 돌아섰습니다. 이는 노동 시장의 요구 역량이 AI 중심으로 빠르게 재편되고 있음을 명확하게 보여줍니다. 이제 AI 스킬은 특정 직무가 아닌, 모든 직무의 기반이 되어가고 있습니다.</p>
-                    <div class="chart-container h-[350px] max-h-[350px]">
-                        <canvas id="jobMarketChart"></canvas>
-                    </div>
-                </div>
-                <div class="lg:col-span-2 stat-card flex flex-col justify-center">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">AI, 생산성을 끌어올리다</h3>
-                    <p class="text-gray-600 mb-6">기업들은 비용 절감보다 생산성 향상과 새로운 가치 창출을 위해 AI를 도입하고 있습니다. 실제로 AI를 활용하는 직원들은 업무 효율성 향상을 뚜렷하게 체감하고 있습니다. AI는 더 적은 시간으로 더 나은 결과를 만들 수 있는 강력한 '증강 도구'입니다.</p>
-                    <div class="chart-container h-[350px] max-h-[350px]">
-                        <canvas id="productivityChart"></canvas>
-                    </div>
+            <div id="author-info-footer" class="mb-20 pt-16 border-t">
+                <h2 class="section-title">보고서 출처 정보</h2>
+                <div class="content-portal max-w-4xl mx-auto">
+                    <p class="leading-relaxed">
+                        이 보고서는 샌프란시스코에 본사를 둔 글로벌 기술 투자 회사(Venture Capital)인 <span class="font-semibold" style="color:var(--text-luminous)">BOND</span>가 작성했습니다. BOND는 2018년, '인터넷의 여왕'으로 불리는 전설적인 분석가 <span class="font-semibold" style="color:var(--text-luminous)">메리 미커(Mary Meeker)</span>가 설립한 회사로, 기술 산업의 미래를 꿰뚫어 보는 깊이 있는 분석으로 명성이 높습니다.
+                    </p>
+                    <br>
+                    <p class="leading-relaxed">
+                        BOND는 단순히 자금을 투자하는 것을 넘어, 비전을 가진 창업가들이 혁신을 이루고 성장하는 전 과정을 함께하는 파트너입니다. 창립 파트너들은 <span class="font-semibold" style="color:var(--text-ethereal)">Airbnb, Canva, Meta(Facebook), Spotify, Uber</span> 등 세상을 바꾼 수많은 기술 기업들의 초기 성장을 지원한 경험을 가지고 있습니다. 
+                    </p>
+                    <br>
+                    <p class="font-semibold" style="color:var(--text-luminous)">
+                        따라서 이 보고서는 일시적인 현상 분석이 아닌, 수십 년간 축적된 기술 산업에 대한 깊은 이해와 미래를 예측하는 통찰력을 바탕으로 AI 시대의 거대한 흐름을 진단하고 있습니다.
+                    </p>
                 </div>
             </div>
-             <div class="mt-12 text-center p-8 bg-gray-100 rounded-lg border">
-                <p class="text-2xl font-semibold text-gray-800 italic max-w-3xl mx-auto">"당신은 AI에게 일자리를 뺏기는 것이 아니라, <span class="highlight">AI를 잘 다루는 사람에게</span> 일자리를 뺏기게 될 것입니다."</p>
-                <p class="text-gray-500 mt-4">- 젠슨 황 (NVIDIA CEO)</p>
-            </div>
-        </div>
+        </main>
         
-        <section class="text-center mt-24 py-16 border-t border-gray-200">
-            <h2 class="section-title">결론: AI는 새로운 인프라다</h2>
-            <p class="section-subtitle">
-                AI는 단순히 새로운 기술이 아니라, 마치 전기나 인터넷처럼 모든 산업과 국가에 필수적인 <span class="highlight">새로운 종류의 인프라</span>가 되고 있습니다. NVIDIA CEO 젠슨 황이 말했듯, AI 데이터 센터는 사실상 <span class="highlight-pink">'AI 공장'</span>입니다. 이 전례 없는 변화의 물결 속에서, AI의 발전과 확산은 계속될 것이며, 이는 전 세계에 걸쳐 새로운 기회와 도전을 동시에 제시할 것입니다.
-                 <br><br>
-                결국 지식과 그 분배 방식이 근본적으로 재편되고 있습니다. 과거 인쇄술이 지식의 대중화를 이끌었듯, AI는 초개인화된 지식의 생성과 유통을 가능하게 합니다. 이러한 시대에 AI를 이해하고, 비즈니스의 핵심에 통합하여 새로운 기회를 창출하는 조직만이 미래의 승자가 될 것입니다.
-            </p>
-        </section>
-
-        <div id="author-info-footer" class="mb-20 pt-16 border-t border-gray-200">
-            <h2 class="section-title text-center">보고서 출처 정보</h2>
-            <div class="stat-card max-w-4xl mx-auto">
-                <p class="text-gray-600 leading-relaxed">
-                    이 보고서는 샌프란시스코에 본사를 둔 글로벌 기술 투자 회사(Venture Capital)인 <span class="font-semibold text-gray-900">BOND</span>가 작성했습니다. BOND는 2018년, '인터넷의 여왕'으로 불리는 전설적인 분석가 <span class="font-semibold text-gray-900">메리 미커(Mary Meeker)</span>가 설립한 회사로, 기술 산업의 미래를 꿰뚫어 보는 깊이 있는 분석으로 명성이 높습니다.
-                </p>
-                <br>
-                <p class="text-gray-600 leading-relaxed">
-                    BOND는 단순히 자금을 투자하는 것을 넘어, 비전을 가진 창업가들이 혁신을 이루고 성장하는 전 과정을 함께하는 파트너입니다. 창립 파트너들은 <span class="font-semibold text-gray-800">Airbnb, Canva, Meta(Facebook), Spotify, Uber</span> 등 세상을 바꾼 수많은 기술 기업들의 초기 성장을 지원한 경험을 가지고 있습니다. 
-                </p>
-                <br>
-                <p class="text-gray-800 font-semibold">
-                    따라서 이 보고서는 일시적인 현상 분석이 아닌, 수십 년간 축적된 기술 산업에 대한 깊은 이해와 미래를 예측하는 통찰력을 바탕으로 AI 시대의 거대한 흐름을 진단하고 있습니다.
-                </p>
-            </div>
-        </div>
-
-    </main>
-
-    <footer class="bg-gray-50 border-t">
-        <div class="container mx-auto px-6 py-6 text-center text-gray-500">
-            <p>본 인포그래픽은 'BOND - Trends in Artificial Intelligence (May 2025)' 보고서를 기반으로 제작되었습니다.</p>
+        <footer class="cosmic-dust text-center">
+            <p class="interactive-element">본 인포그래픽은 'BOND - Trends in Artificial Intelligence (May 2025)' 보고서를 기반으로 제작되었습니다.</p>
             <p class="slogan">Our Vision: Transform Tomorrow Together</p>
-        </div>
-    </footer>
+        </footer>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Helper to get CSS variables
+            const getCssVar = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim() || '#ffffff';
 
-            const energeticPalette = {
-                orange: '#F97316',
-                pink: '#EC4899',
-                purple: '#8B5CF6',
-                blue: '#3B82F6',
-                text: '#111827',
-                grid: 'rgba(0, 0, 0, 0.05)'
+            // Define the new color palette based on CSS variables
+            const darkThemePalette = {
+                cyan: getCssVar('--accent-aurora-cyan'),
+                pink: getCssVar('--accent-aurora-pink'),
+                purple: getCssVar('--accent-ai-purple'),
+                gold: getCssVar('--accent-stardust-gold'),
+                text: getCssVar('--text-luminous'),
+                grid: 'rgba(224, 251, 252, 0.1)',
+                tooltipBg: 'rgba(3, 0, 28, 0.9)',
+                whisper: getCssVar('--text-whisper')
             };
             
             const tooltipPlugin = {
                 tooltip: {
-                    backgroundColor: 'rgba(17, 24, 39, 0.9)',
-                    titleColor: '#FFFFFF',
-                    bodyColor: '#E5E7EB',
+                    backgroundColor: darkThemePalette.tooltipBg,
+                    titleColor: darkThemePalette.text,
+                    bodyColor: darkThemePalette.whisper,
                     titleFont: {
                         size: 14,
-                        weight: 'bold'
+                        weight: 'bold',
+                        family: getCssVar('--font-primary'),
                     },
                     bodyFont: {
-                        size: 12
+                        size: 12,
+                        family: getCssVar('--font-primary'),
                     },
                     padding: 12,
                     cornerRadius: 6,
@@ -426,6 +613,19 @@
                             }
                             return label;
                         }
+                    }
+                }
+            };
+            
+            const commonChartOptions = {
+                 scales: {
+                    x: {
+                        grid: { color: darkThemePalette.grid },
+                        ticks: { color: darkThemePalette.text, font: { size: 12, family: getCssVar('--font-primary')} }
+                    },
+                    y: {
+                        grid: { color: darkThemePalette.grid },
+                        ticks: { color: darkThemePalette.text, font: { size: 12, family: getCssVar('--font-primary')} }
                     }
                 }
             };
@@ -457,7 +657,7 @@
                         datasets: [{
                             label: '1억 사용자 달성 기간 (년)',
                             data: [0.17, 1.5, 2.5, 4.5, 10.3],
-                            backgroundColor: [energeticPalette.orange, energeticPalette.pink, energeticPalette.purple, energeticPalette.blue, '#9CA3AF'],
+                            backgroundColor: [darkThemePalette.gold, darkThemePalette.pink, darkThemePalette.purple, darkThemePalette.cyan, darkThemePalette.whisper],
                             borderRadius: 4,
                         }]
                     },
@@ -466,26 +666,24 @@
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: {
-                            legend: {
-                                display: false
-                            },
+                            legend: { display: false },
                            ...tooltipPlugin
                         },
                         scales: {
                             x: {
+                                ...commonChartOptions.scales.x,
                                 beginAtZero: true,
                                 title: {
                                     display: true,
                                     text: '달성 기간 (년)',
-                                    color: energeticPalette.text,
-                                    font: { size: 14 }
+                                    color: darkThemePalette.text,
+                                    font: { size: 14, family: getCssVar('--font-primary') }
                                 },
-                                grid: { color: energeticPalette.grid },
-                                ticks: { color: energeticPalette.text }
                             },
                             y: {
+                                ...commonChartOptions.scales.y,
                                 grid: { display: false },
-                                ticks: { color: energeticPalette.text, font: { size: 14 } }
+                                ticks: { ...commonChartOptions.scales.y.ticks, font: { size: 14, family: getCssVar('--font-primary')} }
                             }
                         }
                     }
@@ -503,24 +701,24 @@
                             {
                                 label: '중국',
                                 data: [57, 68, 87, 138, 154, 140, 168, 271, 303, 290], // K units
-                                borderColor: energeticPalette.pink,
-                                backgroundColor: 'rgba(236, 72, 153, 0.1)',
+                                borderColor: darkThemePalette.pink,
+                                backgroundColor: 'rgba(215, 65, 167, 0.1)',
                                 tension: 0.3,
                                 fill: true,
                             },
                             {
                                 label: '미국',
                                 data: [28, 30, 31, 33, 35, 33, 30, 34, 39, 42], // K units
-                                borderColor: energeticPalette.blue,
-                                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                                borderColor: darkThemePalette.cyan,
+                                backgroundColor: 'rgba(48, 188, 237, 0.1)',
                                 tension: 0.3,
                                 fill: true,
                             },
                              {
                                 label: '기타 국가',
                                 data: [110, 120, 130, 150, 165, 160, 150, 180, 190, 195], // Rest of World (excl. China & USA)
-                                borderColor: '#9CA3AF',
-                                backgroundColor: 'rgba(156, 163, 175, 0.1)',
+                                borderColor: darkThemePalette.whisper,
+                                backgroundColor: 'rgba(167, 179, 214, 0.1)',
                                 tension: 0.3,
                                 fill: true,
                             }
@@ -532,21 +730,17 @@
                         plugins: {
                             legend: {
                                 position: 'top',
-                                labels: { color: energeticPalette.text, font: { size: 12 } }
+                                labels: { color: darkThemePalette.text, font: { size: 12, family: getCssVar('--font-primary') } }
                             },
                              ...tooltipPlugin
                         },
                         scales: {
-                            y: {
+                             y: {
+                                ...commonChartOptions.scales.y,
                                 beginAtZero: true,
-                                title: { display: true, text: '설치 대수 (천 대)', color: energeticPalette.text },
-                                grid: { color: energeticPalette.grid },
-                                ticks: { color: energeticPalette.text }
+                                title: { display: true, text: '설치 대수 (천 대)', color: darkThemePalette.text, font: {family: getCssVar('--font-primary')} },
                             },
-                            x: {
-                                grid: { color: energeticPalette.grid },
-                                ticks: { color: energeticPalette.text }
-                            }
+                            x: { ...commonChartOptions.scales.x }
                         }
                     }
                 });
@@ -563,17 +757,17 @@
                             {
                                 label: 'AI 관련 직무',
                                 data: [0, 50, 100, 200, 300, 380, 420, 448], // Indexed to 100
-                                borderColor: energeticPalette.purple,
+                                borderColor: darkThemePalette.purple,
                                 tension: 0.3,
-                                pointBackgroundColor: energeticPalette.purple,
+                                pointBackgroundColor: darkThemePalette.purple,
                                 pointRadius: 4
                             },
                             {
                                 label: '비(非) AI IT 직무',
                                 data: [0, -2, -5, 5, 2, -7, -8, -9], // Indexed to 100
-                                borderColor: '#9CA3AF',
+                                borderColor: darkThemePalette.whisper,
                                 tension: 0.3,
-                                pointBackgroundColor: '#9CA3AF',
+                                pointBackgroundColor: darkThemePalette.whisper,
                                 pointRadius: 4
                             }
                         ]
@@ -584,23 +778,20 @@
                         plugins: {
                             legend: {
                                 position: 'top',
-                                labels: { color: energeticPalette.text, font: { size: 12 } }
+                                labels: { color: darkThemePalette.text, font: { size: 12, family: getCssVar('--font-primary') } }
                             },
                              ...tooltipPlugin
                         },
                         scales: {
                             y: {
-                                title: { display: true, text: '변화율 (%) (2018.01=0)', color: energeticPalette.text },
-                                grid: { color: energeticPalette.grid },
+                                ...commonChartOptions.scales.y,
+                                title: { display: true, text: '변화율 (%) (2018.01=0)', color: darkThemePalette.text, font: { family: getCssVar('--font-primary') } },
                                 ticks: { 
-                                    color: energeticPalette.text,
+                                    ...commonChartOptions.scales.y.ticks,
                                     callback: function(value) { return value + '%'; }
                                 }
                             },
-                            x: {
-                                grid: { color: energeticPalette.grid },
-                                ticks: { color: energeticPalette.text }
-                            }
+                            x: { ...commonChartOptions.scales.x }
                         }
                     }
                 });
@@ -621,19 +812,19 @@
                             {
                                 label: '매우/꽤 도움됨',
                                 data: [78, 72],
-                                backgroundColor: energeticPalette.orange,
+                                backgroundColor: darkThemePalette.gold,
                                 stack: 'Stack 0',
                             },
                             {
                                 label: '약간 도움됨',
                                 data: [15, 20],
-                                backgroundColor: energeticPalette.blue,
+                                backgroundColor: darkThemePalette.cyan,
                                 stack: 'Stack 0',
                             },
                             {
                                 label: '별로/전혀 도움 안됨',
                                 data: [7, 8],
-                                backgroundColor: '#D1D5DB',
+                                backgroundColor: 'rgba(167, 179, 214, 0.5)',
                                 stack: 'Stack 0',
                             }
                         ]
@@ -644,12 +835,12 @@
                             title: {
                                 display: true,
                                 text: 'AI 챗봇이 업무에 도움이 되는 정도 (%)',
-                                color: energeticPalette.text,
-                                font: { size: 16 }
+                                color: darkThemePalette.text,
+                                font: { size: 16, family: getCssVar('--font-primary') }
                             },
                             legend: {
                                 position: 'bottom',
-                                labels: { color: energeticPalette.text, font: { size: 10 } }
+                                labels: { color: darkThemePalette.text, font: { size: 10, family: getCssVar('--font-primary') } }
                             },
                             ...tooltipPlugin
                         },
@@ -657,18 +848,18 @@
                         maintainAspectRatio: false,
                         scales: {
                             x: {
+                                ...commonChartOptions.scales.x,
                                 stacked: true,
                                 max: 100,
-                                grid: { color: energeticPalette.grid },
                                 ticks: { 
-                                    color: energeticPalette.text,
+                                    ...commonChartOptions.scales.x.ticks,
                                     callback: function(value) { return value + '%'; }
                                 }
                             },
                             y: {
+                                ...commonChartOptions.scales.y,
                                 stacked: true,
                                 grid: { display: false },
-                                ticks: { color: energeticPalette.text }
                             }
                         }
                     }
@@ -697,7 +888,7 @@
             }, { rootMargin: '-30% 0px -70% 0px' });
 
             sections.forEach(section => {
-                observer.observe(section);
+                if(section.id) observer.observe(section);
             });
         });
     </script>
