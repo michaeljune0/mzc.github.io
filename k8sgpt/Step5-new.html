@@ -545,14 +545,14 @@
         <main id="step5-content" class="mb-20">
             <h2 class="text-4xl sm:text-5xl font-bold mb-16 pb-8 text-center">
                 Step 5. EKS 클러스터 진단 전략 비교
-                <span class="subtitle">- AI 기반 Kubernetes 진단: 핸즈온 최소화, 리소스 절감, 부담 없는 체험 관점 비교 -</span>
+                <span class="subtitle">- AI 기반 Kubernetes 진단: 핸즈온 최소화, 부담 없는 체험 관점 비교 -</span>
             </h2>
 
             <section class="content-portal interactive-element">
                 <h3>개요: 어떤 AI 기반 진단 도구를 선택해야 할까요?</h3>
                 <p>본 문서는 AI 기반 Kubernetes 진단 도구 선택에 대한 고민에서 시작합니다. 주요 목표는 다음과 같습니다.</p>
                 <ul class="dream-list mt-4">
-                    <li>핸즈온 최소화, 리소스 절감, 부담 없는 체험 관점에서 다양한 AI 진단 수단 비교</li>
+                    <li>핸즈온 최소화, 부담 없는 체험 관점에서 다양한 AI 진단 수단 비교</li>
                     <li>고객이 MVP 단계부터 운영 환경, 보안에 민감한 환경까지 단계별로 적합한 도구를 선택할 수 있도록 가이드라인 설계</li>
                 </ul>
                 <!-- 이미지 삽입 영역 1 -->
@@ -582,7 +582,7 @@
                             <tr><td class="font-medium">Kubernetes</td><td>EKS 1.31</td></tr>
                             <tr><td class="font-medium">EC2</td><td>t3.medium (2vCPU, 4GB RAM)</td></tr>
                             <tr><td class="font-medium">Bedrock 모델</td><td>anthropic.claude-3-5-sonnet-20240620-v1:0 (Serverless)</td></tr>
-                            <tr><td class="font-medium">버전</td><td>K8sGPT Operator: 0.2.13 / K8sGPT CLI: 0.4.12 (4월 21일 기준)</td></tr>
+                            <tr><td class="font-medium">버전</td><td>K8sGPT Operator: 0.2.20 / K8sGPT CLI: 0.4.17 (6월 2일 기준)</td></tr>
                             <tr><td class="font-medium">Ollama</td><td>0.6.4 + 로컬 gemma3:1b 모델</td></tr>
                             <tr><td class="font-medium">Slack 연동</td><td>Webhook 방식 사용</td></tr>
                         </tbody>
@@ -620,12 +620,6 @@
                          alt="CLI 실행 화면 (한글 설명)"
                          loading="lazy">
                 </div>
-                <!-- 이미지 삽입 영역 5 -->
-                 <div class="image-insertion-area">
-                    <img src="https://raw.githubusercontent.com/michaeljune0/mzc.github.io/refs/heads/main/k8sgpt/Step5-5-Operator+CRD-Dark.png"
-                         alt="CLI 실행 화면 (실제 서비스 상태 kubectl get 결과)"
-                         loading="lazy">
-                </div>
 
                 <h4>단점 및 평가</h4>
                 <ul class="dream-list mt-4">
@@ -640,6 +634,13 @@
                 <h3>전략 2: Operator + CRD 기반 운영 (Slack 연동 포함)</h3>
                 <p><span class="highlight">기술 난이도: 상</span></p>
                 <p>Helm으로 K8sGPT Operator를 설치하고, IRSA + IAM Policy를 통해 Bedrock 권한을 구성합니다. CRD 정의를 통해 스케줄 기반 진단 및 Slack 전송이 가능합니다.</p>
+                <!-- 이미지 삽입 영역 5 -->
+                <div class="image-insertion-area">
+                    <img src="https://raw.githubusercontent.com/michaeljune0/mzc.github.io/refs/heads/main/k8sgpt/Step5-5-Operator+CRD-Dark.png"
+                         alt="CLI 실행 화면 (실제 서비스 상태 kubectl get 결과)"
+                         loading="lazy">
+                </div>
+
                 <!-- 이미지 삽입 영역 6 -->
                 <div class="image-insertion-area">
                     <img src="https://raw.githubusercontent.com/michaeljune0/mzc.github.io/refs/heads/main/k8sgpt/Step5-6-Operator+CRD.png"
@@ -667,13 +668,12 @@
                          alt="Slack 알림 메시지 예시"
                          loading="lazy">
                 </div>
-                <p class="mt-2"><span class="text-sm text-gray-400">참고: Slack으로 전송하여 Pod 분석 내용 확인 가능. 현재 스케줄링 지원이 불가능하여, Pod 재시작과 1일 1회 진단이 가능함. (PDF 내용 인용)</span></p>
 
                 <h4>단점 및 평가</h4>
                 <ul class="dream-list mt-4">
                     <li>Slack, Helm, IRSA, CRD 등 초기 설정 복잡도 존재</li>
                     <li>Pod 2개 상시 운영 필요 (관리 포인트 증가)</li>
-                    <li>첫 1회에만 진단이 실행되며, CronJob으로 Operator Pod를 재시작 가능하나 알림 중복 발생 가능성 있음</li>
+                    <li>EKS cluster 이벤트 발생시 조치전까지 1분 간격으로 알람이 발생함. (추후 업데이트 되면 조절 될거라 생각)</li>
                     <li>클러스터 리소스를 사용하므로 고객사 정책에 따라 거부감을 느낄 가능성 존재</li>
                 </ul>
                 <p class="mt-4"><span class="sub-highlight">권장 대상:</span> 운영팀/DevOps 팀 중심의 운영 환경에 최적.</p>
@@ -742,7 +742,7 @@
                             <tr>
                                 <td class="font-medium">② Operator + CRD + Bedrock</td>
                                 <td>Helm으로 K8sGPT Operator 설치. CRD 기반 주기 진단 + Slack 알림. 리소스 2개(Pod) 상시 운영 필요.</td>
-                                <td class="highlight-cell">CronJob 설정 시</td>
+                                <td class="highlight-cell">O</td>
                                 <td class="highlight-cell">O</td>
                                 <td>$30 이하</td>
                                 <td>클러스터 내 리소스(CRD, Pod 등) 직접 생성됨 → Helm, IRSA, CR 생성 등 클러스터 변경 요소 존재 → 운영 정책상 검토 필요</td>
@@ -760,19 +760,18 @@
                         </tbody>
                     </table>
                 </div>
-                 <p class="mt-4 text-sm text-gray-400">(Step 5 PDF 13-14페이지 표 내용 기반)</p>
             </section>
 
             <div class="nebula-conclusion mt-16 interactive-element">
                 <h3>결론 및 개인적인 소감</h3>
-                <p class="mb-6 text-xl">세 가지 시나리오를 "핸즈온 최소 + 리소스 절약" 기준으로 분석한 결과는 다음과 같습니다:</p>
-                <ul class="dream-list mt-4 space-y-2 text-lg">
+                <p class="mb-6 text-xl">세 가지 시나리오 기준으로 분석한 결과는 다음과 같습니다:</p>
+                <ul class="dream-list mt-4 space-y-4 text-lg">
                     <li><strong>1단계 (CLI 실행):</strong> 설정이 가장 간단하고, 빠르게 MVP 또는 데모에 활용 가능합니다.</li>
                     <li><strong>2단계 (Operator 기반):</strong> Slack 연동 등 운영에 적합하지만 설정 복잡도가 있습니다.</li>
                     <li><strong>3단계 (Ollama 연동):</strong> 비용 최적화에는 좋지만, EC2 세팅과 운영 부담이 있습니다.</li>
                 </ul>
-                <blockquote class="echoes interactive-element mt-8">
-                    <p>기술이 진짜 좋아지고 있다는 걸 직접 느꼈습니다. 자연어 기반으로 장애 원인까지 설명(매우 정확하지 않지만)해주는 이 흐름은 "사람이 느낄 수 있는 기술"이라고 생각합니다. 특히 CLI 만으로도 충분한 진단 체험을 할 수 있다는 점은, 고객에게 부담 없이 'AI 기반 클러스터 분석'을 경험하게 할 수 있는 좋은 기회였습니다.</p>
+                <blockquote class="echoes interactive-element mt-8" style="text-align: left;">
+                    <p>기술이 진짜 좋아지고 있다는 걸 직접 느꼈습니다. 자연어 기반으로 장애 원인까지 설명(매우 정확하지 않지만)해주는 이 흐름은 "사람이 느낄 수 있는 기술"이라고 생각합니다. <br>특히 CLI 만으로도 충분한 진단 체험을 할 수 있다는 점은, 고객에게 부담 없이 'AI 기반 클러스터 분석'을 경험하게 할 수 있는 좋은 기회였습니다.</p>
                     <p>오퍼레이터 구조는 운영환경에 매우 적합하지만, PoC 단계에서는 CLI가 진입 장벽을 확실히 낮춰주는 핵심 체험 경로입니다. 물론 단점도 있습니다. 아직까지 사람의 정확한 판단이 필요한 건 사실입니다.</p>
                 </blockquote>
                 <h4 class="text-lg font-semibold mt-8 mb-3 font-display" style="color: var(--accent-ai-teal);">Reference</h4>
