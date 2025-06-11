@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Step 3: 우리는 리소스를 얼마나 잘 쓰고 있을까? - FinOps와 Kubecost</title>
+    <title>Step 3: 우리는 리소스를 얼마나 잘 쓰고 있을까? - FinOps와 Kubecost 탐험</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -429,7 +429,6 @@
         .efficiency-low { color: #F87171; /* Tailwind red-400 */ }
         .efficiency-zero { color: #9CA3AF; /* Tailwind gray-400 */ }
 
-
         /* --- Dream Lists (Copied and adapted from Step1.html) --- */
         .dream-list { list-style: none; padding-left: 0; }
         .dream-list li {
@@ -751,6 +750,113 @@
                             </p>
                         </div>
                     </div>
+
+                    <!-- INSERTED TABLE START -->
+                    <div class="table-constellation">
+                        <h4 class="text-xl font-semibold mb-4 text-center font-display" style="color: var(--text-luminous);">Kubecost 버전별 기능 제약 비교</h4>
+                        <table class="data-constellation interactive-element">
+                            <thead>
+                                <tr>
+                                    <th scope="col">기능/제약사항</th>
+                                    <th scope="col">무료 버전 (Foundations)</th>
+                                    <th scope="col">유료 버전 (Enterprise)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-medium">비용</td>
+                                    <td>항상 $0, 설치 무료</td>
+                                    <td>Business Tier: 월 $449 (100 노드 기준) <br> Enterprise Tier: 영업 문의 필요 <br> 노드 수 (자체 호스팅) 또는 컨테이너 시간 (AWS 마켓플레이스) 기준 과금</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">지원 코어/노드 수</td>
+                                    <td><strong class="efficiency-low">최대 250 코어</strong> <br> <strong class="efficiency-low">소규모 클러스터 (작성 시점 기준 1개 클러스터, 20 노드까지 확장)</strong></td>
+                                    <td>모든 규모의 무제한 클러스터 지원</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">모니터링 클러스터 수</td>
+                                    <td>무제한 개별 클러스터 <br> <strong class="efficiency-low">클라우드 빌링 통합은 단일 클러스터에서만 지원</strong> <br> <strong class="efficiency-low">통합 멀티 클러스터 뷰 미지원</strong></td>
+                                    <td>통합 멀티 클러스터 뷰 지원</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">메트릭 데이터 보존 기간</td>
+                                    <td><strong class="efficiency-low">15일</strong></td>
+                                    <td>Business Tier: 30일 <br> Enterprise Tier: 무제한</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">비용 산정 정확도</td>
+                                    <td>클라우드 서비스 제공업체(CSP)의 온디맨드(on-demand) 목록 가격 기반으로 비용 추정. <strong class="efficiency-low">실제 청구서의 협상된 할인율 미반영으로 데이터 부정확성 발생 가능</strong></td>
+                                    <td>실제 클라우드 청구서(협상된 할인 포함)와 조정을 통해 더 정확한 비용 수치 제공</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">클러스터 외부 비용 통합</td>
+                                    <td><strong class="efficiency-low">기본적으로 Kubernetes 내부 리소스만 계산.</strong> GCP 및 AWS의 경우 서비스 계정 키 추가 시 외부 서비스(예: RDS, S3, BigQuery) 비용 통합 가능</td>
+                                    <td>모든 클라우드 제공업체(AWS, GCP, Azure)의 클러스터 외부 서비스 비용 통합 지원</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">비용 최적화 권고</td>
+                                    <td>비용 절감 인사이트 제공</td>
+                                    <td>무료 버전 기능 포함. 환경 및 행동 패턴 기반 맞춤형 권고, 인프라 비용 30-50% 이상 절감 가능</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">리포팅 및 분석</td>
+                                    <td><strong class="efficiency-low">저장된 보고서 미지원. RBAC 기반 사용자 지정 보고서 미지원</strong></td>
+                                    <td>저장된 보고서 지원. RBAC 기반 사용자 지정 보고서 지원. 예약된 내보내기(scheduled exports) 지원</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">예측(Forecasting)</td>
+                                    <td>월별 추정 비용(predictable price) 표시. YAML 사양으로 정의된 배포의 비용 예측</td>
+                                    <td>머신러닝 기반의 정확한 비용 예측</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">이상 감지 (Anomaly Detection)</td>
+                                    <td><strong class="efficiency-low">미지원 (명시되지 않음)</strong></td>
+                                    <td>비용 스파이크 감지 및 해결</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">알림(Alerting)</td>
+                                    <td><strong class="efficiency-low">미지원. 사용자 지정 알림(Webhook, Slack, Email) 미지원</strong></td>
+                                    <td>비용 관련 알림(임계값 또는 사용량 이상 기반) 발송. Webhook, Slack, Email 등을 통한 사용자 지정 알림 지원</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">접근 제어 (SSO/RBAC)</td>
+                                    <td><strong class="efficiency-low">미지원</strong></td>
+                                    <td>지원</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">사용자 지정 가격 (Custom Pricing)</td>
+                                    <td><strong class="efficiency-low">미지원</strong></td>
+                                    <td>리소스별 사용자 지정 가격 지원</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">통합 (Integration)</td>
+                                    <td>Prometheus, Kube-state-metrics, Node-exporter와 통합</td>
+                                    <td>클라우드, 기업 내 알람 시스템, 모니터링 시스템, BI 등 다양한 도구와 통합 지원</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">GreenOps (탄소 배출 모니터링)</td>
+                                    <td><strong class="efficiency-low">미지원 (명시되지 않음)</strong></td>
+                                    <td>디스크, 노드, 네트워크 자산의 탄소 배출 모니터링 및 비용 할당</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">운영 오버헤드</td>
+                                    <td><strong class="efficiency-low">자체 호스팅 (사용자가 설치, 업데이트, 스케일링, 가용성, 보안 책임)</strong></td>
+                                    <td>Self-hosted: 자체 호스팅 (높은 운영 오버헤드) <br> Cloud-hosted (SaaS): Kubecost에서 관리 (낮은 운영 오버헤드, 자동화된 스케일링 및 재해 복구)</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">기술 지원</td>
+                                    <td><strong class="efficiency-low">커뮤니티 지원. 전용 엔터프라이즈 지원 미지원</strong></td>
+                                    <td>Business Tier: 비즈니스 지원 <br> Enterprise Tier: 전용 지원 및 전문가 서비스 제공. 온보딩, 운영 과정 교육, 기술 지원, Private Slack, 전담 엔지니어 및 CS 담당자 할당, 티켓팅 등</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">데이터 세분성</td>
+                                    <td><strong class="efficiency-low">일(day) 단위로만 지원 되며, 시간(hourly) 단위 세분화는 미지원</strong></td>
+                                    <td>실시간 비용 가시성" 및 "세분화된 인사이트" 제공</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- INSERTED TABLE END -->
 
                      <div class="image-placeholder-container my-6 interactive-element">
                         <p class="placeholder-title">Kubecost UI 메뉴 스크린샷</p>
