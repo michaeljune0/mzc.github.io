@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Step 3: 우리는 리소스를 얼마나 잘 쓰고 있을까? - FinOps와 Kubecost 탐험</title>
+    <title>Step 3: 우리는 리소스를 얼마나 잘 쓰고 있을까? - FinOps와 Kubecost</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -457,6 +457,39 @@
             box-shadow: 0 0 10px var(--accent-finops-blue), 0 0 15px var(--accent-finops-blue);
             transform: scale(1.5) rotate(360deg);
         }
+        
+        /* NEW: GUIDANCE PORTAL FOR NOTICES */
+        .guidance-portal {
+            background: linear-gradient(to right, rgba(251, 212, 109, 0.08), rgba(48, 188, 237, 0.05));
+            border-left: 4px solid var(--accent-stardust-gold);
+            border-radius: var(--border-radius-dream);
+            padding: 1.5rem 2rem;
+            margin: 2.5rem 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3), inset 0 0 15px rgba(251, 212, 109, 0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            backdrop-filter: blur(5px);
+        }
+        .guidance-portal .icon {
+            font-size: 2rem;
+            color: var(--accent-stardust-gold);
+            line-height: 1;
+            margin-top: 0.25rem;
+            text-shadow: 0 0 10px var(--accent-stardust-gold);
+        }
+        .guidance-portal .content h5 {
+            font-family: var(--font-display);
+            color: var(--accent-stardust-gold);
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+        }
+        .guidance-portal .content p {
+            color: var(--text-ethereal);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
 
         /* --- Luminous Links & Accents (Copied from Step1.html) --- */
         .luminous-link, a {
@@ -652,33 +685,36 @@
                     <p class="mb-6">비용 최적화는 특정 팀만의 책임이 아닙니다. 운영자와 개발자 모두의 관점에서 접근해야 하며, 다음과 같은 체계적인 단계를 따르는 것이 중요합니다.</p>
 
                     <h4 class="text-2xl font-semibold mb-8 mt-6 text-center font-display text-luminous">FinOps 기반 리소스 최적화 4단계</h4>
-                    <div class="finops-process-diagram">
-                        <div class="process-step-box interactive-element">
-                            <div class="step-number">1</div>
-                            <div class="icon">📊</div>
-                            <h4>비용 추세 모니터링</h4>
-                            <p>Kubecost, Prometheus 등을 활용하여 네임스페이스, 워크로드 단위 비용 및 사용률 추이 분석.</p>
+                    <div class="finops-process-diagram" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 4rem;">
+                            <div class="process-step-box interactive-element">
+                                <div class="step-number">1</div>
+                                <div class="icon">📊</div>
+                                <h4>비용 추세 모니터링</h4>
+                                <p>Kubecost, Prometheus 등을 활용하여 네임스페이스, 워크로드 단위 비용 및 사용률 추이 분석.</p>
+                            </div>
+                            <div class="process-arrow md:block hidden">➔</div>
+                            <div class="process-step-box interactive-element">
+                                <div class="step-number">2</div>
+                                <div class="icon">⏱️</div>
+                                <h4>서비스 가용성 고려 및 최적화 타이밍</h4>
+                                <p>신규 배포 전, 이벤트 후 사용량 추세 확인. CI/CD Runner 등 반복적 고부하 패턴 분석.</p>
+                            </div>
                         </div>
-                        <div class="process-arrow md:block hidden">➔</div>
-                        <div class="process-step-box interactive-element">
-                            <div class="step-number">2</div>
-                            <div class="icon">🛠️</div>
-                            <h4>리소스 사용 분석</h4>
-                            <p>단순 비용 외 SLA, 장애 리스크 고려. "줄이면 어떤 영향이 있을까?" 질문. PVC, HPA 등 민감 워크로드 신중 검토.</p>
-                        </div>
-                        <div class="process-arrow md:block hidden">➔</div>
-                        <div class="process-step-box interactive-element">
-                            <div class="step-number">3</div>
-                            <div class="icon">⏱️</div>
-                            <h4>서비스 가용성 고려 및 최적화 타이밍</h4>
-                            <p>신규 배포 전, 이벤트 후 사용량 추세 확인. CI/CD Runner 등 반복적 고부하 패턴 분석.</p>
-                        </div>
-                        <div class="process-arrow md:block hidden">➔</div>
-                        <div class="process-step-box interactive-element">
-                            <div class="step-number">4</div>
-                            <div class="icon">💡</div>
-                            <h4>최적화 영향 평가 및 효율성 중심 판단</h4>
-                            <p>"이 노드는 비싸다" 보다 "유의미한 처리가 있었는가?" GPU 노드 효율성 vs 저렴한 노드의 Idle 낭비 비교.</p>
+                        <div style="display: flex; align-items: center; gap: 4rem; margin-top: 2rem;">
+                            <div class="process-step-box interactive-element">
+                                <div class="step-number">3</div>
+                                <div class="icon">🛠️</div>
+                                <h4>리소스 사용 분석</h4>
+                                <p>단순 비용 외 SLA, 장애 리스크 고려. "줄이면 어떤 영향이 있을까?" 질문. PVC, HPA 등 민감 워크로드 신중 검토.</p>
+                            </div>
+                            <div class="process-arrow md:block hidden">➔</div>
+                            <div class="process-step-box interactive-element">
+                                <div class="step-number">4</div>
+                                <div class="icon">💡</div>
+                                <h4>최적화 영향 평가 및 효율성 중심 판단</h4>
+                                <p>"이 노드는 비싸다" 보다 "유의미한 처리가 있었는가?" GPU 노드 효율성 vs 저렴한 노드의 Idle 낭비 비교.</p>
+                            </div>
                         </div>
                     </div>
 
@@ -705,6 +741,17 @@
                 <div class="content-portal interactive-element">
                     <h3>Kubecost UI: 개발자와 운영자가 주목해야 할 메뉴</h3>
                     <p class="mb-6">Kubecost 대시보드는 리소스 사용 현황과 비용 최적화 기회를 찾는 데 매우 유용합니다. 특히 다음 메뉴들은 FinOps 관점에서 중요한 질문에 대한 답을 제공합니다.</p>
+                    
+                    <div class="guidance-portal interactive-element">
+                        <div class="icon">💡</div>
+                        <div class="content">
+                            <h5>[안내] Kubecost 버전별 기능 제약 안내</h5>
+                            <p>
+                                본문에 소개된 일부 메뉴(특히 Reports, Savings, Govern)는 사용하시는 Kubecost 에디션(무료/유료)에 따라 기능이 제한적이거나 제공되지 않을 수 있습니다. 현재 사내에 설치된 버전에서 지원하는 정확한 기능 범위는 <a href="https://www.kubecost.com/pricing/" target="_blank" rel="noopener noreferrer" class="luminous-link">공식 문서(Pricing)를 확인</a>하시는 것을 권장합니다.
+                            </p>
+                        </div>
+                    </div>
+
                      <div class="image-placeholder-container my-6 interactive-element">
                         <p class="placeholder-title">Kubecost UI 메뉴 스크린샷</p>
                         <img src="https://raw.githubusercontent.com/michaeljune0/mzc.github.io/refs/heads/main/k8sgpt/Step3-1-Kubecost-Allocations-Screen.png" alt="Kubecost UI 메뉴" class="embedded-image clickable-image">
@@ -821,15 +868,15 @@
                     <blockquote class="echoes interactive-element">
                         <p class="text-2xl font-semibold text-center">"이 리소스, 지금 정말 <span class="highlight">줄여도 괜찮을까?</span>"</p>
                     </blockquote>
-                    <p class="font-bold text-2xl text-sky-200 mt-9">FinOps는 절약 그 자체가 목표가 아닙니다. <strong class="underline decoration-2 decoration-dotted hover:decoration-solid transition-all duration-300 filter brightness-110">불필요한 낭비를 줄이고, 진정으로 가치를 창출하는 곳에 자원을 집중하여 '더 잘 쓰기' 위한 지속적인 여정</strong>입니다. Kubecost와 같은 도구는 이 여정을 돕는 강력한 나침반이 될 것입니다.</p>
+                    <p class="font-bold text-2xl text-sky-200 mt-9">FinOps는 절약 그 자체가 목표가 아닙니다. <strong class="underline decoration-2 decoration-dotted hover:decoration-solid transition-all duration-300 filter brightness-110">불필요한 낭비를 줄이고, 진정으로 가치를 창출하는 곳에 자원을 집중하여 '더 잘 쓰기' 위한 지속적인 여정</strong>입니다. <br>Kubecost와 같은 도구는 이 여정을 돕는 강력한 나침반이 될 것입니다.</p>
                 </div>
 
             </div>
         </section>
 
         <footer class="cosmic-dust text-center">
-            <p class="interactive-element">&copy; <script>document.write(new Date().getFullYear())</script> 귀사 All rights reserved. 당신의 클라우드 여정에 빛나는 통찰을 더합니다.</p>
-            <p class="text-sm mt-2 interactive-element">본 문서는 FinOps 문화 확산과 효율적인 클라우드 운영을 지원하기 위해 제작되었습니다.</p>
+            <p class="interactive-element">&copy; <script>document.write(new Date().getFullYear())</script>© 2025 copyright 2025 megazoncloud corp. All rights reserved</p>
+            <p class="text-sm mt-2 interactive-element">Our Vision: Transform Tomorrow Together</p>
         </footer>
 
     </div>
