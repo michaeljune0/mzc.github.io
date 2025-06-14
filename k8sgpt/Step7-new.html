@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kubectl-ai: AI 기반 Kubernetes 관리 상세 가이드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-abyss: #03001C;
+            --bg-nebula-start: #150050;
+            --bg-nebula-end: #3F0071;
+            --bg-starfield: transparent;
+
+            --text-luminous: #E0FBFC;
+            --text-ethereal: #C7D2FE;
+            --text-whisper: #A7B3D6;
+
+            --accent-aurora-cyan: #30BCED;
+            --accent-aurora-pink: #D741A7;
+            --accent-stardust-gold: #FBD46D;
+            --accent-cosmic-glow: rgba(48, 188, 237, 0.7);
+            --accent-ai-teal: #14B8A6;
+            --accent-ai-purple: #8B5CF6;
+            --accent-kubecost-blue: #207AB9;
+            --accent-kubecost-green: #38A169;
+
+            --font-primary: 'Inter', 'Noto Sans KR', sans-serif;
+            --font-display: 'Orbitron', 'Noto Sans KR', sans-serif;
+            --font-code: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", monospace;
+
+            --border-radius-celestial: 1rem;
+            --border-radius-dream: 0.75rem;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--bg-abyss);
+            color: var(--text-luminous);
+            overflow-x: hidden;
+            line-height: 1.8;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        ::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(3, 0, 28, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--accent-ai-purple);
+            border-radius: 10px;
+            border: 2px solid var(--bg-abyss);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: var(--accent-aurora-cyan);
+        }
+
+
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        body::before {
+            background-image: radial-gradient(circle at 20% 30%, var(--text-ethereal) 0.5px, transparent 1px),
+                                radial-gradient(circle at 80% 70%, var(--text-ethereal) 0.5px, transparent 1px),
+                                radial-gradient(circle at 50% 50%, var(--text-whisper) 0.3px, transparent 1px);
+            background-size: 100px 100px, 150px 150px, 50px 50px;
+            opacity: 0.3;
+            animation: twinkle 20s linear infinite alternate;
+        }
+        body::after {
+            background-image: radial-gradient(circle at 10% 90%, var(--text-luminous) 1px, transparent 1.5px),
+                                radial-gradient(circle at 70% 10%, var(--text-luminous) 1px, transparent 1.5px),
+                                radial-gradient(circle at 30% 60%, var(--accent-stardust-gold) 0.8px, transparent 1.2px);
+            background-size: 200px 200px, 250px 250px, 180px 180px;
+            opacity: 0.5;
+            animation: twinkle 15s linear infinite alternate-reverse;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.02); }
+            100% { opacity: 0.2; transform: scale(1); }
+        }
+
+        .interactive-element, .content-portal, table, blockquote,
+        .dream-list li::before, .dream-list-decimal li::before, .luminous-link::after,
+        .nebula-conclusion, .ai-feature-card, .ai-flow-step, .bedrock-layer-card-animated {
+            transition-property: transform, box-shadow, border-color, opacity;
+            transition-duration: 0.5s;
+            transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        .hero-portal {
+            padding: 6rem 2rem 8rem;
+            border-radius: var(--border-radius-celestial);
+            margin-bottom: 5rem;
+            text-align: center;
+            position: relative;
+            overflow: visible;
+            background: radial-gradient(ellipse at 50% -50%, rgba(20, 184, 166, 0.15) 0%, transparent 60%),
+                        radial-gradient(ellipse at 50% 150%, rgba(139, 92, 246, 0.1) 0%, transparent 60%);
+        }
+        .hero-portal h1 {
+            font-family: var(--font-display);
+            color: var(--text-luminous);
+            font-weight: 500;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            text-shadow: 0 0 15px var(--accent-ai-teal), 0 0 30px var(--accent-ai-purple);
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+            animation: fadeInGlow 2s ease-out forwards;
+            opacity:0;
+        }
+        @keyframes fadeInGlow {
+            0% { opacity: 0; transform: translateY(20px) scale(0.95); text-shadow: 0 0 5px var(--accent-cosmic-glow); }
+            100% { opacity: 1; transform: translateY(0) scale(1); text-shadow: 0 0 15px var(--accent-ai-teal), 0 0 30px var(--accent-ai-purple); }
+        }
+        .hero-portal p {
+            color: var(--text-ethereal);
+            font-size: clamp(1.1rem, 2.8vw, 1.35rem);
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0;
+            animation: fadeInSimple 2s 0.5s ease-out forwards;
+            line-height: 1.7;
+        }
+        @keyframes fadeInSimple {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        main {
+            background: linear-gradient(170deg, var(--bg-nebula-start) 0%, var(--bg-nebula-end) 100%);
+            padding: 3.5rem;
+            border-radius: var(--border-radius-celestial);
+            box-shadow: 0 0 60px rgba(0,0,0,0.5), inset 0 0 30px rgba(0,0,0,0.3);
+            border: 1px solid rgba(224, 251, 252, 0.1);
+        }
+        main > h2 {
+            font-family: var(--font-display);
+            color: var(--text-luminous);
+            border-bottom: 2px solid;
+            border-image-slice: 1;
+            border-image-source: linear-gradient(to right, var(--accent-ai-teal), var(--accent-ai-purple));
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            padding-bottom: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        main > h2 .subtitle {
+            display: block;
+            font-size: 0.6em;
+            color: var(--text-ethereal);
+            font-family: var(--font-primary);
+            letter-spacing: normal;
+            margin-top: 0.5rem;
+            font-weight: 400;
+        }
+
+        .content-portal {
+            background-color: rgba(3, 0, 28, 0.7);
+            backdrop-filter: blur(10px) saturate(150%);
+            -webkit-backdrop-filter: blur(10px) saturate(150%);
+            padding: 2.5rem;
+            border-radius: var(--border-radius-dream);
+            margin-bottom: 3rem;
+            border: 1px solid rgba(20, 184, 166, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .content-portal::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: conic-gradient(
+                transparent,
+                rgba(20, 184, 166, 0.15) 20%,
+                rgba(139, 92, 246, 0.15) 40%,
+                transparent 60%
+            );
+            opacity: 0;
+            transform-origin: center center;
+            transition: opacity 0.7s ease, transform 0.7s ease;
+            animation: portalSpin 15s linear infinite paused;
+            z-index: -1;
+        }
+        @keyframes portalSpin {
+            100% { transform: rotate(1turn); }
+        }
+        .content-portal:hover {
+            transform: translateY(-10px) scale(1.015);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.45), 0 0 25px var(--accent-ai-teal);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+        .content-portal h3 {
+            font-family: var(--font-display);
+            color: var(--text-luminous);
+            font-weight: 500;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 8px var(--accent-ai-teal);
+        }
+        .content-portal h4 { 
+            font-family: var(--font-display);
+            color: var(--accent-ai-purple); 
+            font-weight: 500;
+            font-size: 1.4rem; 
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 6px var(--accent-ai-purple);
+        }
+        .content-portal p, .content-portal li {
+            color: var(--text-ethereal);
+            font-size: 1.05rem;
+        }
+        
+        .code-block-container {
+            background-color: #0A0A14;
+            border-radius: var(--border-radius-dream);
+            margin: 1rem 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            overflow: hidden;
+        }
+        .code-block-header {
+            background: linear-gradient(90deg, rgba(139, 92, 246, 0.25) 0%, rgba(20, 184, 166, 0.25) 100%);
+            padding: 0.8rem 1.5rem;
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            color: var(--text-luminous);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+        }
+        .code-block pre {
+            padding: 1.5rem;
+            font-family: var(--font-code);
+            font-size: 0.9em;
+            color: #DCDCDC;
+            white-space: pre;
+            overflow-x: auto;
+        }
+        pre .command { color: #9CDCFE; }
+        pre .variable { color: #CE9178; }
+        pre .string { color: #4EC9B0; }
+        pre .comment { color: #6A9955; font-style: italic; }
+        pre .parameter { color: #c586c0; }
+        pre .output { color: var(--text-ethereal); font-family: var(--font-code); }
+
+        
+        .image-insertion-area {
+            margin: 2.5rem auto;
+            padding: 1.5rem;
+            text-align: center;
+            background-color: rgba(18, 2, 50, 0.5); 
+            border: 2px dashed var(--accent-ai-purple);
+            border-radius: var(--border-radius-dream);
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.2);
+        }
+        .image-insertion-area img {
+            display: block;
+            margin: 1rem auto;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain; 
+            border-radius: calc(var(--border-radius-dream) - 8px);
+            border: 1px solid var(--accent-ai-purple); 
+            background-color: rgba(0,0,0,0.3);
+            cursor: zoom-in;
+        }
+        .image-insertion-area .instruction-text {
+            color: var(--text-luminous);
+            font-size: 0.9rem;
+        }
+        .image-insertion-area .source-note {
+            font-size: 0.8rem;
+            color: var(--text-whisper);
+        }
+
+        blockquote.echoes {
+            border-left: 4px solid var(--accent-stardust-gold);
+            background: linear-gradient(to right, rgba(251, 212, 109, 0.03), transparent);
+            color: var(--accent-stardust-gold);
+            padding: 1.5rem 1.5rem 1.5rem 2.5rem;
+            margin: 1rem 0;
+            border-radius: var(--border-radius-dream);
+            font-style: normal;
+            font-size: 1.1rem;
+            position: relative;
+        }
+        blockquote.echoes p { 
+            color: var(--accent-stardust-gold) !important;
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+        blockquote.echoes::before {
+            content: '“';
+            font-family: serif;
+            font-size: 3rem;
+            color: rgba(251, 212, 109, 0.2);
+            position: absolute;
+            left: 0.5rem;
+            top: 0.5rem;
+            line-height: 1;
+        }
+        blockquote.echoes pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: var(--font-code);
+            font-size: 1em;
+            color: var(--text-luminous);
+            margin-top: 0.75rem;
+        }
+
+        .table-constellation { margin-top: 2.5rem; margin-bottom: 2.5rem; overflow-x: auto; }
+        table.data-constellation {
+            border-radius: var(--border-radius-dream);
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            border: 1px solid rgba(20, 184, 166, 0.15);
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            min-width: 600px;
+            overflow: hidden;
+        }
+        table.data-constellation thead th {
+            background: linear-gradient(to right, rgba(20, 184, 166, 0.15), rgba(139, 92, 246, 0.15));
+            color: var(--text-luminous);
+            font-weight: 600;
+            padding: 1.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.8rem;
+            border-bottom: 1px solid rgba(20, 184, 166, 0.2);
+        }
+        table.data-constellation tbody tr {
+            background-color: rgba(21, 0, 80, 0.2);
+            border-bottom: 1px solid rgba(224, 251, 252, 0.05);
+        }
+        table.data-constellation td {
+            padding: 1.25rem;
+            color: var(--text-ethereal);
+        }
+        
+        .dream-list { list-style: none; padding-left: 0; }
+        .dream-list li {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .dream-list li::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0.5em;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background-color: var(--accent-ai-teal);
+            box-shadow: 0 0 8px var(--accent-ai-teal), 0 0 12px var(--accent-ai-teal);
+            animation: pulseOrb 2s infinite ease-in-out;
+        }
+        @keyframes pulseOrb {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.3); opacity: 1; }
+        }
+
+        .luminous-link, a {
+            color: var(--accent-aurora-cyan);
+            font-weight: 500;
+            text-decoration: none;
+            position: relative;
+            padding-bottom: 3px;
+        }
+        .luminous-link::after, a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1.5px;
+            display: block;
+            left: 50%; bottom: 0;
+            transform: translateX(-50%);
+            background: linear-gradient(to right, var(--accent-aurora-cyan), var(--accent-aurora-pink));
+            transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .luminous-link:hover::after, a::hover::after { width: 100%; }
+
+        .nebula-conclusion {
+            background: radial-gradient(ellipse at center, rgba(20, 184, 166, 0.05) 0%, transparent 70%),
+                        linear-gradient(160deg, rgba(21,0,80,0.3) 0%, rgba(63,0,113,0.3) 100%);
+            border-top: 2px solid;
+            border-image-slice: 1;
+            border-image-source: linear-gradient(to right, var(--accent-ai-teal), var(--accent-ai-purple));
+            padding: 3.5rem;
+            border-radius: var(--border-radius-dream);
+            margin-top: 4rem;
+        }
+        
+        footer.cosmic-dust {
+            border-top: 1px solid rgba(224, 251, 252, 0.08);
+            padding-top: 3.5rem;
+            margin-top: 6rem;
+        }
+
+        .image-modal {
+            display: none; 
+            position: fixed;
+            z-index: 1001; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.95); 
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            opacity: 0; 
+            transition: opacity 0.3s ease-in-out;
+        }
+        .image-modal.show { 
+            display: flex;
+            opacity: 1;
+        }
+        .image-modal .modal-content-image { 
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90vh;
+            animation: zoomInModal 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .image-modal .close-modal { 
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #fff;
+            font-size: 45px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        @keyframes zoomInModal {
+            from {transform: scale(0.8); opacity: 0;}
+            to {transform: scale(1); opacity: 1;}
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div id="imageModal" class="image-modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content-image" id="modalImageContent">
+    </div>
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
+
+        <header class="hero-portal interactive-element">
+            <h1 class="mb-6">더 이상 복잡한 명령어는 그만,<br>kubectl-ai로 대화하듯 관리하세요</h1>
+            <p>강력한 <strong>오픈소스</strong>와 <strong>Google의 AI</strong>를 결합하여 Kubernetes 클러스터 관리를 혁신하세요.</p>
+        </header>
+
+        <main id="main-content">
+            <h2 class="text-4xl sm:text-5xl font-bold mb-16 pb-8 text-center">
+                kubectl-ai 상세 가이드
+                <span class="subtitle">- AI 기반 Kubernetes 관리: 설치부터 고급 활용까지 -</span>
+            </h2>
+
+            <section class="content-portal interactive-element">
+                <h3>개요: 오픈소스 AI 어시스턴트, kubectl-ai</h3>
+                <p>공식 Google Cloud Platform github에 공개된 <strong class="text-accent-ai-teal">오픈소스 프로젝트</strong> `kubectl-ai`는 자연어 처리(NLP) 기능을 `kubectl`에 통합하여, 사용자가 일상적인 언어로 Kubernetes 클러스터와 상호작용할 수 있게 해주는 강력한 도구입니다. 복잡한 명령어를 기억할 필요 없이, 원하는 작업을 설명하면 <strong class="text-accent-ai-teal">AI(Gemini 모델)가 적절한 명령어로 변환</strong>해 줍니다.</p>
+                <div class="image-insertion-area">
+                    <p class="instruction-text font-bold">kubectl-ai 작동 원리 플로우</p>
+                    <img src="https://raw.githubusercontent.com/michaeljune0/mzc.github.io/refs/heads/main/k8sgpt/Step7-kubectl-ai.png"
+                         alt="kubectl-ai 작동 원리 다이어그램"
+                         loading="lazy">
+                    <p class="source-note mt-2">사용자의 자연어 입력이 Gemini API를 통해 kubectl 명령어로 변환되어 클러스터에 적용되는 과정을 시각화한 다이어그램입니다.</p>
+                </div>
+            </section>
+            
+            <section class="content-portal interactive-element">
+                <h3>개념 이해: kubectl-ai의 작동 방식</h3>
+                <p>`kubectl-ai`를 더 깊이 있게 활용하기 위해 핵심 개념인 토큰, 가격 정책, 모델 버전에 대해 알아보겠습니다.</p>
+                
+                <h4 class="font-bold text-xl mt-6 mb-2 text-accent-aurora-cyan">토큰(Token)이란 무엇인가요?</h4>
+                <p>토큰은 AI 모델이 텍스트를 처리하는 <strong class="text-accent-stardust-gold">기본 단위</strong>입니다. API 사용 요금은 바로 이 <strong class="text-accent-stardust-gold">'토큰'의 수를 기준으로 책정</strong>됩니다. 일반적으로 단어 하나가 1~2개의 토큰에 해당하지만, 한글과 같은 언어에서는 글자나 형태소 단위로 더 잘게 나뉘기도 합니다.</p>
+                <blockquote class="echoes">
+                  <p><strong>예시)</strong> "쿠버네티스 파드 로그 보여줘" 라는 문장은 다음과 같이 토큰으로 분리될 수 있습니다:<br>
+                  <code class="text-white">["쿠버네티스", " ", "파드", " ", "로그", " ", "보여줘"]</code>
+                  </p>
+                  <p class="mt-4">이 경우 약 7개의 토큰이 사용된 것으로 계산될 수 있습니다. 이처럼 입력하는 프롬프트와 AI가 생성하는 답변의 길이에 따라 사용되는 토큰의 양이 결정됩니다.</p>
+                </blockquote>
+
+                <h4 class="font-bold text-xl mt-6 mb-2 text-accent-aurora-cyan">Gemini Flash API 가격 정책</h4>
+                <p>대부분의 텍스트 기반 명령어 변환 작업은 매우 저렴한 비용으로 수행되며, 무료 등급으로도 충분한 테스트가 가능합니다.</p>
+                <div class="table-constellation">
+                    <table class="data-constellation interactive-element">
+                        <thead>
+                            <tr>
+                                <th>항목</th>
+                                <th>무료 등급 (Free)</th>
+                                <th>유료 등급 (Pay-as-you-go)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-medium"><strong>가격 (100만 토큰당)</strong></td>
+                                <td class="text-green-400"><strong>무료</strong></td>
+                                <td>입력: $0.10, 출력: $0.40</td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium"><strong>사용자 데이터 활용</strong></td>
+                                <td class="text-yellow-400"><strong>예</strong> (제품 개선에 사용될 수 있음)</td>
+                                <td class="text-green-400"><strong>아니요</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4 class="font-bold text-xl mt-6 mb-2 text-accent-aurora-cyan">Gemini 모델 버전 비교</h4>
+                <div class="table-constellation">
+                    <table class="data-constellation interactive-element">
+                        <thead>
+                            <tr>
+                                <th>항목</th>
+                                <th>gemini-2.5-flash-preview-05-20</th>
+                                <th>gemini-2.0-flash</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-medium"><strong>모델 상태</strong></td>
+                                <td>미리 보기 (Preview)</td>
+                                <td>일반 사용 가능 (GA)</td>
+                            </tr>
+                             <tr>
+                                <td class="font-medium"><strong>주요 특징</strong></td>
+                                <td>Google의 첫 번째 하이브리드 추론 모델로, 가격 대비 성능에 최적화되어 있고, 적응형 사고(adaptive thinking) 기능을 포함합니다.</td>
+                                <td>모든 작업에서 우수한 성능을 제공하는 가장 균형 잡힌 멀티모달 모델입니다.</td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium"><strong>컨텍스트 윈도우</strong></td>
+                                <td>1,048,576 토큰 (약 100만 토큰)</td>
+                                <td>1,048,576 토큰 (약 100만 토큰)</td>
+                            </tr>
+                            <tr>
+                                <td class="font-medium"><strong>최대 출력 토큰</strong></td>
+                                <td class="text-green-400"><strong>65,536 토큰</strong></td>
+                                <td>8,192 토큰</td>
+                            </tr>
+                             <tr>
+                                <td class="font-medium"><strong>무료 등급 RPM/TPM</strong></td>
+                                <td>10 / 250,000</td>
+                                <td class="text-green-400"><strong>15 / 1,000,000</strong></td>
+                            </tr>
+                             <tr>
+                                <td class="font-medium"><strong>무료 등급 RPD (일일 요청 수)</strong></td>
+                                <td>500</td>
+                                <td class="text-green-400"><strong>1,500</strong></td>
+                            </tr>
+                            <tr>
+                               <td class="font-medium"><strong>제품 개선 데이터 사용</strong></td>
+                               <td class="text-yellow-400">예 (사용자의 프롬프트와 생성된 응답이 Google 제품 개선에 사용될 수 있습니다)</td>
+                               <td class="text-yellow-400">예 (사용자의 프롬프트와 생성된 응답이 Google 제품 개선에 사용될 수 있습니다)</td>
+                           </tr>
+                        </tbody>
+                    </table>
+                </div>
+                 <h4 class="font-bold text-xl mt-6 mb-2 text-accent-aurora-cyan">용어 설명</h4>
+                <ul class="dream-list">
+                    <li><strong>GA (General Availability)</strong>: '정식 출시'를 의미하며, 모든 사용자에게 안정적으로 제공되는 버전입니다.</li>
+                    <li><strong>Google 검색 그라운딩 (Grounding)</strong>: AI가 답변을 생성할 때 Google 검색 결과를 참고하여 더 정확하고 최신 정보를 반영하는 기능입니다.</li>
+                </ul>
+            </section>
+
+            <section class="content-portal interactive-element">
+                <h3>3단계 빠른 시작 가이드</h3>
+                <p>단 3단계만으로 `kubectl-ai`를 사용하여 AI 기반 클러스터 관리를 즉시 시작할 수 있습니다.</p>
+                
+                <h4 class="font-bold text-xl mt-6 mb-2 text-accent-aurora-cyan">1단계: Gemini API 키 발급</h4>
+                <p>`kubectl-ai`의 두뇌 역할을 하는 Gemini 모델에 접근하기 위해 API 키가 필요합니다. <a href="https://aistudio.google.com/prompts/new_chat" target="_blank" class="luminous-link">Google AI Studio</a>에서 무료로 발급받을 수 있습니다.</p>
+                
+                <h4 class="font-bold text-xl mt-6 mb-2 text-accent-aurora-cyan">2단계: kubectl-ai 설치</h4>
+                <p>터미널에 아래 명령어를 붙여넣어 설치 스크립트를 실행합니다. 스크립트가 자동으로 사용자의 시스템 환경에 맞는 `kubectl-ai`를 설치합니다.</p>
+                <div class="code-block-container">
+                    <div class="code-block-header">Installation Command</div>
+                    <pre><code class="command">curl -sSL https://raw.githubusercontent.com/GoogleCloudPlatform/kubectl-ai/main/install.sh | bash</code></pre>
+                </div>
+
+                <h4 class="font-bold text-xl mt-6 mb-2 text-accent-aurora-cyan">3단계: API 키 환경 변수 설정</h4>
+                <p>발급받은 API 키를 환경 변수로 설정하여 `kubectl-ai`가 API를 호출할 수 있도록 합니다. 영구적인 사용을 위해 셸 프로필(`.zshrc`, `.bashrc` 등)에 추가하는 것을 권장합니다.</p>
+                <div class="code-block-container">
+                    <div class="code-block-header">Environment Variable Setup</div>
+                    <pre><code class="command">export </code><code class="variable">GEMINI_API_KEY</code><code class="command">=</code><code class="string">"[여기에 발급받은 API 키를 입력하세요]"</code></pre>
+                </div>
+            </section>
+            
+            <section class="content-portal interactive-element">
+                <h3>오픈소스 kubectl-ai 실전 활용 예시 (EKS 환경)</h3>
+                <p>`kubectl-ai`는 단순히 명령어를 한번 실행하는 것 외에도, AI와 대화하며 문제를 해결해 나가는 **대화형 모드**를 지원합니다. 아래 예시들은 실제 **EKS 운영 환경**에서 마주할 수 있는 복잡한 문제들을 어떻게 해결하는지 보여줍니다.</p>
+
+                <h4 class="font-bold text-xl mt-6 mb-2 text-accent-aurora-cyan">창의적 문제 해결 시나리오 (실행 결과 포함)</h4>
+                
+                <div class="mt-4">
+                    <strong class="text-lg">1. 목표: EKS 클러스터 전체의 비정상 파드 즉시 확인</strong>
+                    <blockquote class="echoes">
+                        <p>
+                           'Running' 또는 'Completed' 상태가 아닌 모든 파드를 찾아 즉각적인 조치가 필요한 대상을 식별합니다.
+                        </p>
+                        <div class="code-block-container !my-2">
+                             <div class="code-block-header">Prompt</div>
+                            <pre><span class="command">kubectl-ai --quiet --model gemini-2.0-flash </span><span class="string">"모든 네임스페이스에서 'Running'이나 'Completed' 상태가 아닌 모든 파드를 찾아줘"</span></pre>
+                        </div>
+                        <div class="code-block-container">
+                            <div class="code-block-header">Execution Result</div>
+                            <pre><span class="command">Running: kubectl get pods --all-namespaces -o jsonpath='{range .items[*]}{.metadata.namespace}{"\t"}{.metadata.name}{"\t"}{.status.phase}{"\n"}{end}' | grep -v "Running" | grep -v "Completed"</span>
+
+<span class="output">'Running' 또는 'Completed' 상태가 아닌 모든 네임스페이스의 파드는 다음과 같습니다:
+• 네임스페이스: default, 파드: pending-pod, 상태: Pending</span></pre>
+                        </div>
+                    </blockquote>
+                </div>
+
+                <div class="mt-8">
+                    <strong class="text-lg">2. 목표: 리소스 요청량이 없는 파드 식별 (비용 최적화)</strong>
+                    <blockquote class="echoes">
+                        <p>
+                            리소스 요청(requests)이 누락되어 클러스터 스케줄링 효율을 저해하는 파드를 찾아냅니다.
+                        </p>
+                         <div class="code-block-container !my-2">
+                             <div class="code-block-header">Prompt</div>
+                            <pre><span class="command">kubectl-ai --quiet --model gemini-2.0-flash </span><span class="string">"모든 파드를 검사해서 CPU나 메모리 request가 설정되지 않은 파드들을 알려줘"</span></pre>
+                        </div>
+                        <div class="code-block-container">
+                            <div class="code-block-header">Execution Result</div>
+                            <pre><span class="command">Running: kubectl get pods --all-namespaces -o json | jq -c '.items[] | {name: .metadata.name, namespace: .metadata.namespace, containers: [.spec.containers[] | {name: .name, cpu_request: (.resources.requests.cpu // "not_set"), memory_request: (.resources.requests.memory // "not_set")}]}' | grep -e '"cpu_request":"not_set"' -e '"memory_request":"not_set"'</span>
+
+<span class="output">CPU 또는 메모리 요청이 설정되지 않은 파드들은 다음과 같습니다:
+• 네임스페이스: default, 파드: nginx-deployment-5654578ff8-ftwbr
+  • 컨테이너: nginx (CPU 요청 없음, 메모리 요청 없음)
+• 네임스페이스: default, 파드: pending-pod
+  • 컨테이너: pending-pod (CPU 요청 없음, 메모리 요청 없음)</span></pre>
+                        </div>
+                    </blockquote>
+                </div>
+
+                <div class="mt-8">
+                    <strong class="text-lg">3. 목표: EKS 클러스터 내 미사용 ConfigMap 정리</strong>
+                     <blockquote class="echoes">
+                        <p>
+                            어떤 파드나 디플로이먼트도 참조하지 않는 ConfigMap을 찾아 불필요한 설정을 정리합니다.
+                        </p>
+                        <div class="code-block-container !my-2">
+                             <div class="code-block-header">Prompt</div>
+                            <pre><span class="command">kubectl-ai --quiet --model gemini-2.0-flash </span><span class="string">"어떤 파드도 사용하지 않는 모든 ConfigMap을 찾아줘"</span></pre>
+                        </div>
+                        <div class="code-block-container">
+                             <div class="code-block-header">Execution Result</div>
+                             <pre><span class="command">Running: kubectl get configmaps -o json
+Running: kubectl get pods -A -o json</span>
+
+<span class="output">분석 결과, 현재 클러스터에는 사용되지 않는 ConfigMap이 없습니다. 모든 ConfigMap은 하나 이상의 파드에서 사용 중입니다.</span></pre>
+                        </div>
+                    </blockquote>
+                </div>
+                
+                <div class="mt-8">
+                    <strong class="text-lg">4. 목표: 모든 네임스페이스의 리소스 사용량 종합 리포트</strong>
+                    <blockquote class="echoes">
+                        <p>
+                            클러스터 전체의 리소스 사용 현황을 파악하여 용량 계획을 수립합니다.
+                        </p>
+                        <div class="code-block-container !my-2">
+                             <div class="code-block-header">Prompt</div>
+                            <pre><span class="command">kubectl-ai --quiet --model gemini-2.0-flash </span><span class="string">"모든 네임스페이스 별로 파드들의 총 CPU 및 메모리 사용량을 요약해서 보여줘"</span></pre>
+                        </div>
+                        <div class="code-block-container">
+                            <div class="code-block-header">Execution Result</div>
+                            <pre><span class="command">Running: kubectl top pods --all-namespaces</span>
+
+<span class="output">네, 각 네임스페이스별 파드들의 총 CPU 및 메모리 사용량 요약입니다:
+
+네임스페이스      총 CPU 사용량 (밀리코어)   총 메모리 사용량 (MiB)
+--------------------------------------------------------------
+default           0m                       4Mi
+ingress-nginx     1m                       43Mi
+kube-system       25m                      284Mi
+kubecost          17m                      1761Mi</span></pre>
+                        </div>
+                    </blockquote>
+                </div>
+
+                <div class="mt-8">
+                    <strong class="text-lg">5. 목표: EKS 클러스터의 모든 비정상 이벤트 요약</strong>
+                     <blockquote class="echoes">
+                        <p>
+                            클러스터 전반의 경고 및 에러 이벤트를 확인하여 잠재적인 문제의 징후를 빠르게 파악합니다.
+                        </p>
+                        <div class="code-block-container !my-2">
+                            <div class="code-block-header">Prompt</div>
+                            <pre><span class="command">kubectl-ai --quiet --model gemini-2.0-flash </span><span class="string">"지난 1시간 동안 발생한 모든 경고(Warning) 이벤트를 요약해서 보여줘"</span></pre>
+                         </div>
+                         <div class="code-block-container">
+                            <div class="code-block-header">Execution Result</div>
+                            <pre><span class="output">지난 1시간 동안 발생한 경고(Warning) 이벤트는 다음과 같습니다:
+
+• 네임스페이스: default
+  • 이름: karpenter-test-app-hpa.1847ef93f1c2aba4
+  • 마지막 발생 시간: 2025-06-14T00:56:52Z
+  • 이유: FailedGetScale
+  • 메시지: deployments/scale.apps "karpenter-test-app" not found
+
+• 네임스페이스: default
+  • 이름: pending-pod.1848c25a2a5f3a5c
+  • 마지막 발생 시간: 2025-06-14T00:59:27Z
+  • 이유: FailedScheduling
+  • 메시지: 0/1 nodes are available: 1 node(s) didn't match Pod's node affinity/selector.</span></pre>
+                        </div>
+                    </blockquote>
+                </div>
+
+                <div class="mt-8">
+                    <strong class="text-lg">6. 목표: 특정 파드의 최신 로그 확인</strong>
+                     <blockquote class="echoes">
+                        <p>
+                            가장 일반적인 디버깅 작업으로, 특정 파드의 최신 로그를 확인하여 현재 상태를 모니터링합니다.
+                        </p>
+                         <div class="code-block-container !my-2">
+                            <div class="code-block-header">Prompt</div>
+                            <pre><span class="command">kubectl-ai --quiet --model gemini-2.0-flash </span><span class="string">"kube-system 네임스페이스에 있는 aws-node 파드 중 하나의 최근 로그 10줄을 보여줘"</span></pre>
+                        </div>
+                        <div class="code-block-container">
+                            <div class="code-block-header">Execution Result</div>
+                            <pre><span class="command">Running: kubectl logs -n kube-system -l k8s-app=aws-node --tail=10</span>
+
+<span class="output">time="2025-06-14T01:10:00Z" level=info msg="Starting IPamd"
+time="2025-06-14T01:10:00Z" level=info msg="CNI-plugin version is: v1.12.6"
+... (로그 생략) ...
+time="2025-06-14T01:10:05Z" level=info msg="Starting CNI-Metrics-Helper"</span></pre>
+                        </div>
+                    </blockquote>
+                </div>
+            </section>
+            
+            <div class="nebula-conclusion mt-16 interactive-element">
+                <h3 class="text-3xl text-center font-display mb-6">결론: 오픈소스와 AI가 만드는 새로운 차원의 개발 경험</h3>
+                <blockquote class="echoes">
+                    <p><strong>오픈소스 도구</strong>인 `kubectl-ai`는 Google의 강력한 AI 모델과 결합하여 Kubernetes와의 상호작용 방식을 근본적으로 바꾸는 잠재력을 가지고 있습니다. 복잡한 시스템을 더 인간적인 방식으로 이해하고 제어할 수 있게 함으로써, 클라우드 네이티브 환경의 진입 장벽을 낮추고 전문가의 생산성은 극대화합니다. 이는 '사람이 느낄 수 있는 기술'의 좋은 예시입니다.</p>
+                </blockquote>
+                <div class="mt-8">
+                    <h4 class="text-lg font-semibold mt-8 mb-3 font-display text-accent-ai-teal">Reference</h4>
+                    <ul class="dream-list">
+                       <li><a href="https://github.com/GoogleCloudPlatform/kubectl-ai" target="_blank" class="luminous-link text-lg">kubectl-ai 공식 GitHub Repository (오픈소스)</a></li>
+                       <li><a href="https://aistudio.google.com/" target="_blank" class="luminous-link text-lg">Google AI Studio Get API KEY</a></li>
+                       <li><a href="https://ai.google.dev/gemini-api/docs/models?hl=ko" target="_blank" class="luminous-link text-lg">Gemini Model Info</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </main>
+        <footer class="cosmic-dust text-center">
+            <p class="interactive-element">&copy; <script>document.write(new Date().getFullYear())</script> copyright 2025 megazoncloud corp. All rights reserved</p>
+            <p class="slogan">Our Vision: Transform Tomorrow Together</p>
+        </footer>
+
+    </div>
+
+    <script>
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            if (modal) {
+                modal.classList.remove('show');
+                setTimeout(() => {
+                    modal.style.display = "none";
+                }, 300); 
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const clickableImages = document.querySelectorAll('.image-insertion-area img');
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImageContent');
+            const closeModalButton = document.querySelector('.close-modal');
+
+            if(closeModalButton) { 
+                closeModalButton.addEventListener('click', closeModal);
+            }
+
+            clickableImages.forEach(img => {
+                img.addEventListener('click', function() {
+                    if (modal && modalImg) {
+                        modalImg.src = this.src;
+                        modalImg.alt = this.alt;
+                        modal.style.display = "flex"; 
+                        setTimeout(() => { 
+                             modal.classList.add('show');
+                        }, 10); 
+                    }
+                });
+            });
+
+            if(modal){
+                modal.addEventListener('click', function(event) {
+                    if (event.target === modal) { 
+                        closeModal();
+                    }
+                });
+            }
+            
+            document.addEventListener('keydown', function(event) {
+                if (event.key === "Escape" && modal && modal.classList.contains('show')) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
