@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Canvas 인터랙티브 가이드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutral -->
+    <!-- Application Structure Plan: 탭 기반의 SPA 구조를 채택하여 사용자가 '소개', 'UI/UX 디자인 원칙', 'UX 라이팅 가이드라인', '활용 팁' 섹션을 쉽게 전환하며 탐색할 수 있도록 설계했습니다. 이 구조는 긴 매뉴얼을 논리적인 단위로 분할하여 정보 과부하를 줄이고, 각 주제에 대한 집중도를 높입니다. 특히 'UI/UX 디자인' 및 'UX 라이팅' 섹션에서는 Canvas의 핵심 기능인 '텍스트 수정/개선'을 시뮬레이션하는 인터랙티브 요소를 추가하여, 사용자가 기능을 직접 체험해보는 듯한 능동적인 학습 경험을 제공합니다. 이 접근 방식은 정적인 텍스트를 읽는 것보다 훨씬 높은 참여와 이해를 유도하기 때문에 채택되었습니다. -->
+    <!-- Visualization & Content Choices: 
+        - 정보: Gemini Canvas 소개 및 핵심 기능 -> 목표: 정보 제공 -> 표현 방식: 아이콘 기반의 인터랙티브 카드 -> 상호작용: 클릭 시 상세 내용 표시 -> 정당성: 텍스트 목록보다 시각적으로 흥미롭고 탐색을 유도함.
+        - 정보: UI/UX 디자인 5대 원칙 -> 목표: 관계 시각화 및 정보 구성 -> 표현 방식: Chart.js를 이용한 Radar 차트, 아코디언 목록 -> 상호작용: 차트를 통한 원칙 간의 균형 시각화, 아코디언 클릭 시 상세 내용 확장, 시뮬레이션 버튼 클릭 시 텍스트 동적 변경 -> 정당성: Radar 차트는 5가지 추상적 원칙의 상호연결성과 균형을 효과적으로 시각화합니다. 아코디언은 복잡한 정보를 깔끔하게 정리하며, 시뮬레이션은 Canvas의 핵심 가치를 직접적으로 보여줍니다. (라이브러리: Chart.js)
+        - 정보: UX 라이팅 가이드라인 -> 목표: 비교 및 정보 구성 -> 표현 방식: 아코디언 목록 내 '좋은 예/나쁜 예' 비교 테이블 -> 상호작용: 아코디언 확장, 시뮬레이션 버튼 클릭 -> 정당성: 명확한 비교를 통해 가이드라인의 효과를 직관적으로 이해시키고, 시뮬레이터를 통해 편집 과정을 체험하게 합니다.
+        - 정보: 공유 및 추가 프롬프트 -> 목표: 정보 제공 -> 표현 방식: 아코디언 형태의 FAQ -> 상호작용: 클릭 시 답변 확장 -> 정당성: 질문/답변 형식은 정보를 간결하게 전달하는 데 효과적입니다.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #FDFBF8; }
+        .tab-active { border-color: #4A5568; color: #2D3748; background-color: #F7FAFC; font-weight: 500; }
+        .tab-inactive { border-color: transparent; color: #718096; }
+        .content-panel { display: none; }
+        .content-active { display: block; }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .chart-container { position: relative; width: 100%; max-width: 500px; margin-left: auto; margin-right: auto; height: 300px; max-height: 40vh; }
+        @media (min-width: 768px) { .chart-container { height: 400px; } }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+        <header class="text-center mb-8 md:mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">🎨 Gemini Canvas</h1>
+            <p class="text-lg md:text-xl text-gray-600">아이디어부터 완벽한 콘텐츠까지, 인터랙티브 가이드</p>
+        </header>
+
+        <nav class="mb-8 border-b border-gray-200">
+            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center">
+                <li class="mr-2">
+                    <button class="tab-btn inline-block p-4 border-b-2 rounded-t-lg" data-tab="intro">소개</button>
+                </li>
+                <li class="mr-2">
+                    <button class="tab-btn inline-block p-4 border-b-2 rounded-t-lg" data-tab="uiux">UI/UX 디자인 원칙</button>
+                </li>
+                <li class="mr-2">
+                    <button class="tab-btn inline-block p-4 border-b-2 rounded-t-lg" data-tab="uxwriting">UX 라이팅 가이드라인</button>
+                </li>
+                <li>
+                    <button class="tab-btn inline-block p-4 border-b-2 rounded-t-lg" data-tab="tips">활용 팁</button>
+                </li>
+            </ul>
+        </nav>
+
+        <main>
+            <div id="intro" class="content-panel">
+                <section class="bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-xl shadow-sm ring-1 ring-gray-200/50">
+                    <h2 class="text-2xl font-bold mb-4">Gemini Canvas란?</h2>
+                    <p class="text-gray-600 leading-relaxed mb-8">
+                        Gemini Canvas는 제미니(Gemini) 내에 설계된 혁신적인 빠른 반복을 위한 인터랙티브 공간입니다. 사용자가 실시간 AI 기반 제안을 통해 문서 및 코드를 효율적으로 작업할 수 있도록 돕습니다. 즉, 여러분의 아이디어를 빠르게 현실화하고, 다듬고, 공유하는 데 최적화된 도구입니다. 프롬프트 바에서 '캔버스'를 선택하여 시작할 수 있습니다.
+                    </p>
+                    <h3 class="text-xl font-bold mb-6 text-center">핵심 기능 살펴보기</h3>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+                        <div class="bg-gray-50 p-5 rounded-lg border border-gray-200/80">
+                            <div class="text-3xl mb-2">🚀</div>
+                            <h4 class="font-semibold mb-1">초안 생성</h4>
+                            <p class="text-sm text-gray-500">아이디어를 고품질 초안으로 즉시 전환합니다.</p>
+                        </div>
+                        <div class="bg-gray-50 p-5 rounded-lg border border-gray-200/80">
+                            <div class="text-3xl mb-2">✍️</div>
+                            <h4 class="font-semibold mb-1">빠른 편집</h4>
+                            <p class="text-sm text-gray-500">톤, 길이, 형식을 쉽게 조정하고 다듬습니다.</p>
+                        </div>
+                        <div class="bg-gray-50 p-5 rounded-lg border border-gray-200/80">
+                            <div class="text-3xl mb-2">💡</div>
+                            <h4 class="font-semibold mb-1">즉각적인 피드백</h4>
+                            <p class="text-sm text-gray-500">AI의 제안으로 작업을 빠르게 개선합니다.</p>
+                        </div>
+                        <div class="bg-gray-50 p-5 rounded-lg border border-gray-200/80">
+                            <div class="text-3xl mb-2">🤝</div>
+                            <h4 class="font-semibold mb-1">원활한 협업</h4>
+                            <p class="text-sm text-gray-500">창작, 다듬기, 공유 과정을 매끄럽게 합니다.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div id="uiux" class="content-panel">
+                <section class="bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-xl shadow-sm ring-1 ring-gray-200/50">
+                    <h2 class="text-2xl font-bold mb-2">예제 1: 웹사이트 UI/UX 디자인 원칙</h2>
+                    <p class="text-gray-600 leading-relaxed mb-8">
+                        좋은 웹사이트는 몇 가지 핵심 원칙들이 조화를 이룰 때 만들어집니다. 아래 차트는 5가지 원칙이 어떻게 서로 균형을 이루어야 하는지 한눈에 보여줍니다. 각 원칙을 클릭해 자세한 설명을 확인하고, 'Canvas로 편집하기'로 AI가 문장을 다듬는 과정을 체험해보세요.
+                    </p>
+                    <div class="lg:flex lg:gap-8">
+                        <div class="lg:w-1/2 space-y-3 mb-8 lg:mb-0">
+                            <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
+                                <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
+                                    <span>1. 사용자 중심 디자인</span>
+                                    <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
+                                </button>
+                                <div class="accordion-content">
+                                    <div class="p-4 border-t border-gray-200">
+                                        <p id="uiux-text-user-centered" class="text-gray-600 leading-relaxed transition-opacity duration-300"></p>
+                                        <div class="mt-4 p-3 bg-blue-50 rounded-md border border-blue-200">
+                                            <p class="text-sm font-semibold text-blue-800 mb-2">Canvas로 편집하기</p>
+                                            <div class="flex flex-wrap gap-2">
+                                                <button class="edit-btn text-xs bg-white text-blue-700 px-2 py-1 rounded-full border border-blue-300 hover:bg-blue-100" data-target="user-centered" data-version="base">원본</button>
+                                                <button class="edit-btn text-xs bg-white text-blue-700 px-2 py-1 rounded-full border border-blue-300 hover:bg-blue-100" data-target="user-centered" data-version="short">짧게 요약</button>
+                                                <button class="edit-btn text-xs bg-white text-blue-700 px-2 py-1 rounded-full border border-blue-300 hover:bg-blue-100" data-target="user-centered" data-version="professional">전문적인 톤으로</button>
+                                                <button class="edit-btn text-xs bg-white text-blue-700 px-2 py-1 rounded-full border border-blue-300 hover:bg-blue-100" data-target="user-centered" data-version="mobile">모바일 관점 추가</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
+                                <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
+                                    <span>2. 일관성</span>
+                                    <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
+                                </button>
+                                <div class="accordion-content">
+                                    <div class="p-4 border-t border-gray-200">
+                                        <p id="uiux-text-consistency" class="text-gray-600 leading-relaxed transition-opacity duration-300"></p>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
+                                <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
+                                    <span>3. 접근성</span>
+                                    <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
+                                </button>
+                                <div class="accordion-content">
+                                    <div class="p-4 border-t border-gray-200">
+                                        <p id="uiux-text-accessibility" class="text-gray-600 leading-relaxed transition-opacity duration-300"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
+                                <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
+                                    <span>4. 효율성</span>
+                                    <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
+                                </button>
+                                <div class="accordion-content">
+                                    <div class="p-4 border-t border-gray-200">
+                                        <p id="uiux-text-efficiency" class="text-gray-600 leading-relaxed transition-opacity duration-300"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
+                                <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
+                                    <span>5. 신뢰성</span>
+                                    <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
+                                </button>
+                                <div class="accordion-content">
+                                    <div class="p-4 border-t border-gray-200">
+                                        <p id="uiux-text-reliability" class="text-gray-600 leading-relaxed transition-opacity duration-300"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:w-1/2 flex items-center justify-center">
+                            <div class="chart-container">
+                                <canvas id="uiuxChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div id="uxwriting" class="content-panel">
+                <section class="bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-xl shadow-sm ring-1 ring-gray-200/50">
+                    <h2 class="text-2xl font-bold mb-2">예제 2: 웹사이트 UX 라이팅 가이드라인</h2>
+                     <p class="text-gray-600 leading-relaxed mb-8">
+                        좋은 사용자 경험을 만드는 UX 라이팅 원칙들을 살펴보세요. 각 원칙을 열어 '좋은 예'와 '나쁜 예'를 비교하고, 'Canvas로 편집하기'를 통해 문장을 다듬어 보세요.
+                    </p>
+                     <div class="space-y-3">
+                        <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
+                            <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
+                                <span>1. 직관성 및 명확성</span>
+                                <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="p-4 border-t border-gray-200">
+                                    <p class="text-gray-600 leading-relaxed mb-4">사용자가 콘텐츠와 제품에 대해 안심하도록 고객의 언어를 사용하고, 전문적인 용어는 피하거나 쉽게 설명해야 합니다.</p>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="p-3 bg-red-50 rounded-md border border-red-200"><strong class="text-red-700">나쁜 예:</strong> "Lorem Ipsum dolor sit amet..."</div>
+                                        <div class="p-3 bg-green-50 rounded-md border border-green-200"><strong class="text-green-700">좋은 예:</strong> "여기에 이메일 주소를 입력해주세요."</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
+                            <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
+                                <span>2. 간결함</span>
+                                <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="p-4 border-t border-gray-200">
+                                    <p id="uxwriting-text-conciseness" class="text-gray-600 leading-relaxed mb-4"></p>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div id="uxwriting-bad-conciseness" class="p-3 bg-red-50 rounded-md border border-red-200"></div>
+                                        <div id="uxwriting-good-conciseness" class="p-3 bg-green-50 rounded-md border border-green-200"></div>
+                                    </div>
+                                    <div class="mt-4 p-3 bg-blue-50 rounded-md border border-blue-200">
+                                        <p class="text-sm font-semibold text-blue-800 mb-2">Canvas로 편집하기 (나쁜 예시 문장 다듬기)</p>
+                                        <div class="flex flex-wrap gap-2">
+                                            <button class="edit-btn-ux text-xs bg-white text-blue-700 px-2 py-1 rounded-full border border-blue-300 hover:bg-blue-100" data-target="conciseness" data-version="base">원본 문장</button>
+                                            <button class="edit-btn-ux text-xs bg-white text-blue-700 px-2 py-1 rounded-full border border-blue-300 hover:bg-blue-100" data-target="conciseness" data-version="concise">간결하게</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
+                            <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
+                                <span>3. 긍정적인 톤</span>
+                                <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="p-4 border-t border-gray-200">
+                                    <p class="text-gray-600 leading-relaxed mb-4">웹사이트는 사용자에게 맥 빠지거나 겁을 주어서는 안 됩니다. 긍정적인 표현을 사용하여 힘이 되고 도움이 되는 분위기를 조성하세요.</p>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="p-3 bg-red-50 rounded-md border border-red-200"><strong class="text-red-700">나쁜 예:</strong> "잘못된 비밀번호는 로그인할 수 없습니다."</div>
+                                        <div class="p-3 bg-green-50 rounded-md border border-green-200"><strong class="text-green-700">좋은 예:</strong> "비밀번호를 확인해 주세요."</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
+                            <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
+                                <span>4. 능동태 사용</span>
+                                <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="p-4 border-t border-gray-200">
+                                    <p class="text-gray-600 leading-relaxed mb-4">수동태 대신 능동태를 사용하여 방문자가 통제받고 있다는 느낌을 주고, 더 명료하게 의미를 전달하세요.</p>
+                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="p-3 bg-red-50 rounded-md border border-red-200"><strong class="text-red-700">나쁜 예:</strong> "회원가입은 당신에 의해 완료되었습니다."</div>
+                                        <div class="p-3 bg-green-50 rounded-md border border-green-200"><strong class="text-green-700">좋은 예:</strong> "회원가입이 완료되었습니다."</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
+                            <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
+                                <span>5. 감정적 반응 유도 (파워 워드)</span>
+                                <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="p-4 border-t border-gray-200">
+                                    <p class="text-gray-600 leading-relaxed mb-4">파워 워드를 적절히 사용하여 독자의 감정적 반응을 불러일으키고 방문자에게 더 설득력 있게 다가가세요.</p>
+                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="p-3 bg-red-50 rounded-md border border-red-200"><strong class="text-red-700">나쁜 예:</strong> "제품을 구매하세요."</div>
+                                        <div class="p-3 bg-green-50 rounded-md border border-green-200"><strong class="text-green-700">좋은 예:</strong> "놀라운 변화를 경험하세요!", "지금 바로 시작하세요!"</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
+            <div id="tips" class="content-panel">
+                <section class="bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-xl shadow-sm ring-1 ring-gray-200/50">
+                    <h2 class="text-2xl font-bold mb-8">웹페이지 공유 및 활용 팁</h2>
+                    <div class="space-y-3">
+                        <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
+                            <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
+                                <span>다양한 직군을 위한 활용 아이디어 10가지</span>
+                                <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="p-4 border-t border-gray-200">
+                                    <p class="text-gray-600 leading-relaxed mb-4">Gemini Canvas는 특정 직군에만 유용한 도구가 아닙니다. 다양한 부서에서 어떻게 업무 효율을 높일 수 있는지 확인해보세요.</p>
+                                    <ul class="list-disc list-inside space-y-3 text-gray-600">
+                                        <li><strong>개발자/IT 기술직:</strong> 복잡한 코드에 대한 기술 문서(주석, README 파일) 초안을 빠르게 작성하고, 코드 리팩토링 아이디어를 얻으세요.</li>
+                                        <li><strong>개발자/IT 기술직:</strong> 새로운 기능에 대한 테스트 케이스 시나리오를 생성하여 테스트 시간을 단축하세요.</li>
+                                        <li><strong>마케터:</strong> 신제품 홍보를 위한 블로그 게시물, 광고 카피, SNS 콘텐츠 등 다양한 버전의 마케팅 문구를 즉시 생성하고 비교 분석하세요.</li>
+                                        <li><strong>마케터:</strong> 고객 페르소나를 설정하고, 그에 맞는 이메일 뉴스레터 초안을 작성하여 타겟 마케팅을 강화하세요.</li>
+                                        <li><strong>인사(HR) 담당자:</strong> 채용 공고를 직무에 맞게 여러 버전으로 작성하고, 더 매력적인 표현으로 다듬어 우수 인재의 지원을 유도하세요.</li>
+                                        <li><strong>인사(HR) 담당자:</strong> 사내 정책 변경 안내, 워크샵 공지 등 내부 소통을 위한 이메일을 명확하고 친근한 톤으로 작성하세요.</li>
+                                        <li><strong>구매/총무 담당자:</strong> 여러 공급업체의 제안서를 긴급하게 비교해야 할 때, 각 제안서의 핵심 내용을 요약하여 장단점을 빠르게 파악하세요.</li>
+                                        <li><strong>일반 사무직:</strong> 외부 파트너나 고객에게 보내는 정중하고 전문적인 이메일 초안을 작성하여 커뮤니케이션 실수를 줄이세요.</li>
+                                        <li><strong>기획자/결정권자:</strong> 새로운 프로젝트나 사업 아이디어에 대한 발표 자료의 개요와 핵심 메시지를 구조화하여 설득력을 높이세요.</li>
+                                        <li><strong>모든 임직원:</strong> 긴 회의의 녹취록이나 복잡한 보고서를 입력하고 핵심 내용만 요약해달라고 요청하여 업무 파악 시간을 획기적으로 줄이세요.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
+                            <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
+                                <span>Canvas에서 만든 콘텐츠는 어떻게 공유하나요?</span>
+                                <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="p-4 border-t border-gray-200">
+                                    <p class="text-gray-600 leading-relaxed">Gemini Canvas는 콘텐츠와 코드를 생성하고 다듬는 작업 공간입니다. Canvas 자체가 웹사이트를 직접 호스팅하거나 배포하지는 않습니다. 생성된 HTML/CSS/JS 코드를 실제 웹사이트로 만들려면, 이 콘텐츠를 복사하여 별도의 웹사이트 빌더(예: Wix, Framer)나 웹 호스팅 서비스(예: GitHub Pages)에 붙여넣어 웹페이지를 구축하고 공개해야 합니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
+                            <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
+                                <span>더 효과적인 편집을 위한 프롬프트 팁이 있나요?</span>
+                                <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="p-4 border-t border-gray-200">
+                                    <p class="text-gray-600 leading-relaxed mb-4">구체적이고 명확하게 요청할수록 좋습니다. 다음은 몇 가지 유용한 프롬프트 예시입니다.</p>
+                                    <ul class="list-disc list-inside space-y-2 text-gray-600">
+                                        <li>"이 내용을 더 친근하면서도 전문적인 어조로 바꿔줘."</li>
+                                        <li>"각 항목에 UX 라이팅의 중요성을 강조하는 문구를 추가해줘."</li>
+                                        <li>"이 가이드라인을 초보자를 위한 블로그 게시물 형식으로 재구성해줘."</li>
+                                        <li>"핵심 내용만 남기고 50단어 이내로 요약해줘."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const contentPanels = document.querySelectorAll('.content-panel');
+            const accordions = document.querySelectorAll('.accordion-item');
+
+            const uiuxData = {
+                'user-centered': {
+                    base: '친한 친구를 위해 앱을 만든다고 상상해보세요. 어떻게 하면 친구가 가장 편하고 쉽게 쓸 수 있을지 고민하겠죠? 바로 그 마음이 사용자 중심 디자인의 시작입니다. 모든 결정을 내릴 때, 실제로 이 서비스를 사용할 사람의 입장에서 생각하고 그들의 필요와 목표를 가장 먼저 챙기는 것입니다.',
+                    short: '사용자의 입장에서 생각하고, 그들이 가장 쉽고 편하게 목표를 달성할 수 있도록 돕는 것을 최우선으로 삼는 디자인 방식입니다.',
+                    professional: '사용자 중심 디자인(UCD)은 최종 사용자의 요구사항, 목표 및 피드백을 디자인 프로세스의 모든 단계에 적극적으로 통합하는 것을 핵심 철학으로 합니다. 이는 페르소나 정의, 사용성 테스트, 사용자 여정 맵핑과 같은 방법론을 통해 사용자의 맥락을 깊이 이해하고, 이를 바탕으로 직관적이고 효과적인 솔루션을 구축하는 것을 목표로 합니다.',
+                    mobile: '모바일 환경에서는 작은 화면과 터치 인터페이스의 특수성을 고려해야 합니다. 터치 타겟의 크기를 충분히 확보하고, 스크롤과 같은 제스처를 직관적으로 설계하며, 한 손 조작의 편의성을 높이는 것이 사용자 중심 모바일 디자인의 핵심입니다.'
+                },
+                consistency: { base: '자주 가는 카페를 생각해보세요. 컵, 의자, 메뉴판 디자인이 항상 같아서 편안함을 느끼죠? 웹사이트도 마찬가지입니다. 색상, 버튼 모양, 아이콘 등을 통일하면 사용자가 새로 배울 필요 없이 편안하고 익숙하게 서비스를 이용할 수 있습니다.' },
+                accessibility: { base: '엘리베이터나 휠체어 램프처럼, 웹사이트도 누구나 쉽게 이용할 수 있어야 합니다. 시력이 좋지 않은 사람, 나이가 많은 어르신 등 다양한 사람들이 불편함 없이 정보를 얻고 기능을 쓸 수 있도록 배려하는 디자인입니다.' },
+                efficiency: { base: '마트에서 계산할 때 줄이 길면 답답하죠? 사용자가 웹사이트에서 원하는 것을 얻기까지의 과정을 최대한 짧고 간단하게 만들어주는 것입니다. 불필요한 단계를 줄여 사용자의 시간과 노력을 아껴주는 디자인이 좋은 디자인입니다.' },
+                reliability: { base: '은행 앱에 들어갔을 때, 디자인이 갑자기 바뀌거나 정보가 틀리면 불안하겠죠? 사용자가 "아, 여긴 믿을 수 있어"라고 느끼게 만드는 것입니다. 항상 정확한 정보를 제공하고, 일관된 모습을 보여주어 사용자에게 안정감과 신뢰를 주어야 합니다.' }
+            };
+
+            const uxWritingData = {
+                conciseness: {
+                    desc: '불필요하게 장황한 문장은 간결하게 다듬어 사용자에게 최적화된 라이팅을 완성하세요. 그러나 간결함만을 추구하다 중요한 정보를 놓쳐서는 안 됩니다.',
+                    base_bad: '이 버튼을 클릭하면 귀하의 계정으로 이동하게 됩니다.',
+                    base_good: '내 계정으로 이동',
+                    concise_bad: '이 버튼을 클릭하면 귀하의 계정으로 이동하게 됩니다.' 
+                }
+            };
+            
+            function updateUiuxText(target, version = 'base') {
+                const pElement = document.getElementById(`uiux-text-${target}`);
+                if (pElement) {
+                    pElement.style.opacity = '0';
+                    setTimeout(() => {
+                        pElement.innerHTML = uiuxData[target][version];
+                        pElement.style.opacity = '1';
+                    }, 150);
+                }
+            }
+
+            function updateUxWritingText(target, version = 'base') {
+                const pElement = document.getElementById(`uxwriting-text-${target}`);
+                const badElement = document.getElementById(`uxwriting-bad-${target}`);
+
+                if(pElement) pElement.innerHTML = uxWritingData[target].desc;
+
+                if (badElement) {
+                     badElement.innerHTML = `<strong class="text-red-700">나쁜 예:</strong> "${uxWritingData[target][`${version}_bad`]}"`;
+                }
+
+                const goodElement = document.getElementById(`uxwriting-good-${target}`);
+                if(goodElement) {
+                    goodElement.innerHTML = `<strong class="text-green-700">좋은 예:</strong> "${uxWritingData.conciseness.base_good}"`;
+                }
+            }
+
+            function initTexts() {
+                Object.keys(uiuxData).forEach(key => updateUiuxText(key, 'base'));
+                document.getElementById('uiux-text-consistency').innerHTML = uiuxData.consistency.base;
+                document.getElementById('uiux-text-accessibility').innerHTML = uiuxData.accessibility.base;
+                document.getElementById('uiux-text-efficiency').innerHTML = uiuxData.efficiency.base;
+                document.getElementById('uiux-text-reliability').innerHTML = uiuxData.reliability.base;
+
+                updateUxWritingText('conciseness', 'base');
+            }
+
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.dataset.tab;
+
+                    tabs.forEach(t => {
+                        t.classList.remove('tab-active');
+                        t.classList.add('tab-inactive');
+                    });
+                    tab.classList.add('tab-active');
+                    tab.classList.remove('tab-inactive');
+
+                    contentPanels.forEach(panel => {
+                        panel.classList.remove('content-active');
+                    });
+                    document.getElementById(tabId).classList.add('content-active');
+                });
+            });
+
+            accordions.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                const content = item.querySelector('.accordion-content');
+                const icon = item.querySelector('.accordion-icon');
+
+                header.addEventListener('click', () => {
+                    const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+                    
+                    if (isOpen) {
+                        content.style.maxHeight = '0px';
+                        icon.style.transform = 'rotate(0deg)';
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        icon.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+
+            document.querySelectorAll('.edit-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const target = e.target.dataset.target;
+                    const version = e.target.dataset.version;
+                    updateUiuxText(target, version);
+                });
+            });
+
+            document.querySelectorAll('.edit-btn-ux').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const target = e.target.dataset.target;
+                    const version = e.target.dataset.version;
+                    updateUxWritingText(target, version);
+                });
+            });
+
+            const ctx = document.getElementById('uiuxChart').getContext('2d');
+            const uiuxChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['사용자 중심', '일관성', '접근성', '효율성', '신뢰성'],
+                    datasets: [{
+                        label: 'UI/UX 핵심 원칙',
+                        data: [10, 9, 8, 9, 10],
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(59, 130, 246, 1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                            pointLabels: { font: { size: 14, family: "'Noto Sans KR', sans-serif" }, color: '#4A5568' },
+                            ticks: {
+                                display: false,
+                                stepSize: 2
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 10
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+            
+            document.querySelector('.tab-btn[data-tab="intro"]').click();
+            initTexts();
+        });
+    </script>
+
+</body>
+</html>
