@@ -10,11 +10,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Warm Neutral -->
-    <!-- Application Structure Plan: 탭 기반의 SPA 구조를 채택하여 사용자가 '소개', 'UI/UX 디자인 원칙', 'UX 라이팅 가이드라인', '활용 팁' 섹션을 쉽게 전환하며 탐색할 수 있도록 설계했습니다. 이 구조는 긴 매뉴얼을 논리적인 단위로 분할하여 정보 과부하를 줄이고, 각 주제에 대한 집중도를 높입니다. 특히 'UI/UX 디자인' 및 'UX 라이팅' 섹션에서는 Canvas의 핵심 기능인 '텍스트 수정/개선'을 시뮬레이션하는 인터랙티브 요소를 추가하여, 사용자가 기능을 직접 체험해보는 듯한 능동적인 학습 경험을 제공합니다. 이 접근 방식은 정적인 텍스트를 읽는 것보다 훨씬 높은 참여와 이해를 유도하기 때문에 채택되었습니다. -->
+    <!-- Application Structure Plan: 탭 기반의 SPA 구조를 채택하여 사용자가 '소개', 'UI/UX 디자인 원칙', 'UX 라이팅 가이드라인', '활용 팁' 섹션을 쉽게 전환하며 탐색할 수 있도록 설계했습니다. 이 구조는 긴 매뉴얼을 논리적인 단위로 분할하여 정보 과부하를 줄이고, 각 주제에 대한 집중도를 높입니다. 특히 'UI/UX 디자인' 섹션에서는 Canvas의 핵심 기능인 '텍스트 수정/개선'을 시뮬레이션하는 인터랙티브 요소를 추가하여, 사용자가 기능을 직접 체험해보는 듯한 능동적인 학습 경험을 제공합니다. 이 접근 방식은 정적인 텍스트를 읽는 것보다 훨씬 높은 참여와 이해를 유도하기 때문에 채택되었습니다. -->
     <!-- Visualization & Content Choices: 
         - 정보: Gemini Canvas 소개 및 핵심 기능 -> 목표: 정보 제공 -> 표현 방식: 아이콘 기반의 인터랙티브 카드 -> 상호작용: 클릭 시 상세 내용 표시 -> 정당성: 텍스트 목록보다 시각적으로 흥미롭고 탐색을 유도함.
         - 정보: UI/UX 디자인 5대 원칙 -> 목표: 관계 시각화 및 정보 구성 -> 표현 방식: Chart.js를 이용한 Radar 차트, 아코디언 목록 -> 상호작용: 차트를 통한 원칙 간의 균형 시각화, 아코디언 클릭 시 상세 내용 확장, 시뮬레이션 버튼 클릭 시 텍스트 동적 변경 -> 정당성: Radar 차트는 5가지 추상적 원칙의 상호연결성과 균형을 효과적으로 시각화합니다. 아코디언은 복잡한 정보를 깔끔하게 정리하며, 시뮬레이션은 Canvas의 핵심 가치를 직접적으로 보여줍니다. (라이브러리: Chart.js)
-        - 정보: UX 라이팅 가이드라인 -> 목표: 비교 및 정보 구성 -> 표현 방식: 아코디언 목록 내 '좋은 예/나쁜 예' 비교 테이블 -> 상호작용: 아코디언 확장, 시뮬레이션 버튼 클릭 -> 정당성: 명확한 비교를 통해 가이드라인의 효과를 직관적으로 이해시키고, 시뮬레이터를 통해 편집 과정을 체험하게 합니다.
+        - 정보: UX 라이팅 가이드라인 -> 목표: 비교 및 정보 구성 -> 표현 방식: 아코디언 목록 내 '좋은 예/나쁜 예' 비교 테이블 -> 상호작용: 아코디언 확장 -> 정당성: 명확한 비교를 통해 가이드라인의 효과를 직관적으로 이해시킵니다.
         - 정보: 공유 및 추가 프롬프트 -> 목표: 정보 제공 -> 표현 방식: 아코디언 형태의 FAQ -> 상호작용: 클릭 시 답변 확장 -> 정당성: 질문/답변 형식은 정보를 간결하게 전달하는 데 효과적입니다.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
@@ -171,9 +171,9 @@
 
             <div id="uxwriting" class="content-panel">
                 <section class="bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-xl shadow-sm ring-1 ring-gray-200/50">
-                    <h2 class="text-2xl font-bold mb-2">예제 2: 웹사이트 UX 라이팅 가이드라인</h2>
+                    <h2 class="text-2xl font-bold mb-2">예제 2: IT 기술 설명을 위한 UX 라이팅</h2>
                      <p class="text-gray-600 leading-relaxed mb-8">
-                        좋은 사용자 경험을 만드는 UX 라이팅 원칙들을 살펴보세요. 각 원칙을 열어 '좋은 예'와 '나쁜 예'를 비교하고, 'Canvas로 편집하기'를 통해 문장을 다듬어 보세요.
+                        기술 제품이나 서비스의 웹사이트, 개발자 문서의 문구는 사용자의 이해도와 제품의 신뢰도에 직접적인 영향을 줍니다. 기능의 가치를 명확하게 전달하기 위한 라이팅 원칙을 살펴보세요.
                     </p>
                      <div class="space-y-3">
                         <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
@@ -183,10 +183,10 @@
                             </button>
                             <div class="accordion-content">
                                 <div class="p-4 border-t border-gray-200">
-                                    <p class="text-gray-600 leading-relaxed mb-4">사용자가 콘텐츠와 제품에 대해 안심하도록 고객의 언어를 사용하고, 전문적인 용어는 피하거나 쉽게 설명해야 합니다.</p>
+                                    <p class="text-gray-600 leading-relaxed mb-4">내부에서 쓰는 기술 용어 대신, 기능의 '가치'와 '혜택'을 중심으로 설명해야 합니다. 사용자가 "그래서 이게 나한테 뭐가 좋은데?"라는 질문에 바로 답할 수 있어야 합니다.</p>
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div class="p-3 bg-red-50 rounded-md border border-red-200"><strong class="text-red-700">나쁜 예:</strong> "Lorem Ipsum dolor sit amet..."</div>
-                                        <div class="p-3 bg-green-50 rounded-md border border-green-200"><strong class="text-green-700">좋은 예:</strong> "여기에 이메일 주소를 입력해주세요."</div>
+                                        <div class="p-3 bg-red-50 rounded-md border border-red-200"><strong class="text-red-700">나쁜 예:</strong> "본 시스템은 쿠버네티스 클러스터의 리소스 사용량을 실시간으로 집계하여 시계열 데이터베이스에 저장합니다."</div>
+                                        <div class="p-3 bg-green-50 rounded-md border border-green-200"><strong class="text-green-700">좋은 예:</strong> "대시보드에서 클러스터의 CPU, 메모리 사용량을 한눈에 확인하고, 과거 데이터와 비교하여 성능 변화를 추적하세요."</div>
                                     </div>
                                 </div>
                             </div>
@@ -198,17 +198,10 @@
                             </button>
                             <div class="accordion-content">
                                 <div class="p-4 border-t border-gray-200">
-                                    <p id="uxwriting-text-conciseness" class="text-gray-600 leading-relaxed mb-4"></p>
+                                    <p class="text-gray-600 leading-relaxed mb-4">특히 가격 정책이나 기능 비교표에서는 불필요한 수식어를 모두 빼고 핵심만 전달해야 합니다. 사용자는 긴 설명보다 명확한 비교를 원합니다.</p>
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div id="uxwriting-bad-conciseness" class="p-3 bg-red-50 rounded-md border border-red-200"></div>
-                                        <div id="uxwriting-good-conciseness" class="p-3 bg-green-50 rounded-md border border-green-200"></div>
-                                    </div>
-                                    <div class="mt-4 p-3 bg-blue-50 rounded-md border border-blue-200">
-                                        <p class="text-sm font-semibold text-blue-800 mb-2">Canvas로 편집하기 (나쁜 예시 문장 다듬기)</p>
-                                        <div class="flex flex-wrap gap-2">
-                                            <button class="edit-btn-ux text-xs bg-white text-blue-700 px-2 py-1 rounded-full border border-blue-300 hover:bg-blue-100" data-target="conciseness" data-version="base">원본 문장</button>
-                                            <button class="edit-btn-ux text-xs bg-white text-blue-700 px-2 py-1 rounded-full border border-blue-300 hover:bg-blue-100" data-target="conciseness" data-version="concise">간결하게</button>
-                                        </div>
+                                        <div class="p-3 bg-red-50 rounded-md border border-red-200"><strong class="text-red-700">나쁜 예:</strong> "저희의 엔터프라이즈 플랜을 선택하시면 귀사의 모든 개발팀 구성원들이 저희가 제공하는 모든 기능들을 아무런 제한 없이 자유롭게 사용하실 수 있는 권한을 부여받게 됩니다."</div>
+                                        <div class="p-3 bg-green-50 rounded-md border border-green-200"><strong class="text-green-700">좋은 예:</strong> "엔터프라이즈 플랜: 모든 기능, 팀원 수 무제한"</div>
                                     </div>
                                 </div>
                             </div>
@@ -220,10 +213,10 @@
                             </button>
                             <div class="accordion-content">
                                 <div class="p-4 border-t border-gray-200">
-                                    <p class="text-gray-600 leading-relaxed mb-4">웹사이트는 사용자에게 맥 빠지거나 겁을 주어서는 안 됩니다. 긍정적인 표현을 사용하여 힘이 되고 도움이 되는 분위기를 조성하세요.</p>
+                                    <p class="text-gray-600 leading-relaxed mb-4">복잡한 설정이나 잠재적 위험을 설명할 때, 부정적인 경고보다는 긍정적인 가이드와 성공 경로를 제시하는 것이 사용자의 불안감을 줄여줍니다.</p>
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div class="p-3 bg-red-50 rounded-md border border-red-200"><strong class="text-red-700">나쁜 예:</strong> "잘못된 비밀번호는 로그인할 수 없습니다."</div>
-                                        <div class="p-3 bg-green-50 rounded-md border border-green-200"><strong class="text-green-700">좋은 예:</strong> "비밀번호를 확인해 주세요."</div>
+                                        <div class="p-3 bg-red-50 rounded-md border border-red-200"><strong class="text-red-700">나쁜 예:</strong> "경고: 설정 파일에 잘못된 값이 있으면 서버가 시작되지 않습니다."</div>
+                                        <div class="p-3 bg-green-50 rounded-md border border-green-200"><strong class="text-green-700">좋은 예:</strong> "설정 파일을 꼼꼼히 확인해 주세요. 올바르게 설정하면, 서버가 바로 실행됩니다! [설정 예시 보기]"</div>
                                     </div>
                                 </div>
                             </div>
@@ -235,25 +228,25 @@
                             </button>
                             <div class="accordion-content">
                                 <div class="p-4 border-t border-gray-200">
-                                    <p class="text-gray-600 leading-relaxed mb-4">수동태 대신 능동태를 사용하여 방문자가 통제받고 있다는 느낌을 주고, 더 명료하게 의미를 전달하세요.</p>
+                                    <p class="text-gray-600 leading-relaxed mb-4">특히 개발자 문서에서, 모호한 수동태 문장은 기능의 주체를 불분명하게 만듭니다. 사용자가 직접 '호출'하고 '조회'하도록 명확하게 안내하세요.</p>
                                      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div class="p-3 bg-red-50 rounded-md border border-red-200"><strong class="text-red-700">나쁜 예:</strong> "회원가입은 당신에 의해 완료되었습니다."</div>
-                                        <div class="p-3 bg-green-50 rounded-md border border-green-200"><strong class="text-green-700">좋은 예:</strong> "회원가입이 완료되었습니다."</div>
+                                        <div class="p-3 bg-red-50 rounded-md border border-red-200"><strong class="text-red-700">나쁜 예:</strong> "GET /users/{id} 엔드포인트를 통해 특정 사용자 정보가 조회될 수 있습니다."</div>
+                                        <div class="p-3 bg-green-50 rounded-md border border-green-200"><strong class="text-green-700">좋은 예:</strong> "GET /users/{id} 엔드포인트를 호출하여 특정 사용자 정보를 조회하세요."</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
                             <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
-                                <span>5. 감정적 반응 유도 (파워 워드)</span>
+                                <span>5. 명확한 행동 유도</span>
                                 <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
                             </button>
                             <div class="accordion-content">
                                 <div class="p-4 border-t border-gray-200">
-                                    <p class="text-gray-600 leading-relaxed mb-4">파워 워드를 적절히 사용하여 독자의 감정적 반응을 불러일으키고 방문자에게 더 설득력 있게 다가가세요.</p>
+                                    <p class="text-gray-600 leading-relaxed mb-4">버튼이나 링크의 텍스트는 클릭했을 때 어떤 일이 일어날지 정확히 예측할 수 있도록 구체적으로 작성해야 합니다. '실행'보다는 무엇을 실행하는지 알려주세요.</p>
                                      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div class="p-3 bg-red-50 rounded-md border border-red-200"><strong class="text-red-700">나쁜 예:</strong> "제품을 구매하세요."</div>
-                                        <div class="p-3 bg-green-50 rounded-md border border-green-200"><strong class="text-green-700">좋은 예:</strong> "놀라운 변화를 경험하세요!", "지금 바로 시작하세요!"</div>
+                                        <div class="p-3 bg-red-50 rounded-md border border-red-200"><strong class="text-red-700">나쁜 예:</strong> "실행"</div>
+                                        <div class="p-3 bg-green-50 rounded-md border border-green-200"><strong class="text-green-700">좋은 예:</strong> "원클릭으로 배포하기", "테스트 시작"</div>
                                     </div>
                                 </div>
                             </div>
@@ -341,15 +334,6 @@
                 efficiency: { base: '마트에서 계산할 때 줄이 길면 답답하죠? 사용자가 웹사이트에서 원하는 것을 얻기까지의 과정을 최대한 짧고 간단하게 만들어주는 것입니다. 불필요한 단계를 줄여 사용자의 시간과 노력을 아껴주는 디자인이 좋은 디자인입니다.' },
                 reliability: { base: '은행 앱에 들어갔을 때, 디자인이 갑자기 바뀌거나 정보가 틀리면 불안하겠죠? 사용자가 "아, 여긴 믿을 수 있어"라고 느끼게 만드는 것입니다. 항상 정확한 정보를 제공하고, 일관된 모습을 보여주어 사용자에게 안정감과 신뢰를 주어야 합니다.' }
             };
-
-            const uxWritingData = {
-                conciseness: {
-                    desc: '불필요하게 장황한 문장은 간결하게 다듬어 사용자에게 최적화된 라이팅을 완성하세요. 그러나 간결함만을 추구하다 중요한 정보를 놓쳐서는 안 됩니다.',
-                    base_bad: '이 버튼을 클릭하면 귀하의 계정으로 이동하게 됩니다.',
-                    base_good: '내 계정으로 이동',
-                    concise_bad: '이 버튼을 클릭하면 귀하의 계정으로 이동하게 됩니다.' 
-                }
-            };
             
             function updateUiuxText(target, version = 'base') {
                 const pElement = document.getElementById(`uiux-text-${target}`);
@@ -362,30 +346,8 @@
                 }
             }
 
-            function updateUxWritingText(target, version = 'base') {
-                const pElement = document.getElementById(`uxwriting-text-${target}`);
-                const badElement = document.getElementById(`uxwriting-bad-${target}`);
-
-                if(pElement) pElement.innerHTML = uxWritingData[target].desc;
-
-                if (badElement) {
-                     badElement.innerHTML = `<strong class="text-red-700">나쁜 예:</strong> "${uxWritingData[target][`${version}_bad`]}"`;
-                }
-
-                const goodElement = document.getElementById(`uxwriting-good-${target}`);
-                if(goodElement) {
-                    goodElement.innerHTML = `<strong class="text-green-700">좋은 예:</strong> "${uxWritingData.conciseness.base_good}"`;
-                }
-            }
-
             function initTexts() {
                 Object.keys(uiuxData).forEach(key => updateUiuxText(key, 'base'));
-                document.getElementById('uiux-text-consistency').innerHTML = uiuxData.consistency.base;
-                document.getElementById('uiux-text-accessibility').innerHTML = uiuxData.accessibility.base;
-                document.getElementById('uiux-text-efficiency').innerHTML = uiuxData.efficiency.base;
-                document.getElementById('uiux-text-reliability').innerHTML = uiuxData.reliability.base;
-
-                updateUxWritingText('conciseness', 'base');
             }
 
 
@@ -431,15 +393,6 @@
                     const target = e.target.dataset.target;
                     const version = e.target.dataset.version;
                     updateUiuxText(target, version);
-                });
-            });
-
-            document.querySelectorAll('.edit-btn-ux').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const target = e.target.dataset.target;
-                    const version = e.target.dataset.version;
-                    updateUxWritingText(target, version);
                 });
             });
 
