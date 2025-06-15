@@ -3,616 +3,420 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 동료, 새로운 차원의 업무 혁신을 경험하세요</title>
+    <title>EKS 운영 효율성 분석 및 AI 기반 진단 시리즈</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --mystic-bg: #0F0F1A; /* Deep, dark space blue */
-            --mystic-primary: #6A0DAD; /* Vibrant Purple */
-            --mystic-secondary: #00BFFF; /* Deep Sky Blue */
-            --mystic-accent: #FF00FF;   /* Magenta for highlights */
-            --mystic-text-light: #E0E0FF; /* Light, slightly bluish text */
-            --mystic-text-dark: #1A1A2E;
-            --mystic-card-bg: rgba(26, 26, 46, 0.8); /* Semi-transparent dark card */
-            --mystic-border: rgba(106, 13, 173, 0.5); /* Purple border */
-            --font-orbitron: 'Orbitron', sans-serif;
+            --bg-deep-space: #01000e;
+            --bg-cosmic-void: #0a0028;
+            --text-stellar-white: #f0f8ff;
+            --text-nebula-blue: #a0c4ff;
+            --accent-cyber-purple: #9333ea;
+            --accent-neon-cyan: #06b6d4;
+            --font-primary: 'Poppins', 'Noto Sans KR', sans-serif;
+            --font-display: 'Orbitron', 'Noto Sans KR', sans-serif;
+            --border-radius-star: 1rem;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Noto Sans KR', sans-serif;
-            background-color: var(--mystic-bg);
-            color: var(--mystic-text-light);
-            font-size: 16px;
-            line-height: 1.8;
+            font-family: var(--font-primary);
+            background-color: var(--bg-deep-space);
+            color: var(--text-stellar-white);
             overflow-x: hidden;
-            position: relative; /* For pseudo-elements */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Starry background effect */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image:
-                radial-gradient(circle at 20% 20%, rgba(106, 13, 173, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(0, 191, 255, 0.15) 0%, transparent 40%);
-            animation: animateStars 120s linear infinite, subtleShine 10s ease-in-out infinite alternate;
-            z-index: -1;
+        #particle-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
+            background: linear-gradient(180deg, var(--bg-deep-space) 0%, var(--bg-cosmic-void) 100%);
         }
 
-        @keyframes animateStars {
-            from { background-position: 0 0; }
-            to { background-position: -10000px 5000px; }
+        .container-mx { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+
+        #site-header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            padding: 1rem 2rem; background: rgba(2, 0, 16, 0.6);
+            backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(160, 196, 255, 0.1);
         }
-        @keyframes subtleShine {
-            from { opacity: 0.6; }
-            to { opacity: 1; }
+        #site-header .container { display: flex; justify-content: space-between; align-items: center; }
+        #site-header .logo { font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; text-decoration: none; color: var(--text-stellar-white); }
+        #site-header .logo-ai { color: var(--accent-neon-cyan); }
+        #site-header nav a { color: var(--text-nebula-blue); text-decoration: none; margin-left: 1.8rem; font-size: 0.95rem; font-weight: 500; position: relative; padding-bottom: 0.3rem; transition: color 0.3s; }
+        #site-header nav a:hover { color: var(--text-stellar-white); }
+        #site-header nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, var(--accent-neon-cyan), var(--accent-cyber-purple)); transition: width 0.3s; }
+        #site-header nav a:hover::after { width: 100%; }
+
+        .cosmic-gateway-hero { padding: 12rem 2rem 10rem; text-align: center; position: relative; }
+        
+        .cosmic-gateway-hero h1 {
+            font-family: var(--font-display); font-weight: 900;
+            font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.15;
+            color: transparent;
+            background: linear-gradient(145deg, #c7d2fe 20%, #f0f8ff 50%, #e9d5ff 80%);
+            -webkit-background-clip: text; background-clip: text;
+            text-shadow: 0 0 30px rgba(160, 196, 255, 0.25);
+            margin-bottom: 2rem;
+            animation: fadeIn-up 1.2s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
         }
 
+        .cosmic-gateway-hero .tagline {
+            font-size: clamp(1rem, 2vw, 1.25rem); color: var(--text-nebula-blue);
+            max-width: 800px; margin: 0 auto; line-height: 1.7;
+            animation: fadeIn-up 1.2s 0.3s forwards;
+            opacity: 0;
+        }
 
-        .mystic-header {
-            background-color: rgba(15, 15, 26, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 1rem 2rem;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(106, 13, 173, 0.3);
-            transition: background-color 0.3s ease;
+        @keyframes fadeIn-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .mystic-logo {
-            font-family: var(--font-orbitron);
-            font-weight: 700;
-            font-size: 1.8rem;
-            color: var(--mystic-text-light);
-            text-shadow: 0 0 10px var(--mystic-accent), 0 0 20px var(--mystic-accent);
-            letter-spacing: 1px;
-        }
-        .mystic-nav-links a {
-            font-family: var(--font-orbitron);
-            color: var(--mystic-text-light);
-            opacity: 0.8;
-            margin-left: 1.75rem;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: color 0.3s ease, opacity 0.3s ease, text-shadow 0.3s ease;
+        
+        .navigation-nexus { padding: 8rem 0; background: linear-gradient(180deg, var(--bg-cosmic-void) 0%, var(--bg-deep-space) 80%); position: relative;}
+        .navigation-nexus h2 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 2.5rem); font-weight: 700; text-align: center; margin-bottom: 6rem; text-shadow: 0 0 8px var(--accent-neon-cyan); }
+
+        .constellation-path-container {
             position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .mystic-nav-links a:hover {
-            color: var(--mystic-accent);
-            opacity: 1;
-            text-shadow: 0 0 8px var(--mystic-accent);
-        }
-        .mystic-nav-links a::after {
-            content: '';
+        
+        .constellation-path-svg {
             position: absolute;
-            width: 0;
-            height: 1px;
-            display: block;
-            margin-top: 2px;
-            right: 0;
-            background: var(--mystic-accent);
-            transition: width 0.3s ease;
-            -webkit-transition: width 0.3s ease;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
         }
-        .mystic-nav-links a:hover::after {
+
+        .constellation-path-svg path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw-path 2s ease-in-out 1s forwards;
+        }
+
+        @keyframes draw-path {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .step-navigation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem 8rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .step-navigation-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .step-card:nth-child(2n) { justify-self: center; }
+            .step-card:nth-child(2n+1) { justify-self: center; }
+        }
+
+        .step-card {
+            background-color: rgba(10, 0, 40, 0.6);
+            border-radius: var(--border-radius-star);
+            padding: 2.5rem;
+            border: 1px solid rgba(160, 196, 255, 0.15); 
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: card-appear 0.8s ease forwards;
+        }
+        
+        .step-card:nth-child(2) { animation-delay: 0.2s; }
+        .step-card:nth-child(3) { animation-delay: 0.4s; }
+        .step-card:nth-child(4) { animation-delay: 0.6s; }
+        .step-card:nth-child(5) { animation-delay: 0.8s; }
+        .step-card:nth-child(6) { animation-delay: 1s; }
+        .step-card:nth-child(7) { animation-delay: 1.2s; }
+        .step-card:nth-child(8) { animation-delay: 1.4s; }
+
+        @keyframes card-appear {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-card-glow {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            border-radius: var(--border-radius-star); pointer-events: none;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(147, 51, 234, 0.25), transparent 40%);
+            opacity: 0; transition: opacity 0.5s ease;
+        }
+        .step-card:hover .step-card-glow { opacity: 1; }
+        .step-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.5), 0 0 30px rgba(147, 51, 234, 0.3);
+        }
+
+        .step-card-content { display: flex; flex-direction: column; height: 100%; }
+        .step-card-header { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.25rem; }
+        .step-card .icon {
+            width: 48px; height: 48px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, var(--accent-cyber-purple), var(--accent-neon-cyan));
+            border-radius: 50%;
+        }
+        .step-card .icon svg { width: 24px; height: 24px; color: white; }
+        .step-card h3 { font-size: 1.4rem; font-family: var(--font-display); font-weight: 600; color: var(--text-stellar-white); line-height: 1.3; }
+        .step-card p { font-size: 0.95rem; color: var(--text-nebula-blue); line-height: 1.65; flex-grow: 1; margin-bottom: 2rem; }
+        
+        .cta-button {
+            display: inline-block; align-self: flex-start; font-weight: 600; font-size: 0.9rem;
+            color: var(--text-stellar-white); background: rgba(147, 51, 234, 0.2);
+            padding: 0.75rem 1.5rem; border: 1px solid var(--accent-cyber-purple);
+            border-radius: 999px; transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(147, 51, 234, 0.3);
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(147, 51, 234, 0.3), 0 0 5px rgba(147, 51, 234, 0.2) inset; }
+            50% { box-shadow: 0 0 25px rgba(147, 51, 234, 0.5), 0 0 10px rgba(147, 51, 234, 0.3) inset; }
+        }
+        .cta-button:hover {
+            background: var(--accent-cyber-purple); transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(147, 51, 234, 0.5);
+        }
+        
+        .logo-partners-section { padding: 8rem 0; border-top: 1px solid rgba(160, 196, 255, 0.1); }
+        .logo-partners-section h3 { font-family: var(--font-display); text-align: center; font-size: 1.25rem; color: var(--text-nebula-blue); margin-bottom: 5rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.9; }
+        
+        .logo-stream-wrapper {
+            overflow: hidden;
+            position: relative;
             width: 100%;
-            left: 0;
-            background: var(--mystic-accent);
+            -webkit-mask-image: linear-gradient(to right, transparent, white 10%, white 90%, transparent);
+            mask-image: linear-gradient(to right, transparent, white 10%, white 90%, transparent);
+        }
+        .logo-stream {
+            display: flex;
+            width: max-content;
+        }
+        .logo-stream:hover { animation-play-state: paused; }
+        .logo-list {
+            display: flex;
+            animation: marquee 40s linear infinite;
         }
 
-
-        .hero-section-mystic {
-            min-height: 100vh; /* Full viewport height */
+        @keyframes marquee {
+            from { transform: translateX(0%); }
+            to { transform: translateX(-100%); }
+        }
+        
+        .logo-item {
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
+            padding: 0 3rem;
             text-align: center;
-            padding: 8rem 2rem 4rem;
-            color: var(--mystic-text-light);
-            position: relative;
-            overflow: hidden;
         }
-        .hero-title-mystic {
-            font-family: var(--font-orbitron);
-            font-size: clamp(2.5rem, 5vw, 4rem); /* Responsive font size, slightly smaller */
+
+        .logo-item .logo-text {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 2.25rem;
             font-weight: 700;
-            margin-bottom: 1.5rem;
-            letter-spacing: 1px;
-            line-height: 1.3;
-            text-shadow: 0 0 15px var(--mystic-primary), 0 0 30px var(--mystic-primary), 0 0 45px var(--mystic-accent);
-            animation: pulseTitle 5s infinite ease-in-out, fadeInDownMystic 1.5s ease-out;
+            color: var(--text-nebula-blue);
+            opacity: 0.6;
+            transition: all 0.4s ease;
+            white-space: nowrap;
         }
-        @keyframes pulseTitle {
-            0%, 100% { text-shadow: 0 0 15px var(--mystic-primary), 0 0 30px var(--mystic-primary), 0 0 45px var(--mystic-accent); }
-            50% { text-shadow: 0 0 20px var(--mystic-secondary), 0 0 40px var(--mystic-secondary), 0 0 60px var(--mystic-accent); }
-        }
-        .hero-subtitle-mystic {
-            font-size: clamp(1rem, 2.2vw, 1.25rem); /* Slightly smaller */
-            font-weight: 300;
-            max-width: 750px;
-            margin: 0 auto 2.5rem auto;
-            opacity: 0.85;
-            line-height: 1.8;
-            animation: fadeInUpMystic 1.5s ease-out 0.5s;
-            animation-fill-mode: backwards;
-        }
-        .hero-cta-button-mystic {
-            animation: fadeInUpMystic 1.5s ease-out 1s;
-            animation-fill-mode: backwards;
-        }
-        .scroll-down-indicator-mystic {
-            position: absolute;
-            bottom: 3rem;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: bounceMystic 2.5s infinite ease-out 2s;
-            color: var(--mystic-accent);
-            opacity: 0.8;
-        }
-        .scroll-down-indicator-mystic svg {
-            width: 30px;
-            height: 30px;
-        }
-
-        .content-wrapper-mystic {
-            max-width: 1200px;
-            margin: 0 auto; /* No top margin, handled by pt-16 on first section */
-            padding: 0 2rem;
-        }
-
-        .mystic-card {
-            background-color: var(--mystic-card-bg);
-            border-radius: 16px;
-            border: 1px solid var(--mystic-border);
-            box-shadow: 0 0 30px rgba(106, 13, 173, 0.3), 0 0 15px rgba(0, 191, 255, 0.2) inset;
-            margin-bottom: 4rem;
-            overflow: hidden;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
-            opacity: 0;
-            transform: perspective(1000px) rotateY(-5deg) scale(0.95);
-            position: relative;
-        }
-        .mystic-card.is-visible {
+        .logo-item:hover .logo-text {
             opacity: 1;
-            transform: perspective(1000px) rotateY(0deg) scale(1);
+            color: var(--text-stellar-white);
+            text-shadow: 0 0 8px rgba(160, 196, 255, 0.5); /* 밝기 조절 */
+            transform: scale(1.05);
         }
-        .mystic-card:hover {
-            transform: scale(1.03);
-            box-shadow: 0 0 50px rgba(106, 13, 173, 0.5), 0 0 25px rgba(0, 191, 255, 0.3) inset;
-        }
-        .mystic-card-header {
-            padding: 2.5rem;
-            display: flex;
-            align-items: center;
-            position: relative;
-            border-bottom: 1px solid var(--mystic-border);
-        }
-        /* Glowing effect on header */
-        .mystic-card-header::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 5%;
-            width: 90%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--mystic-accent), transparent);
-            filter: blur(3px);
-            opacity: 0.7;
-        }
+        
+        .cosmic-footer { text-align: center; padding: 4.5rem 2rem; margin-top: 6.5rem; }
 
-        .mystic-card-icon {
-            font-size: 3rem;
-            margin-right: 1.5rem;
-            line-height: 1;
-            text-shadow: 0 0 10px currentColor;
-        }
-        .icon-awsome { color: var(--mystic-secondary); }
-        .icon-notebooklm { color: var(--mystic-primary); }
-
-        .mystic-card-title {
-            font-family: var(--font-orbitron);
-            font-size: 1.8rem;
-            font-weight: 500;
-            color: var(--mystic-text-light);
-            margin-bottom: 0.25rem;
-        }
-        .mystic-card-subtitle {
-            font-size: 1rem;
-            color: var(--mystic-text-light);
-            opacity: 0.8;
-            font-weight: 300;
-        }
-        .mystic-card-content {
-            padding: 2.5rem;
-        }
-        .mystic-content-heading {
-            font-family: var(--font-orbitron);
-            font-size: 1.25rem;
-            font-weight: 500;
-            color: var(--mystic-text-light);
-            margin-bottom: 1.25rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid var(--mystic-border);
-            position: relative;
-        }
-        .mystic-content-heading::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -1px;
-            width: 50px;
-            height: 2px;
-        }
-        .card-awsome .mystic-content-heading::after { background: var(--mystic-secondary); }
-        .card-notebooklm .mystic-content-heading::after { background: var(--mystic-primary); }
-
-        .mystic-content-list {
-            list-style: none;
-            padding-left: 0;
-            color: var(--mystic-text-light);
-            opacity: 0.9;
-            font-size: 0.95rem;
-        }
-        .mystic-content-list li {
-            margin-bottom: 1rem;
-            padding-left: 2rem;
-            position: relative;
-            line-height: 1.7;
-        }
-        .mystic-content-list li::before {
-            content: '✧'; /* Star-like bullet */
-            position: absolute;
-            left: 0;
-            top: 2px;
-            font-size: 1.2rem;
-            line-height: 1;
-            text-shadow: 0 0 5px currentColor;
-        }
-        .list-bullet-awsome::before { color: var(--mystic-secondary); }
-        .list-bullet-notebooklm::before { color: var(--mystic-primary); }
-
-        .mystic-cta-button-container {
-            padding-top: 2rem;
-            text-align: left;
-        }
-        .mystic-cta-button {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.9rem 2rem;
-            border-radius: 50px; /* Pill shape */
-            font-family: var(--font-orbitron);
-            font-weight: 500;
-            font-size: 0.95rem;
-            text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            color: var(--mystic-text-dark);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid transparent;
-        }
-        .mystic-cta-button svg {
-            width: 20px; height: 20px; margin-left: 0.75rem; transition: transform 0.3s ease;
-        }
-        .mystic-cta-button:hover svg {
-            transform: translateX(5px);
-        }
-        .mystic-cta-button-awsome {
-            background: var(--mystic-secondary);
-            border-color: var(--mystic-secondary);
-            box-shadow: 0 0 15px var(--mystic-secondary), 0 0 30px var(--mystic-secondary) inset;
-        }
-        .mystic-cta-button-awsome:hover {
-            background: var(--mystic-text-dark);
-            color: var(--mystic-secondary);
-            box-shadow: 0 0 20px var(--mystic-secondary);
-        }
-        .mystic-cta-button-notebooklm {
-            background: var(--mystic-primary);
-            border-color: var(--mystic-primary);
-            box-shadow: 0 0 15px var(--mystic-primary), 0 0 30px var(--mystic-primary) inset;
-        }
-        .mystic-cta-button-notebooklm:hover {
-            background: var(--mystic-text-dark);
-            color: var(--mystic-primary);
-            box-shadow: 0 0 20px var(--mystic-primary);
-        }
-        .mystic-cta-button-secondary {
-            background: transparent;
-            border: 1px solid var(--mystic-accent);
-            color: var(--mystic-accent);
-            box-shadow: 0 0 10px var(--mystic-accent) inset;
-        }
-        .mystic-cta-button-secondary:hover {
-            background: var(--mystic-accent);
-            color: var(--mystic-text-dark);
-            box-shadow: 0 0 15px var(--mystic-accent);
-        }
-
-        .mystic-usage-note {
-            font-size: 0.85rem;
-            color: var(--mystic-text-light);
-            opacity: 0.7;
-            text-align: center;
-            margin-top: 0.5rem;
-        }
-
-        .synergy-section-mystic {
-            padding: 6rem 2rem;
-            text-align: center;
-            position: relative;
-        }
-        .synergy-section-mystic::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(ellipse at center, rgba(106, 13, 173, 0.2), transparent 70%);
-            z-index: -1;
-            opacity: 0.5;
-        }
-        .synergy-title-mystic {
-            font-family: var(--font-orbitron);
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--mystic-text-light);
-            margin-bottom: 2rem;
-            text-shadow: 0 0 10px var(--mystic-secondary);
-        }
-        .synergy-text-mystic {
-            font-size: 1.1rem;
-            color: var(--mystic-text-light);
-            opacity: 0.85;
-            max-width: 800px;
-            margin: 0 auto 1.5rem auto;
-            line-height: 1.9;
-        }
-
-        .mystic-footer {
-            background-color: transparent; /* Transparent to show body background */
-            padding: 4rem 2rem 2rem;
-            text-align: center;
-            border-top: 1px solid var(--mystic-border);
-            position: relative;
-        }
-        .mystic-footer-title {
-            font-family: var(--font-orbitron);
-            font-size: 2rem;
-            font-weight: 500;
-            margin-bottom: 1.5rem;
-            color: var(--mystic-text-light);
-            text-shadow: 0 0 8px var(--mystic-primary);
-        }
-        .mystic-footer-text {
-            font-size: 1rem;
-            opacity: 0.8;
-            margin-bottom: 1.5rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .mystic-contact-info p {
-            font-size: 0.95rem;
-            opacity: 0.8;
-            margin-bottom: 0.75rem;
-        }
-        .mystic-contact-info a {
-            color: var(--mystic-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease, text-shadow 0.3s ease;
-        }
-        .mystic-contact-info a:hover {
-            color: var(--mystic-accent);
-            text-shadow: 0 0 5px var(--mystic-accent);
-        }
-        .mystic-final-greeting {
-            margin-top: 3rem;
-            font-size: 1.1rem;
-            font-weight: 500;
-            opacity: 0.9;
-            font-family: var(--font-orbitron);
-            color: var(--mystic-accent);
-            text-shadow: 0 0 10px var(--mystic-accent);
-        }
-
-        /* Animations */
-        @keyframes fadeInDownMystic {
-            from { opacity: 0; transform: translateY(-40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInUpMystic {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes bounceMystic {
-            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-15px); }
-            60% { transform: translateX(-50%) translateY(-7px); }
-        }
-        .animate-on-scroll {
-            transition: opacity 1s ease-out, transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .animate-on-scroll.is-visible {
-            opacity: 1;
-            transform: perspective(1000px) rotateY(0deg) scale(1);
-        }
-
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep-space); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(var(--accent-neon-cyan), var(--accent-cyber-purple)); border-radius: 0.5rem; }
     </style>
 </head>
 <body class="antialiased">
-    <header class="mystic-header">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <div class="mystic-logo">Managed Service 3</div>
-            <nav class="mystic-nav-links">
-                <a href="#tools">AI 동료 소개</a>
-                <a href="#synergy">활용 시너지</a>
-                <a href="#contact">문의하기</a>
+
+    <canvas id="particle-canvas"></canvas>
+
+    <header id="site-header">
+        <div class="container container-mx">
+            <a href="#" class="logo">Kubernetes<span class="logo-ai">/AI</span> Series</a>
+            <nav>
+                <a href="#series-guide">시리즈 안내</a>
+                <a href="#tech-partners">CORE TECH</a>
             </nav>
         </div>
     </header>
 
-    <section class="hero-section-mystic">
-        <div class="relative z-10">
-            <h1 class="hero-title-mystic"><br class="md:hidden"> 지금 만나보세요.</h1>
-            <p class="hero-subtitle-mystic">두 AI 동료가 여러분의 성공적인 AWS 여정을 지원합니다.<br>정확한 분석과 창의적인 해결책으로 새로운 가능성을 경험하세요.</p>
-            <a href="#tools" class="mystic-cta-button mystic-cta-button-notebooklm hero-cta-button-mystic">
-                AI 동료 탐험하기
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" /></svg>
-            </a>
-        </div>
-        <div class="scroll-down-indicator-mystic">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
-            </svg>
-        </div>
-    </section>
+    <header class="cosmic-gateway-hero">
+        <h1>EKS 운영의 어려움, AI 진단으로 해결하기</h1>
+        <p class="tagline">복잡한 EKS 클러스터 관리, 운영 노하우와 AI 기반 자동 진단으로<br>안정성과 효율성을 동시에 높이는 방법을 제시합니다.</p>
+    </header>
 
-    <div id="tools" class="content-wrapper-mystic pt-24">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
-            <div class="mystic-card card-awsome animate-on-scroll">
-                <div class="mystic-card-header">
-                    <span class="mystic-card-icon icon-awsome">💡</span>
-                    <div>
-                        <h2 class="mystic-card-title">AWSome Friday</h2>
-                        <p class="mystic-card-subtitle">AWS와 금요일 같이 <strong style="color: var(--mystic-secondary); font-weight:700;">즐거운 문제해결 동료 (ChatGPT 기반)</strong></p>
-                    </div>
+    <main>
+        <section id="series-guide" class="navigation-nexus">
+            <h2 class="container-mx">시리즈 구성 안내</h2>
+            <div class="constellation-path-container">
+                <svg class="constellation-path-svg" preserveAspectRatio="none"></svg>
+                <div class="step-navigation-grid container-mx">
+                    <a href="k8sgpt/Step1-new.html" class="step-card"><div class="step-card-glow"></div><div class="step-card-content"><div class="step-card-header"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M4 9h4v11H4zM16 13h4v7h-4zM10 4h4v16h-4z"/></svg></div><h3>EKS 운영과 비용 관리</h3></div><p>클라우드 운영의 현재 상황을 점검하고, EKS 환경에서의 비용 및 리소스 관리 문제 해결의 필요성을 알아봅니다.</p><span class="cta-button">여정 시작하기 &rarr;</span></div></a>
+                    <a href="k8sgpt/Step2-new.html" class="step-card"><div class="step-card-glow"></div><div class="step-card-content"><div class="step-card-header"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg></div><h3>Kubecost: <br>비용 가시성 확보</h3></div><p>Kubecost를 도입하여 Kubernetes 클러스터의 비용 구조를 투명하게 분석하고, 상세한 가시성을 확보하는 방법을 설명합니다.</p><span class="cta-button">탐험하기 &rarr;</span></div></a>
+                    <a href="k8sgpt/Step3-new.html" class="step-card"><div class="step-card-glow"></div><div class="step-card-content"><div class="step-card-header"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1 16h-1v-2h1v2zm-1-4h-1v-5h1v5zm2 4h1v-2h-1v2zm0-4h1v-5h-1v5z"/></svg></div><h3>FinOps 기반 리소스 최적화</h3></div><p>FinOps 접근 방식을 이해하고, Kubecost를 활용하여 실제 EKS 리소스 사용 효율성을 측정 및 최적화하는 전략을 제시합니다.</p><span class="cta-button">탐험하기 &rarr;</span></div></a>
+                    <a href="k8sgpt/Step4-new.html" class="step-card"><div class="step-card-glow"></div><div class="step-card-content"><div class="step-card-header"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></div><h3>AI 기반 클러스터 진단</h3></div><p>Amazon Bedrock과 K8sGPT를 연동하여 EKS 클러스터의 문제를 AI가 진단하고 해결 방안을 제시하는 시스템을 구축합니다.</p><span class="cta-button">탐험하기 &rarr;</span></div></a>
+                    <a href="k8sgpt/Step5-new.html" class="step-card"><div class="step-card-glow"></div><div class="step-card-content"><div class="step-card-header"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm-.5-13h1v6h-1zm.5-7c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1z"/></svg></div><h3>AI 진단 운영 전략 비교</h3></div><p>다양한 K8sGPT 운영 전략(CLI, Operator, Ollama 연동)의 장단점을 비교 분석하고, 상황별 최적의 적용 방안을 검토합니다.</p><span class="cta-button">탐험하기 &rarr;</span></div></a>
+                    <a href="k8sgpt/Step6-new.html" class="step-card"><div class="step-card-glow"></div><div class="step-card-content"><div class="step-card-header"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg></div><h3>AI 트렌드 2025 및 전망</h3></div><p>최신 AI 트렌드 리포트를 기반으로, AI 기술의 발전과 미래 전망을 인터랙티브 인포그래픽으로 확인합니다.</p><span class="cta-button">탐험하기 &rarr;</span></div></a>
+                    <a href="k8sgpt/Step7-new.html" class="step-card"><div class="step-card-glow"></div><div class="step-card-content"><div class="step-card-header"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></div><h3>AI 어시스턴트: <br>kubectl-ai 활용</h3></div><p>복잡한 명령어를 외울 필요 없이, 자연어로 대화하며 EKS 클러스터를 직관적으로 관리하는 방법을 알아봅니다.</p><span class="cta-button">탐험하기 &rarr;</span></div></a>
+                    <a href="k8sgpt/Step8-new.html" class="step-card"><div class="step-card-glow"></div><div class="step-card-content"><div class="step-card-header"><div class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 6c-3.79 0-7.17 2.13-8.84 5.4C4.83 14.87 8.21 17 12 17s7.17-2.13 8.84-5.4C19.17 8.13 15.79 6 12 6zm0 10c-2.48 0-4.5-2.02-4.5-4.5S9.52 7 12 7s4.5 2.02 4.5 4.5S14.48 16 12 16z"/><circle cx="12" cy="11.5" r="2.5"/></svg></div><h3>궁극의 DevOps 환경: <br>Cursor 연동</h3></div><p>AI 코드 에디터 Cursor와 kubectl-ai를 연동하여, 터미널을 떠나지 않고 코드 작성과 인프라 관리를 하나로 통합합니다.</p><span class="cta-button">탐험하기 &rarr;</span></div></a>
                 </div>
-                <div class="mystic-card-content">
-                    <h3 class="mystic-content-heading">주요 특징:</h3>
-                    <ul class="mystic-content-list">
-                        <li class="list-bullet-awsome">AWS 관련 질문과 문제에 대해 <strong style="color: var(--mystic-secondary); font-weight:500;">창의적이고 해결 중심적인 아이디어</strong> 제공</li>
-                        <li class="list-bullet-awsome">직관적이고 사용자 친화적인 방식으로 <strong style="color: var(--mystic-secondary); font-weight:500;">문제 해결의 실마리 제시</strong></li>
-                        <li class="list-bullet-awsome">복잡한 AWS 이슈에 대해 <strong style="color: var(--mystic-secondary); font-weight:500;">효율적인 접근법으로 해결책 탐색 지원</strong></li>
-                        <li class="list-bullet-awsome">업무 중 어려움에 직면 시, <strong style="color: var(--mystic-secondary); font-weight:500;">새로운 관점의 해결책 모색</strong> 지원</li>
-                    </ul>
-                    <h3 class="mystic-content-heading mt-10">활용 사례:</h3>
-                    <ul class="mystic-content-list">
-                        <li class="list-bullet-awsome">새로운 AWS 서비스 도입 아이디어 구상</li>
-                        <li class="list-bullet-awsome">기존 아키텍처 개선을 위한 신선한 접근 방식 모색</li>
-                        <li class="list-bullet-awsome">문제 해결 과정에서 새로운 돌파구 필요 시</li>
-                        <li class="list-bullet-awsome">업무의 창의적 접근 및 효율성 증대</li>
-                    </ul>
-                    <div class="mystic-cta-button-container">
-                        <a href="https://chatgpt.com/g/g-68363f35220c81918443b6a9c162c029-awsome-friday" target="_blank" class="mystic-cta-button mystic-cta-button-awsome">
-                            AWSome Friday와 대화하기
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                        </a>
+            </div>
+        </section>
+
+        <section id="tech-partners" class="logo-partners-section">
+            <h3 class="container-mx">Core Technologies of the Series</h3>
+            <div class="logo-stream-wrapper">
+                <div class="logo-stream">
+                    <div class="logo-list">
+                        <div class="logo-item"><div class="logo-text">Megazone Cloud</div></div>
+                        <div class="logo-item"><div class="logo-text">AWS</div></div>
+                        <div class="logo-item"><div class="logo-text">Gemini</div></div>
+                        <div class="logo-item"><div class="logo-text">OpenAI</div></div>
+                        <div class="logo-item"><div class="logo-text">ollama</div></div>
+                        <div class="logo-item"><div class="logo-text">K8sGPT</div></div>
+                        <div class="logo-item"><div class="logo-text">kubernetes-ai</div></div>
+                        <div class="logo-item"><div class="logo-text">CNCF</div></div>
+                    </div>
+                    <div class="logo-list"> <div class="logo-item"><div class="logo-text">Megazone Cloud</div></div>
+                    <div class="logo-item"><div class="logo-text">AWS</div></div>
+                    <div class="logo-item"><div class="logo-text">Gemini</div></div>
+                    <div class="logo-item"><div class="logo-text">OpenAI</div></div>
+                    <div class="logo-item"><div class="logo-text">ollama</div></div>
+                    <div class="logo-item"><div class="logo-text">K8sGPT</div></div>
+                    <div class="logo-item"><div class="logo-text">kubernetes-ai</div></div>
+                    <div class="logo-item"><div class="logo-text">CNCF</div></div>
                     </div>
                 </div>
             </div>
+        </section>
+    </main>
 
-            <div class="mystic-card card-notebooklm animate-on-scroll" style="transition-delay: 0.2s;">
-                <div class="mystic-card-header">
-                    <span class="mystic-card-icon icon-notebooklm">📚</span>
-                    <div>
-                        <h2 class="mystic-card-title">AWS FactChecker-20250607</h2>
-                        <p class="mystic-card-subtitle">딱딱한 내용이지만 <strong style="color: var(--mystic-primary); font-weight:700;">교수님 같은 동료</strong></p>
-                    </div>
-                </div>
-                <div class="mystic-card-content">
-                    <h3 class="mystic-content-heading">주요 특징:</h3>
-                    <ul class="mystic-content-list">
-                        <li class="list-bullet-notebooklm"><strong style="color: var(--mystic-primary); font-weight:500;">AWS 공식 문서 기반</strong>의 정확하고 신뢰도 높은 정보 제공</li>
-                        <li class="list-bullet-notebooklm">전문가의 시각으로 <strong style="color: var(--mystic-primary); font-weight:500;">체계적이고 논리적인 분석</strong>을 통해 문제 핵심 파악 지원</li>
-                        <li class="list-bullet-notebooklm">기술적 깊이가 요구되는 질문 및 상세 사양 확인 시 <strong style="color: var(--mystic-primary); font-weight:500;">최적의 답변 제시</strong></li>
-                        <li class="list-bullet-notebooklm">설정 값 의미, 모범 사례 등 상세 정보 필요 시 <strong style="color: var(--mystic-primary); font-weight:500;">명확한 답변 확보</strong></li>
-                    </ul>
-                     <h3 class="mystic-content-heading mt-10">활용 사례:</h3>
-                    <ul class="mystic-content-list">
-                        <li class="list-bullet-notebooklm">특정 AWS 서비스 기능, 제약 조건, 설정 방법 확인</li>
-                        <li class="list-bullet-notebooklm">AWS 모범 사례(Best Practice) 기반 아키텍처 설계 검토</li>
-                        <li class="list-bullet-notebooklm">공식 문서에 근거한 명확한 정보 및 답변 필요 시</li>
-                        <li class="list-bullet-notebooklm">기술적 오류 해결을 위한 표준적, 검증된 접근 방법 모색</li>
-                    </ul>
-                    <div class="mystic-cta-button-container text-center">
-                         <a href="https://docs.google.com/spreadsheets/d/12LifN7YKQUKD4Iv7DpQ60-bMIA_VIrRPWn9fQYwI5jc/edit?gid=223167876#gid=223167876" target="_blank" class="mystic-cta-button mystic-cta-button-notebooklm" style="margin-bottom: 1rem; display: block; text-align: center;">
-                            ✨ FactChecker 초대 요청
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:18px; height:18px; margin-left:0.5rem;"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 9v.906a2.25 2.25 0 01-1.183 1.981l-6.478 3.488M2.25 9v.906a2.25 2.25 0 001.183 1.981l6.478 3.488m8.863-11.482A2.25 2.25 0 0019.5 7.5h-15a2.25 2.25 0 00-2.25 2.25V15M12 12.75a.75.75 0 000 1.5.75.75 0 000-1.5z"></path></svg>
-                        </a>
-                         <p class="mystic-usage-note" style="margin-bottom: 1rem;">
-                            AWS FactChecker는 현재 초대를 통해서만 사용 가능합니다.<br>위 '초대 요청' 버튼으로 구글 시트에 이메일을 남겨주시면 확인 후 초대해 드립니다.
-                        </p>
-                         <a href="https://notebooklm.google.com/notebook/ad510432-4aba-40a1-a4df-98b6790a7607" target="_blank" class="mystic-cta-button mystic-cta-button-secondary" style="display: block; text-align: center;">
-                            FactChecker 바로가기 (초대 후)
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <section id="synergy" class="synergy-section-mystic animate-on-scroll">
-        <h2 class="synergy-title-mystic">🤝 두 AI 동료, 시너지로 완성되는 업무 혁신</h2>
-        <p class="synergy-text-mystic">
-            문제 해결의 첫 단계, <strong style="color: var(--mystic-primary); font-weight:700;">AWS FactChecker</strong>를 활용하여 데이터 기반의 정확한 상황 진단과 핵심 정보를 확보하십시오.<br>
-            다음으로, <strong style="color: var(--mystic-secondary); font-weight:700;">AWSome Friday</strong>의 창의적 통찰력을 더해 분석된 내용을 다각도로 확장하고, 혁신적인 해결 방안을 도출하세요.<br>
-            이 유기적인 협업은 여러분의 프로젝트에 강력한 추진력을 더하고, 기대 이상의 성과를 이끌어낼 것입니다.
-        </p>
-        <p class="synergy-text-mystic" style="font-size: 1.2rem; font-weight: 500; margin-top: 2.5rem;">
-            두 AI 동료가 제공하는 지능형 지원을 통해 업무 효율성을 극대화하고, 보다 가치 있는 일에 집중하십시오.
-        </p>
-    </section>
-
-    <footer id="contact" class="mystic-footer">
-        <div class="animate-on-scroll">
-            <h2 class="mystic-footer-title">🌌 새로운 가능성의 탐험, 지금 시작하세요</h2>
-            <p class="mystic-footer-text">
-                AI 동료들과 함께라면, 복잡한 AWS 과제도 명쾌하게 해결하고 기술적 한계를 넘어설 수 있습니다.<br>
-                여러분의 빛나는 아이디어가 현실이 되도록, 최선을 다해 돕겠습니다.
-            </p>
-            <div class="mystic-contact-info">
-                <p>궁금하신 점이나 AI 동료 활용에 대한 자세한 안내가 필요하시면 언제든지 문의하십시오.</p>
-                <p>이메일: <a href="mailto:hjgong@megazone.com">hjgong@megazone.com</a></p>
-            </div>
-            <p class="mystic-final-greeting mt-12">여러분을 응원합니다!</p>
-        </div>
+    <footer class="cosmic-footer">
+        <p>&copy; <script>document.write(new Date().getFullYear())</script> copyright 2025 megazoncloud corp. All rights reserved</p>
+        <p class="slogan">Our Vision: Transform Tomorrow Together</p>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const animatedElements = document.querySelectorAll('.animate-on-scroll');
-            if (!animatedElements.length) return;
+        document.addEventListener('DOMContentLoaded', function() {
+            // Particle background
+            const canvas = document.getElementById('particle-canvas');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                let particles = [];
+                function setCanvasSize() { canvas.width = window.innerWidth; canvas.height = document.body.scrollHeight; }
+                class Particle {
+                    constructor() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.size = Math.random() * 1.2 + 0.3; this.speedX = (Math.random() * 0.4 - 0.2); this.speedY = (Math.random() * 0.4 - 0.2); this.opacity = Math.random() * 0.5 + 0.2; this.color = Math.random() > 0.3 ? `rgba(160, 196, 255, ${this.opacity})` : `rgba(216, 180, 254, ${this.opacity})`; }
+                    update() { this.x += this.speedX; this.y += this.speedY; if (this.x < 0 || this.x > canvas.width) this.x = Math.random() * canvas.width; if (this.y < 0 || this.y > canvas.height) this.y = Math.random() * canvas.height; }
+                    draw() { ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
+                }
+                function initParticles() { const particleCount = Math.floor(canvas.width * canvas.height / 8000); particles = []; for (let i = 0; i < particleCount; i++) particles.push(new Particle()); }
+                function animateParticles() { ctx.clearRect(0, 0, canvas.width, canvas.height); for (let particle of particles) { particle.update(); particle.draw(); } requestAnimationFrame(animateParticles); }
+                setCanvasSize(); initParticles(); animateParticles();
+                window.addEventListener('resize', () => { setCanvasSize(); initParticles(); });
+            }
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target);
-                    }
+            // Card glow effect
+            const cards = document.querySelectorAll('.step-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
                 });
-            }, {
-                threshold: 0.15 // Trigger when 15% of the element is visible for smoother effect
             });
 
-            animatedElements.forEach(el => {
-                observer.observe(el);
-            });
+            // Constellation path drawing
+            const pathContainer = document.querySelector('.constellation-path-container');
+            if (pathContainer) {
+                const svg = pathContainer.querySelector('.constellation-path-svg');
+                const pathGrid = pathContainer.querySelector('.step-navigation-grid');
 
-            const header = document.querySelector('.mystic-header');
-            if(header) {
-                window.addEventListener('scroll', () => {
-                    if (window.scrollY > 50) {
-                        header.style.backgroundColor = 'rgba(15, 15, 26, 0.85)'; // Darken on scroll
-                        header.style.borderBottomColor = 'rgba(106, 13, 173, 0.5)';
-                    } else {
-                        header.style.backgroundColor = 'rgba(15, 15, 26, 0.7)';
-                        header.style.borderBottomColor = 'rgba(106, 13, 173, 0.3)';
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            setTimeout(drawConstellation, 500); 
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.2 });
+
+                function drawConstellation() {
+                    if (!svg || !pathGrid) return;
+                    const cardElements = Array.from(pathGrid.children);
+                    if (cardElements.length < 2) return;
+
+                    svg.innerHTML = ''; 
+                    const containerRect = pathContainer.getBoundingClientRect();
+                    
+                    let pathData = '';
+                    for(let i = 0; i < cardElements.length - 1; i++) {
+                        const startCard = cardElements[i];
+                        const endCard = cardElements[i+1];
+
+                        const startRect = startCard.getBoundingClientRect();
+                        const endRect = endCard.getBoundingClientRect();
+                        
+                        const startX = startRect.left - containerRect.left + startRect.width / 2;
+                        const startY = startRect.top - containerRect.top + startRect.height;
+                        const endX = endRect.left - containerRect.left + endRect.width / 2;
+                        const endY = endRect.top - containerRect.top;
+                        
+                        const midY = (startY + endY) / 2;
+
+                        if (i === 0) {
+                            pathData += `M ${startX} ${startY - 20} `;
+                        }
+                         pathData += `C ${startX} ${midY}, ${endX} ${midY}, ${endX} ${endY + 20} `;
                     }
-                });
+                    
+                    const newPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    newPath.setAttribute('d', pathData);
+                    newPath.setAttribute('stroke', 'url(#constellation-gradient)');
+                    newPath.setAttribute('stroke-width', '1.5');
+                    newPath.setAttribute('fill', 'none');
+                    newPath.setAttribute('stroke-linecap', 'round');
+                    
+                    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+                    const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+                    gradient.id = 'constellation-gradient';
+                    gradient.innerHTML = `<stop offset="0%" stop-color="var(--accent-cyber-purple)" stop-opacity="0.8" /><stop offset="100%" stop-color="var(--accent-neon-cyan)" stop-opacity="0.8" />`;
+                    defs.appendChild(gradient);
+                    svg.appendChild(defs);
+                    svg.appendChild(newPath);
+
+                    const pathLength = newPath.getTotalLength();
+                    newPath.style.strokeDasharray = pathLength;
+                    newPath.style.strokeDashoffset = pathLength;
+                    
+                    newPath.style.animation = `draw-path 3s ease-out 1s forwards`;
+                }
+                
+                if (window.innerWidth > 768) {
+                    observer.observe(pathContainer);
+                    window.addEventListener('resize', drawConstellation);
+                }
             }
         });
     </script>
