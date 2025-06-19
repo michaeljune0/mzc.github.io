@@ -8,28 +8,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-abyss: #03001C; /* Deepest abyss black-blue */
-            --bg-nebula-start: #150050; /* Dark nebula purple */
-            --bg-nebula-end: #3F0071;   /* Lighter nebula violet */
-            --bg-starfield: transparent; /* Starfield will be pseudo-elements */
-
-            --text-luminous: #E0FBFC;  /* Luminous cyan-white */
-            --text-ethereal: #C7D2FE; /* Ethereal lavender */
-            --text-whisper: #A7B3D6;  /* Soft whisper blue */
-
+            --bg-abyss: #03001C;
+            --bg-nebula-start: #150050;
+            --bg-nebula-end: #3F0071;
+            --text-luminous: #E0FBFC;
+            --text-ethereal: #C7D2FE;
+            --text-whisper: #A7B3D6;
             --accent-aurora-cyan: #30BCED;
             --accent-aurora-pink: #D741A7;
             --accent-stardust-gold: #FBD46D;
             --accent-cosmic-glow: rgba(48, 188, 237, 0.7);
-            --accent-finops-green: #4ADE80; /* Bright green for FinOps emphasis */
-            --accent-finops-blue: #60A5FA; /* Clear blue for FinOps emphasis */
-
-
+            --accent-finops-green: #4ADE80;
+            --accent-finops-blue: #60A5FA;
             --font-primary: 'Inter', 'Noto Sans KR', sans-serif;
-            --font-display: 'Orbitron', 'Noto Sans KR', sans-serif; /* For titles */
-
-            --border-radius-celestial: 1rem; /* 16px */
-            --border-radius-dream: 0.75rem; /* 12px */
+            --font-display: 'Orbitron', 'Noto Sans KR', sans-serif;
+            --border-radius-celestial: 1rem;
+            --border-radius-dream: 0.75rem;
         }
 
         html {
@@ -43,10 +37,9 @@
             overflow-x: hidden;
             line-height: 1.8;
             min-height: 100vh;
-            position: relative; /* For starfield */
+            position: relative;
         }
 
-        /* --- Starfield Background (Copied from Step1.html) --- */
         body::before, body::after {
             content: '';
             position: fixed;
@@ -55,18 +48,14 @@
             pointer-events: none;
             z-index: -1;
         }
-        body::before { /* Distant stars */
-            background-image: radial-gradient(circle at 20% 30%, var(--text-ethereal) 0.5px, transparent 1px),
-                              radial-gradient(circle at 80% 70%, var(--text-ethereal) 0.5px, transparent 1px),
-                              radial-gradient(circle at 50% 50%, var(--text-whisper) 0.3px, transparent 1px);
+        body::before {
+            background-image: radial-gradient(circle at 20% 30%, var(--text-ethereal) 0.5px, transparent 1px), radial-gradient(circle at 80% 70%, var(--text-ethereal) 0.5px, transparent 1px), radial-gradient(circle at 50% 50%, var(--text-whisper) 0.3px, transparent 1px);
             background-size: 100px 100px, 150px 150px, 50px 50px;
             opacity: 0.3;
             animation: twinkle 20s linear infinite alternate;
         }
-        body::after { /* Closer, brighter stars */
-            background-image: radial-gradient(circle at 10% 90%, var(--text-luminous) 1px, transparent 1.5px),
-                              radial-gradient(circle at 70% 10%, var(--text-luminous) 1px, transparent 1.5px),
-                              radial-gradient(circle at 30% 60%, var(--accent-stardust-gold) 0.8px, transparent 1.2px);
+        body::after {
+            background-image: radial-gradient(circle at 10% 90%, var(--text-luminous) 1px, transparent 1.5px), radial-gradient(circle at 70% 10%, var(--text-luminous) 1px, transparent 1.5px), radial-gradient(circle at 30% 60%, var(--accent-stardust-gold) 0.8px, transparent 1.2px);
             background-size: 200px 200px, 250px 250px, 180px 180px;
             opacity: 0.5;
             animation: twinkle 15s linear infinite alternate-reverse;
@@ -78,16 +67,12 @@
             100% { opacity: 0.2; transform: scale(1); }
         }
 
-        /* --- Global Transitions & Animations (Copied from Step1.html) --- */
-        .interactive-element, .content-portal, table, blockquote,
-        .dream-list li::before, .dream-list-decimal li::before, .luminous-link::after,
-        .nebula-conclusion, .diagram-container, .diagram-box, .diagram-arrow, .finops-goal-card {
+        .interactive-element, .content-portal, table, blockquote, .dream-list li::before, .dream-list-decimal li::before, .luminous-link::after, .nebula-conclusion, .diagram-container, .diagram-box, .diagram-arrow, .finops-goal-card {
             transition-property: all;
             transition-duration: 0.5s;
             transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
         }
 
-        /* --- Hero Portal (Adapted from Step1.html) --- */
         .hero-portal {
             padding: 6rem 2rem 8rem;
             border-radius: var(--border-radius-celestial);
@@ -95,39 +80,37 @@
             text-align: center;
             position: relative;
             overflow: visible;
-            background: radial-gradient(ellipse at 50% -50%, rgba(74, 222, 128, 0.15) 0%, transparent 60%), /* Top FinOps green glow */
-                        radial-gradient(ellipse at 50% 150%, rgba(96, 165, 250, 0.1) 0%, transparent 60%); /* Bottom FinOps blue glow */
+            background: radial-gradient(ellipse at 50% -50%, rgba(74, 222, 128, 0.15) 0%, transparent 60%), radial-gradient(ellipse at 50% 150%, rgba(96, 165, 250, 0.1) 0%, transparent 60%);
         }
         .hero-portal h1 {
             font-family: var(--font-display);
             color: var(--text-luminous);
             font-weight: 500;
-            font-size: clamp(2.8rem, 6vw, 4.2rem); /* Slightly adjusted for longer title */
+            font-size: clamp(2.8rem, 6vw, 4.2rem);
             text-shadow: 0 0 15px var(--accent-finops-green), 0 0 30px var(--accent-finops-blue);
             letter-spacing: 0.05em;
             margin-bottom: 1.5rem;
             animation: fadeInGlow 2s ease-out forwards;
             opacity:0;
         }
-        @keyframes fadeInGlow { /* Re-use from Step1.html, or adjust glow colors if needed */
+        @keyframes fadeInGlow {
             0% { opacity: 0; transform: translateY(20px) scale(0.95); text-shadow: 0 0 5px var(--accent-cosmic-glow); }
             100% { opacity: 1; transform: translateY(0) scale(1); text-shadow: 0 0 15px var(--accent-finops-green), 0 0 30px var(--accent-finops-blue); }
         }
         .hero-portal p {
             color: var(--text-ethereal);
             font-size: clamp(1.1rem, 2.8vw, 1.35rem);
-            max-width: 750px; /* Adjusted for potentially longer subtitle */
+            max-width: 750px;
             margin: 0 auto;
             opacity: 0;
             animation: fadeInSimple 2s 0.5s ease-out forwards;
             line-height: 1.7;
         }
-        @keyframes fadeInSimple { /* Re-use from Step1.html */
+        @keyframes fadeInSimple {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- Main Content Nebula (Copied from Step1.html) --- */
         .main-content-nebula {
             background: linear-gradient(170deg, var(--bg-nebula-start) 0%, var(--bg-nebula-end) 100%);
             padding: 3.5rem;
@@ -146,7 +129,7 @@
             padding-bottom: 1.5rem;
             margin-bottom: 3rem;
         }
-         .main-content-nebula > h2 .subtitle {
+        .main-content-nebula > h2 .subtitle {
             display: block;
             font-size: 0.6em;
             color: var(--text-ethereal);
@@ -156,42 +139,36 @@
             font-weight: 400;
         }
 
-        /* --- Content Portals (Cards - Copied and adapted from Step1.html) --- */
         .content-portal {
             background-color: rgba(3, 0, 28, 0.7);
             backdrop-filter: blur(10px) saturate(150%);
             -webkit-backdrop-filter: blur(10px) saturate(150%);
-            padding: 2.5rem; /* Slightly reduced padding */
+            padding: 2.5rem;
             border-radius: var(--border-radius-dream);
             margin-bottom: 3rem;
-            border: 1px solid rgba(74, 222, 128, 0.2); /* FinOps Green border */
+            border: 1px solid rgba(74, 222, 128, 0.2);
             box-shadow: 0 10px 30px rgba(0,0,0,0.4);
             position: relative;
             overflow: hidden;
         }
-        .content-portal::before { /* Inner glow effect - adapted */
+        .content-portal::before {
             content: '';
             position: absolute;
             top: -50%; left: -50%;
             width: 200%; height: 200%;
-            background: conic-gradient(
-                transparent,
-                rgba(74, 222, 128, 0.15) 20%, /* FinOps Green */
-                rgba(96, 165, 250, 0.15) 40%, /* FinOps Blue */
-                transparent 60%
-            );
+            background: conic-gradient( transparent, rgba(74, 222, 128, 0.15) 20%, rgba(96, 165, 250, 0.15) 40%, transparent 60% );
             opacity: 0;
             transform-origin: center center;
             transition: opacity 0.7s ease, transform 0.7s ease;
             animation: portalSpin 15s linear infinite paused;
         }
-        @keyframes portalSpin { /* Re-use from Step1.html */
+        @keyframes portalSpin {
             100% { transform: rotate(1turn); }
         }
         .content-portal:hover {
-            transform: translateY(-10px) scale(1.015); /* Slightly less dramatic */
+            transform: translateY(-10px) scale(1.015);
             box-shadow: 0 15px 40px rgba(0,0,0,0.45), 0 0 25px var(--accent-finops-green);
-            border-color: rgba(96, 165, 250, 0.3); /* FinOps Blue border on hover */
+            border-color: rgba(96, 165, 250, 0.3);
         }
         .content-portal:hover::before {
             opacity: 1;
@@ -201,24 +178,23 @@
             font-family: var(--font-display);
             color: var(--text-luminous);
             font-weight: 500;
-            font-size: 1.75rem; /* Slightly smaller */
+            font-size: 1.75rem;
             margin-bottom: 1.5rem;
             text-shadow: 0 0 8px var(--accent-finops-green);
         }
         .content-portal p, .content-portal li {
             color: var(--text-ethereal);
-            font-size: 1.05rem; /* Slightly smaller */
+            font-size: 1.05rem;
         }
         .content-portal .highlight {
             color: var(--accent-finops-green);
             font-weight: 600;
         }
-         .content-portal .sub-highlight {
+        .content-portal .sub-highlight {
             color: var(--accent-finops-blue);
             font-weight: 500;
         }
 
-        /* --- FinOps Goals Diagram --- */
         .finops-goals-container {
             display: flex;
             flex-direction: column;
@@ -227,14 +203,14 @@
             margin: 3rem auto;
             padding: 1rem;
         }
-        @media (min-width: 1024px) { /* lg breakpoint */
+        @media (min-width: 1024px) {
             .finops-goals-container {
                 flex-direction: row;
                 justify-content: space-around;
             }
         }
         .finops-goal-card {
-            background-color: rgba(21, 0, 80, 0.6); /* Dark purple transparent */
+            background-color: rgba(21, 0, 80, 0.6);
             backdrop-filter: blur(8px);
             border: 1px solid var(--accent-finops-green);
             border-radius: var(--border-radius-dream);
@@ -243,7 +219,7 @@
             box-shadow: 0 0 20px rgba(74, 222, 128, 0.3), 0 0 30px rgba(96, 165, 250, 0.2);
             width: 100%;
             max-width: 320px;
-            min-height: 220px; /* Ensure consistent height */
+            min-height: 220px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -254,7 +230,7 @@
             box-shadow: 0 0 25px var(--accent-finops-green), 0 0 35px var(--accent-finops-blue);
         }
         .finops-goal-card .icon {
-            font-size: 3rem; /* Tailwind text-5xl */
+            font-size: 3rem;
             margin-bottom: 1rem;
             line-height: 1;
         }
@@ -270,22 +246,21 @@
             line-height: 1.6;
         }
 
-        /* --- FinOps 4-Step Process Diagram --- */
         .finops-process-diagram {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1rem; /* Reduced gap for closer connection */
+            gap: 1rem;
             margin: 3rem auto;
             padding: 1rem;
             position: relative;
         }
-        @media (min-width: 768px) { /* md breakpoint */
+        @media (min-width: 768px) {
             .finops-process-diagram {
                 flex-direction: row;
                 justify-content: center;
-                align-items: flex-start; /* Align items at the start for varied heights */
-                flex-wrap: wrap; /* Allow wrapping if needed */
+                align-items: flex-start;
+                flex-wrap: wrap;
             }
         }
         .process-step-box {
@@ -296,8 +271,8 @@
             padding: 1.5rem;
             text-align: center;
             box-shadow: 0 0 15px rgba(48, 188, 237, 0.3);
-            width: 220px; /* Fixed width for steps */
-            min-height: 180px; /* Ensure consistent height */
+            width: 220px;
+            min-height: 180px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -323,8 +298,8 @@
             font-family: var(--font-display);
             box-shadow: 0 0 10px var(--accent-cosmic-glow);
         }
-        .process-step-box .icon { /* Placeholder for icon */
-            font-size: 2.5rem; /* Tailwind text-4xl */
+        .process-step-box .icon {
+            font-size: 2.5rem;
             margin-bottom: 0.75rem;
             color: var(--accent-stardust-gold);
         }
@@ -340,21 +315,19 @@
             line-height: 1.5;
         }
         .process-arrow {
-            font-size: 2rem; /* Tailwind text-3xl */
+            font-size: 2rem;
             color: var(--accent-aurora-cyan);
             opacity: 0.7;
             margin: 0.5rem;
             align-self: center;
         }
-        @media (max-width: 767px) { /* Stack arrows vertically on mobile */
+        @media (max-width: 767px) {
             .process-arrow {
                 transform: rotate(90deg);
                 margin: 0.5rem 0;
             }
         }
 
-
-        /* --- Echoes (Blockquotes - Copied from Step1.html) --- */
         blockquote.echoes {
             border-left: 4px solid var(--accent-stardust-gold);
             background: linear-gradient(to right, rgba(251, 212, 109, 0.03), transparent);
@@ -384,26 +357,25 @@
             box-shadow: inset 0 0 25px rgba(251, 212, 109, 0.15), 0 3px 10px rgba(0,0,0,0.2);
         }
 
-        /* --- Data Constellations (Tables - Copied and adapted from Step1.html) --- */
         .table-constellation { margin-top: 2.5rem; margin-bottom: 2.5rem; }
         table.data-constellation {
             border-radius: var(--border-radius-dream);
             box-shadow: 0 0 30px rgba(0,0,0,0.5);
-            border: 1px solid rgba(74, 222, 128, 0.15); /* FinOps Green border */
+            border: 1px solid rgba(74, 222, 128, 0.15);
             border-collapse: separate;
             border-spacing: 0;
             width: 100%;
             overflow: hidden;
         }
         table.data-constellation thead th {
-            background: linear-gradient(to right, rgba(74, 222, 128, 0.15), rgba(96, 165, 250, 0.15)); /* FinOps colors */
+            background: linear-gradient(to right, rgba(74, 222, 128, 0.15), rgba(96, 165, 250, 0.15));
             backdrop-filter: blur(5px);
             color: var(--text-luminous);
             font-weight: 600;
-            padding: 1.25rem; /* Slightly reduced */
+            padding: 1.25rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            font-size: 0.8rem; /* Slightly smaller */
+            font-size: 0.8rem;
             border-bottom: 1px solid rgba(74, 222, 128, 0.2);
         }
         table.data-constellation tbody tr {
@@ -412,7 +384,7 @@
         }
         table.data-constellation tbody tr:last-child { border-bottom: none; }
         table.data-constellation tbody tr:hover {
-            background-color: rgba(74, 222, 128, 0.1); /* FinOps Green hover */
+            background-color: rgba(74, 222, 128, 0.1);
             transform: scale(1.003);
         }
         table.data-constellation tbody tr:hover td { color: var(--text-luminous); }
@@ -424,12 +396,11 @@
             font-weight: 500;
             color: var(--text-luminous);
         }
-        .efficiency-high { color: #6EE7B7; /* Tailwind emerald-300 */ }
-        .efficiency-medium { color: #FCD34D; /* Tailwind amber-300 */ }
-        .efficiency-low { color: #F87171; /* Tailwind red-400 */ }
-        .efficiency-zero { color: #9CA3AF; /* Tailwind gray-400 */ }
+        .efficiency-high { color: #6EE7B7; }
+        .efficiency-medium { color: #FCD34D; }
+        .efficiency-low { color: #F87171; }
+        .efficiency-zero { color: #9CA3AF; }
 
-        /* --- Dream Lists (Copied and adapted from Step1.html) --- */
         .dream-list { list-style: none; padding-left: 0; }
         .dream-list li {
             padding-left: 1.2rem;
@@ -442,22 +413,21 @@
             left: -0.5rem; top: 0.5em;
             width: 8px; height: 8px;
             border-radius: 50%;
-            background-color: var(--accent-finops-green); /* FinOps green orb */
+            background-color: var(--accent-finops-green);
             box-shadow: 0 0 8px var(--accent-finops-green), 0 0 12px var(--accent-finops-green);
             animation: pulseOrb 2s infinite ease-in-out;
             transition: all 0.4s ease;
         }
-        @keyframes pulseOrb { /* Re-use from Step1.html */
+        @keyframes pulseOrb {
             0%, 100% { transform: scale(1); opacity: 0.7; }
             50% { transform: scale(1.3); opacity: 1; }
         }
         .dream-list li:hover::before {
-            background-color: var(--accent-finops-blue); /* FinOps blue orb on hover */
+            background-color: var(--accent-finops-blue);
             box-shadow: 0 0 10px var(--accent-finops-blue), 0 0 15px var(--accent-finops-blue);
             transform: scale(1.5) rotate(360deg);
         }
         
-        /* NEW: GUIDANCE PORTAL FOR NOTICES */
         .guidance-portal {
             background: linear-gradient(to right, rgba(251, 212, 109, 0.08), rgba(48, 188, 237, 0.05));
             border-left: 4px solid var(--accent-stardust-gold);
@@ -490,7 +460,6 @@
             line-height: 1.7;
         }
 
-        /* --- Luminous Links & Accents (Copied from Step1.html) --- */
         .luminous-link, a {
             color: var(--accent-aurora-cyan);
             font-weight: 500;
@@ -513,7 +482,6 @@
         .luminous-link:hover::after, a:hover::after { width: 100%; opacity: 1; }
         a:hover { color: var(--accent-aurora-pink); }
 
-        /* --- Nebula Conclusion (Copied and adapted from Step1.html) --- */
         .nebula-conclusion {
             background: radial-gradient(ellipse at center, rgba(74, 222, 128, 0.05) 0%, transparent 70%),
                         linear-gradient(160deg, rgba(21,0,80,0.3) 0%, rgba(63,0,113,0.3) 100%);
@@ -551,7 +519,6 @@
             font-weight: 600;
         }
 
-        /* --- Footer (Copied from Step1.html) --- */
         footer.cosmic-dust {
             border-top: 1px solid rgba(224, 251, 252, 0.08);
             padding-top: 3.5rem;
@@ -564,7 +531,6 @@
         }
         footer.cosmic-dust p:hover { color: var(--text-ethereal); }
 
-        /* Scrollbar Styling (Copied from Step1.html) */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg-abyss); }
         ::-webkit-scrollbar-thumb {
@@ -575,10 +541,9 @@
             box-shadow: 0 0 10px var(--accent-cosmic-glow);
         }
         
-        /* Image Placeholder Style */
         .image-placeholder-container {
             background-color: rgba(3, 0, 28, 0.6);
-            border: 2px dashed var(--accent-ai-purple);
+            border: 2px dashed var(--accent-aurora-pink);
             border-radius: var(--border-radius-dream);
             padding: 2rem;
             margin: 2.5rem auto;
@@ -589,11 +554,11 @@
             align-items: center;
             justify-content: center;
             min-height: 200px;
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.15);
+            box-shadow: 0 0 20px rgba(215, 65, 167, 0.15);
         }
         .image-placeholder-container .placeholder-icon {
             font-size: 3rem;
-            color: var(--accent-ai-purple);
+            color: var(--accent-aurora-pink);
             opacity: 0.7;
             margin-bottom: 1rem;
         }
@@ -615,20 +580,163 @@
             height: auto;
             border-radius: calc(var(--border-radius-dream) - 8px); 
             margin-top: 1.5rem;
-            border: 2px solid rgba(139, 92, 246, 0.4); 
-            cursor: zoom-in;
+            border: 2px solid rgba(215, 65, 167, 0.4); 
+            cursor: pointer;
             object-fit: contain; 
             background-color: rgba(0,0,0,0.3); 
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .image-placeholder-container .embedded-image:hover {
             transform: scale(1.03);
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+            box-shadow: 0 0 20px rgba(215, 65, 167, 0.5);
         }
 
+        /* [추가] 이미지 클릭 시 모달 스타일 */
+        #image-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        #image-modal.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        #image-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+        }
+
+        /*
+        ===============================================================
+        === 가이드라인 기반 모바일 베스트 프랙티스 최적화 코드 시작 ===
+        ===============================================================
+        */
+        @media (max-width: 768px) {
+            /* --- 1. 레이아웃 & 여백 (Layout & Spacing) --- */
+            .container.mx-auto {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            .hero-portal { padding: 4rem 1rem; margin-bottom: 2rem; }
+            .main-content-nebula { padding: 2rem 1rem; }
+            .content-portal, .guidance-portal { padding: 1.5rem; margin-bottom: 2rem; }
+            .finops-goals-container { gap: 1.5rem; }
+            blockquote.echoes { padding: 1.5rem; margin: 2rem 0; }
+            .nebula-conclusion { padding: 2.5rem 1.5rem; margin-top: 2rem; }
+            footer.cosmic-dust { margin-top: 3rem; padding-top: 2rem; }
+
+            /* --- [수정] 깨지는 FinOps 다이어그램 레이아웃 수정 --- */
+            .finops-process-diagram {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem; /* 각 요소 사이의 간격 */
+            }
+            .finops-process-diagram > div {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+                width: 100%;
+                margin-top: 0 !important; /* 인라인 스타일 초기화 */
+            }
+            .process-arrow {
+                display: block !important; /* hidden 클래스 무시하고 보이게 함 */
+                transform: rotate(90deg);
+                margin: 0;
+            }
+
+
+            /* --- 2. 타이포그래피 (Typography) & 가독성 --- */
+            .hero-portal h1 { font-size: clamp(2rem, 10vw, 2.8rem); }
+            .hero-portal p { font-size: clamp(1rem, 4vw, 1.15rem); }
+            .main-content-nebula > h2 {
+                text-align: center;
+                font-size: clamp(1.8rem, 7vw, 2.2rem);
+                padding-bottom: 1rem;
+                margin-bottom: 2rem;
+            }
+            .content-portal h3 { font-size: clamp(1.4rem, 6vw, 1.7rem); }
+            .content-portal p, .content-portal li, .guidance-portal p {
+                font-size: 1rem;
+                word-break: keep-all;
+                overflow-wrap: break-word;
+                line-height: 1.75;
+            }
+            blockquote.echoes { font-size: 1rem; }
+            .finops-goal-card h4, .process-step-box h4 { font-size: 1.1rem; }
+            .finops-goal-card p, .process-step-box p { font-size: 0.9rem; }
+            .nebula-conclusion h3 { font-size: clamp(1.6rem, 7vw, 2rem); }
+            .nebula-conclusion p { font-size: 1.05rem; }
+
+            /* --- 3. UI/UX 요소 (UI/UX Elements) --- */
+            .finops-goal-card, .process-step-box { min-height: auto; }
+            .guidance-portal {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .guidance-portal .icon { margin-top: 0; }
+            .table-constellation {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                -webkit-mask-image: linear-gradient(to right, transparent, black 15px, black 95%, transparent);
+                mask-image: linear-gradient(to right, transparent, black 15px, black 95%, transparent);
+            }
+            table.data-constellation { min-width: 1200px; }
+            table.data-constellation td, table.data-constellation th {
+                padding: 1rem 1.25rem;
+                white-space: pre-wrap;
+            }
+            .image-placeholder-container { padding: 1.5rem; }
+
+
+            /* --- 4. 성능 최적화 (Performance) --- */
+            .content-portal:hover, .finops-goal-card:hover, .process-step-box:hover,
+            .nebula-conclusion:hover, blockquote.echoes:hover, .dream-list li:hover::before,
+            .image-placeholder-container .embedded-image:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            .content-portal::before, .dream-list li::before { animation: none; }
+        }
+
+        /* --- 5. 접근성: 동작 줄이기 설정 (Accessibility) --- */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+        /*
+        =============================================================
+        === 가이드라인 기반 모바일 베스트 프랙티스 최적화 코드 끝 ===
+        =============================================================
+        */
     </style>
 </head>
 <body class="antialiased">
+    <div id="image-modal">
+        <img id="modal-image-content" src="" alt="확대된 이미지">
+    </div>
+
     <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
 
         <header class="hero-portal interactive-element">
@@ -751,7 +859,6 @@
                         </div>
                     </div>
 
-                    <!-- INSERTED TABLE START -->
                     <div class="table-constellation">
                         <h4 class="text-xl font-semibold mb-4 text-center font-display" style="color: var(--text-luminous);">Kubecost 버전별 기능 제약 비교</h4>
                         <table class="data-constellation interactive-element">
@@ -856,7 +963,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- INSERTED TABLE END -->
 
                      <div class="image-placeholder-container my-6 interactive-element">
                         <p class="placeholder-title">Kubecost UI 메뉴 스크린샷</p>
@@ -986,5 +1092,49 @@
         </footer>
 
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = document.createElement('div');
+            modal.id = 'image-modal';
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
+            modal.style.zIndex = '2000';
+            modal.style.display = 'flex';
+            modal.style.alignItems = 'center';
+            modal.style.justifyContent = 'center';
+            modal.style.cursor = 'pointer';
+            modal.style.opacity = '0';
+            modal.style.visibility = 'hidden';
+            modal.style.transition = 'opacity 0.3s ease, visibility 0.3s ease';
+
+            const modalImage = document.createElement('img');
+            modalImage.id = 'modal-image-content';
+            modalImage.style.maxWidth = '90%';
+            modalImage.style.maxHeight = '90%';
+            modalImage.style.borderRadius = '8px';
+            modalImage.style.boxShadow = '0 0 40px rgba(255, 255, 255, 0.3)';
+            
+            modal.appendChild(modalImage);
+            document.body.appendChild(modal);
+
+            document.querySelectorAll('.clickable-image').forEach(image => {
+                image.addEventListener('click', function () {
+                    modalImage.src = this.src;
+                    modal.style.opacity = '1';
+                    modal.style.visibility = 'visible';
+                });
+            });
+
+            modal.addEventListener('click', function () {
+                modal.style.opacity = '0';
+                modal.style.visibility = 'hidden';
+            });
+        });
+    </script>
 </body>
 </html>
