@@ -80,6 +80,23 @@
             100% { opacity: 0.2; transform: scale(1); }
         }
 
+        /* 접근성: 스킵 링크 스타일 */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--accent-aurora-pink);
+            color: white;
+            padding: 8px;
+            z-index: 1002; /* 최상단에 오도록 설정 */
+            transition: top 0.3s;
+            border-radius: 0 0 5px 5px;
+            font-weight: bold;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+
         .interactive-element, .content-portal, table, blockquote,
         .luminous-link::after {
             transition-property: transform, box-shadow, border-color, opacity;
@@ -239,7 +256,11 @@
         
         .nav-link.active {
             color: var(--accent-aurora-pink);
-            border-bottom-color: var(--accent-aurora-pink);
+            font-weight: 600;
+            transform: scale(1.05);
+        }
+        .nav-link {
+            transition: color 0.3s, transform 0.3s;
         }
 
         footer.cosmic-dust {
@@ -302,9 +323,41 @@
         .bg-gray-50 { background-color: transparent !important; }
         .bg-gray-100 { background-color: rgba(21, 0, 80, 0.3) !important; }
         .bg-white { background-color: rgba(3, 0, 28, 0.7) !important; }
+
+        /* --- ▼▼▼ 모바일 반응형 및 웹 베스트 프랙티스 ▼▼▼ --- */
+        @media (max-width: 768px) {
+            /* 레이아웃: 모바일에서 과도한 패딩 축소 */
+            main.nebula-background {
+                padding: 1.5rem;
+            }
+            .content-portal, .stat-card {
+                padding: 1.5rem;
+            }
+            .hero-portal {
+                padding: 4rem 1rem 5rem;
+                margin-bottom: 2rem;
+            }
+
+            /* 타이포그래피: 모바일에서 제목 폰트 크기 조정 */
+            .hero-portal h1 {
+                font-size: clamp(2.25rem, 10vw, 3rem);
+            }
+            .section-title {
+                font-size: clamp(1.75rem, 7vw, 2.25rem);
+            }
+            blockquote.echoes {
+                padding: 1.5rem;
+            }
+            .kpi-value {
+                font-size: 2.75rem; /* KPI 숫자 크기 조정 */
+            }
+        }
+        /* --- ▲▲▲ 모바일 반응형 및 웹 베스트 프랙티스 ▲▲▲ --- */
+
     </style>
 </head>
 <body class="antialiased">
+    <a href="#main-content" class="skip-link">메인 콘텐츠로 건너뛰기</a>
 
     <header class="bg-abyss/80 backdrop-blur-sm sticky top-0 z-50 shadow-lg shadow-black/20 border-b border-white/10">
         <nav class="container mx-auto px-6 py-4">
@@ -313,11 +366,11 @@
                     <span style="color: var(--accent-ai-teal);">AI</span> 트렌드 2025
                 </div>
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#growth" class="nav-link border-b-2 border-transparent pb-1">성장과 투자</a>
-                    <a href="#economics" class="nav-link border-b-2 border-transparent pb-1">AI 경제학</a>
-                    <a href="#competition" class="nav-link border-b-2 border-transparent pb-1">경쟁 구도</a>
-                    <a href="#real-world" class="nav-link border-b-2 border-transparent pb-1">현실 세계 AI</a>
-                    <a href="#work" class="nav-link border-b-2 border-transparent pb-1">일의 미래</a>
+                    <a href="#growth" class="nav-link">성장과 투자</a>
+                    <a href="#economics" class="nav-link">AI 경제학</a>
+                    <a href="#competition" class="nav-link">경쟁 구도</a>
+                    <a href="#real-world" class="nav-link">현실 세계 AI</a>
+                    <a href="#work" class="nav-link">일의 미래</a>
                 </div>
             </div>
         </nav>
@@ -334,6 +387,7 @@
             </p>
         </header>
 
+        <div id="main-content">
             <h2 class="section-title">보고서 출처 정보</h2>
             <div class="content-portal max-w-4xl mx-auto">
                 <p class="leading-relaxed">
@@ -350,7 +404,7 @@
             </div>
         </div>
 
-        <main class="nebula-background mb-20">
+        <main class="nebula-background mb-20 mt-16">
 
             <div id="growth" class="mb-20 pt-16">
                 <h2 class="section-title">1. AI 도입 및 성장: 상상을 초월하는 속도</h2>
@@ -631,7 +685,8 @@
             };
 
             const processLabel = (label) => {
-                const maxLength = 16;
+                if (window.innerWidth > 768) return label; // Don't split on larger screens
+                const maxLength = 12; // Adjusted for mobile
                 if (label.length <= maxLength) return label;
                 const words = label.split(' ');
                 const lines = [];
@@ -873,7 +928,7 @@
             const activateNav = (id) => {
                 navLinks.forEach(link => {
                     link.classList.remove('active');
-                    if(link.getAttribute('href') === `#${id}`) {
+                    if (link.getAttribute('href') === `#${id}`) {
                         link.classList.add('active');
                     }
                 });
@@ -885,10 +940,12 @@
                         activateNav(entry.target.id);
                     }
                 });
-            }, { rootMargin: '-30% 0px -70% 0px' });
+            }, { rootMargin: '-20% 0px -65% 0px', threshold: 0.5 }); // Adjusted for better accuracy
 
             sections.forEach(section => {
-                if(section.id) observer.observe(section);
+                if (section.id && section.id !== 'main-content') { // Observe only main sections
+                    observer.observe(section);
+                }
             });
         });
     </script>
