@@ -122,28 +122,31 @@
             .step-card:nth-child(2n) { justify-self: center; }
             .step-card:nth-child(2n+1) { justify-self: center; }
 
-            /* === 모바일 반응형 개선 코드 === */
-            /* 헤더: 로고와 네비게이션이 세로로 쌓이도록 변경 */
-            #site-header .container {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            #site-header nav {
-                display: flex;
-                justify-content: center;
-                width: 100%;
-            }
-            #site-header nav a {
-                margin-left: 1rem;
-                margin-right: 1rem;
+            /* [수정] 헤더 좌우 여백 축소 */
+            #site-header {
+                padding: 1rem 1.5rem;
             }
 
-            /* 메인 히어로 섹션: 상하 여백을 모바일에 맞게 축소 */
+            /* [추가] 헤더 로고 크기 조정 */
+            #site-header .logo {
+                font-size: 1.3rem;
+            }
+            
+            /* [수정] 기본 컨테이너 좌우 여백 축소 */
+            .container-mx {
+                padding: 0 1rem;
+            }
+            
+            /* [수정] 히어로 섹션: 상하 여백 및 텍스트 잘림 방지 */
             .cosmic-gateway-hero {
                 padding: 8rem 1rem 6rem;
             }
+            .cosmic-gateway-hero h1, .cosmic-gateway-hero .tagline {
+                overflow-wrap: break-word; /* 긴 단어 자동 줄바꿈 */
+                word-break: keep-all;     /* 한글 단어 보호 */
+            }
             .cosmic-gateway-hero h1 {
-                font-size: clamp(2.2rem, 8vw, 3rem); /* 모바일에서 제목 크기 살짝 조정 */
+                font-size: clamp(2.2rem, 8vw, 3rem);
             }
 
             /* 시리즈 안내 섹션: 상하 여백 축소 */
@@ -172,7 +175,6 @@
                 padding: 3rem 1rem;
                 margin-top: 4rem;
             }
-            /* === 개선 코드 끝 === */
         }
 
         .step-card {
