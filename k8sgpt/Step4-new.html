@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Step 4: 사용자의 손과 눈을 확장하는 도구 - Bedrock + K8sGPT 구성</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -80,6 +82,24 @@
             50% { opacity: 0.6; transform: scale(1.02); }
             100% { opacity: 0.2; transform: scale(1); }
         }
+        
+        /* 접근성: 스킵 링크 스타일 */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--accent-aurora-pink);
+            color: white;
+            padding: 8px;
+            z-index: 1002; /* 최상단에 오도록 설정 */
+            transition: top 0.3s;
+            border-radius: 0 0 5px 5px;
+            font-weight: bold;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+
 
         .interactive-element, .content-portal, table, blockquote,
         .dream-list li::before, .dream-list-decimal li::before, .luminous-link::after,
@@ -220,7 +240,6 @@
             margin: 2rem 0;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             border: 1px solid rgba(139, 92, 246, 0.3);
-            overflow: visible; /* 변경: 내부 pre 요소의 스크롤바가 잘리지 않도록 */
         }
         .code-block-header {
             background: linear-gradient(90deg, rgba(139, 92, 246, 0.25) 0%, rgba(20, 184, 166, 0.25) 100%);
@@ -230,13 +249,13 @@
             color: var(--text-luminous);
             border-bottom: 1px solid rgba(139, 92, 246, 0.3);
         }
-        .code-block pre {
+        /* [수정됨] pre 태그에 직접 클래스가 적용되므로 선택자를 pre.code-block 으로 변경 */
+        pre.code-block {
             padding: 1.5rem;
             font-family: var(--font-code);
             font-size: 0.9em;
             color: #DCDCDC;
-            white-space: pre;      /* 변경: 자동 줄바꿈 안 함 */
-            /* word-break: break-all; */ /* white-space: pre 사용 시 보통 불필요 */
+            white-space: pre;
             line-height: 1.75;
             overflow-x: auto;   /* 가로 스크롤 자동 생성 */
             overflow-y: auto;   /* 세로 스크롤 자동 생성 */
@@ -259,8 +278,6 @@
             padding-right: 1em; 
             margin-bottom: 1em; 
         }
-
-        /* ... (나머지 CSS 및 HTML, JavaScript는 이전과 동일하게 유지) ... */
 
         .k8sgpt-diagram-container {
             margin: 3.5rem auto;
@@ -606,7 +623,7 @@
             font-weight: 500;
             text-decoration: none;
             position: relative;
-            padding-bottom: 3px;
+            padding: 0.5em 0.2em; /* 모바일 터치 영역 확보 */
         }
         .luminous-link::after, a::after {
             content: '';
@@ -614,7 +631,7 @@
             width: 0;
             height: 1.5px;
             display: block;
-            left: 50%; bottom: 0;
+            left: 50%; bottom: 0.3em; /* 패딩에 맞춰 조정 */
             transform: translateX(-50%);
             background: linear-gradient(to right, var(--accent-aurora-cyan), var(--accent-aurora-pink));
             transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.4s ease;
@@ -681,10 +698,59 @@
         ::-webkit-scrollbar-thumb:hover {
             box-shadow: 0 0 10px var(--accent-cosmic-glow);
         }
+        
+        /* --- 모바일 반응형 디자인 수정 --- */
+        @media (max-width: 640px) {
+            /* 레이아웃: 모바일에서 과도한 패딩 축소 */
+            .hero-portal {
+                padding: 4rem 1rem 5rem;
+                margin-bottom: 3rem;
+            }
+            main {
+                padding: 1.5rem;
+            }
+            .content-portal {
+                padding: 1.5rem;
+            }
+            .nebula-conclusion {
+                padding: 2rem 1.5rem;
+            }
+            .container {
+                padding: 0.5rem;
+            }
+            
+            /* 타이포그래피: 모바일에서 제목 폰트 크기 조정 */
+            .hero-portal h1 {
+                 font-size: clamp(2rem, 10vw, 2.5rem);
+            }
+            main > h2 {
+                /* Tailwind's text-4xl is 2.25rem, text-5xl is 3rem. Adjusting for mobile. */
+                font-size: 2rem;
+            }
+            .content-portal h3 {
+                font-size: 1.5rem;
+            }
+            .nebula-conclusion h3 {
+                font-size: 2rem;
+            }
+
+            /* Bedrock 다이어그램 네거티브 마진 조정 */
+            .bedrock-layer-card-animated.models,
+            .bedrock-layer-card-animated.core-platform {
+                margin-top: -1.5rem; /* 네거티브 마진 줄이기 */
+            }
+
+            /* 코드 블록 pre 태그 패딩 조정 */
+            pre.code-block {
+                padding: 1rem;
+            }
+        }
 
     </style>
 </head>
 <body class="antialiased">
+    <a href="#step4-content" class="skip-link">메인 콘텐츠로 건너뛰기</a>
+    
     <div id="imageModal" class="image-modal">
         <span class="close-modal">&times;</span>
         <img class="modal-content-image" id="modalImageContent" loading="lazy">
@@ -694,13 +760,12 @@
 
         <header class="hero-portal interactive-element">
             <h1 class="mb-6">Step 4</h1>
-            <p>사용자의 손과 눈을 확장하는 도구 - Bedrock + K8sGPT 연동 및 구성 분석</p>
+            <p>Amazon Bedrock과 K8sGPT를 활용한 AI 기반 Kubernetes 진단 시스템 구축</p>
         </header>
-
+        
         <main id="step4-content" class="mb-20">
             <h2 class="text-4xl sm:text-5xl font-bold mb-16 pb-8 text-center">
-                Step 4. 사용자의 손과 눈을 확장하는 도구
-                <span class="subtitle">- Amazon Bedrock과 K8sGPT를 활용한 AI 기반 Kubernetes 진단 시스템 구축 -</span>
+                사용자의 손과 눈을 확장하는 도구
             </h2>
 
             <section class="content-portal interactive-element">
@@ -906,9 +971,8 @@
           <section class="content-portal interactive-element">
                 <h3>Cli 기반 K8sGPT 설치 및 사용</h3>
                 <div class="code-block-container">
-                    <div class="code-block-container">
-                        <div class="code-block-header"><span>K8sGPT CLI 설치 (RPM 방식 예시)</span></div>
-                        <pre class="code-block" style="overflow-x: auto;"><span class="comment">#최신 버전 확인 및 다운로드</span>
+                    <div class="code-block-header"><span>K8sGPT CLI 설치 (RPM 방식 예시)</span></div>
+                    <pre class="code-block"><span class="comment">#최신 버전 확인 및 다운로드</span>
 <span class="command">VERSION<span class="operator">=</span>$(curl -s https://api.github.com/repos/k8sgpt-ai/k8sgpt/releases/latest <span class="operator">|</span> grep tag_name <span class="operator">|</span> cut -d <span class="string">'"'</span> -f 4)</span>
 <span class="command">curl -LO https://github.com/k8sgpt-ai/k8sgpt/releases/download/<span class="variable">$VERSION</span>/k8sgpt_amd64.rpm</span>
 <span class="comment">#다운 확인</span>
@@ -916,15 +980,15 @@
 <span class="output-line">-rw-rw-r--. 1 ems-poc ems-poc 30328734 Mar 18 10:36 k8sgpt_amd64.rpm</span>
 <span class="comment">#RPM 패키지 설치</span>
 <span class="keyword">sudo</span> <span class="command">rpm -ivh k8sgpt_amd64.rpm</span>
-<span class="output-line">Verifying...         ##################### [100%]</span>
-<span class="output-line">Preparing...         ##################### [100%]</span>
+<span class="output-line">Verifying...                      ################################# [100%]</span>
+<span class="output-line">Preparing...                      ################################# [100%]</span>
 <span class="output-line">Updating / installing...</span>
-<span class="output-line">1:k8sgpt-0.4.1-1     ##################### [100%]</span></pre>
-                    </div>
+<span class="output-line">   1:k8sgpt-0.4.1-1                 ################################# [100%]</span></pre>
+                </div>
                 <h4 class="text-lg font-semibold my-3 mt-6 font-display" style="color: var(--accent-ai-teal);">명령어 수준 사용 결과값</h4>
                 <div class="code-block-container">
                     <div class="code-block-header"><span>k8sgpt analyze 실행 결과 예시</span></div>
-                    <pre class="code-block" style="overflow-x: auto;"><span class="command">k8sgpt analyze</span>
+                    <pre class="code-block"><span class="command">k8sgpt analyze</span>
 <span class="output-line">AI Provider: AI not used; --explain not set</span>
 <span class="output-line">0: Pod default/readiness-fail()</span>
 <span class="error-line">- Error: Readiness probe failed: Get "http://172.0.2.41:8080/healthz": dial tcp 172.0.2.41:8080: connect: connection refused</span>
@@ -953,7 +1017,7 @@
 
         </main>
         <footer class="cosmic-dust text-center">
-            <p class="interactive-element">&copy; <script>document.write(new Date().getFullYear())</script> copyright 2025 megazoncloud corp. All rights reserved</p>
+            <p class="interactive-element">&copy; <script>document.write(new Date().getFullYear())</script> megazoncloud corp. All rights reserved</p>
             <p class="slogan">Our Vision: Transform Tomorrow Together</p>
         </footer>
 
