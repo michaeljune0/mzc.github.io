@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Step 5: EKS 클러스터 진단 - 3가지 전략 비교 분석</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -77,6 +79,23 @@
             0% { opacity: 0.2; transform: scale(1); }
             50% { opacity: 0.6; transform: scale(1.02); }
             100% { opacity: 0.2; transform: scale(1); }
+        }
+        
+        /* 접근성: 스킵 링크 스타일 */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--accent-aurora-pink);
+            color: white;
+            padding: 8px;
+            z-index: 1002; /* 최상단에 오도록 설정 */
+            transition: top 0.3s;
+            border-radius: 0 0 5px 5px;
+            font-weight: bold;
+        }
+        .skip-link:focus {
+            top: 0;
         }
 
         .interactive-element, .content-portal, table, blockquote,
@@ -227,7 +246,6 @@
             margin: 2rem 0;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             border: 1px solid rgba(139, 92, 246, 0.3);
-            overflow: visible;
         }
         .code-block-header {
             background: linear-gradient(90deg, rgba(139, 92, 246, 0.25) 0%, rgba(20, 184, 166, 0.25) 100%);
@@ -237,7 +255,7 @@
             color: var(--text-luminous);
             border-bottom: 1px solid rgba(139, 92, 246, 0.3);
         }
-        .code-block pre {
+        pre.code-block {
             padding: 1.5rem;
             font-family: var(--font-code);
             font-size: 0.9em;
@@ -272,9 +290,9 @@
             margin-left: auto;
             margin-right: auto;
             margin-bottom: 0.75rem;
-            width: auto; /* 너비를 자동으로 설정하여 원본 비율 유지 */
-            max-width: 100%; /* 컨테이너 너비를 넘지 않도록 함 */
-            height: auto; /* 높이를 자동으로 설정하여 원본 비율 유지 */
+            width: auto;
+            max-width: 100%;
+            height: auto;
             object-fit: contain; 
             border-radius: calc(var(--border-radius-dream) - 8px);
             border: 1px solid var(--accent-ai-purple); 
@@ -330,6 +348,7 @@
             width: 100%;
             min-width: 600px;
             overflow: hidden;
+            table-layout: fixed; /* [수정됨] 테이블 열 너비를 고르게 분배 */
         }
         table.data-constellation thead th {
             background: linear-gradient(to right, rgba(20, 184, 166, 0.15), rgba(139, 92, 246, 0.15));
@@ -341,6 +360,7 @@
             letter-spacing: 0.1em;
             font-size: 0.8rem;
             border-bottom: 1px solid rgba(20, 184, 166, 0.2);
+            word-break: keep-all; /* 헤더 줄바꿈 방지 */
         }
         table.data-constellation tbody tr {
             background-color: rgba(21, 0, 80, 0.2);
@@ -355,6 +375,7 @@
         table.data-constellation td {
             padding: 1.25rem;
             color: var(--text-ethereal);
+            word-break: break-word; /* 내용이 길 경우 줄바꿈 허용 */
         }
         table.data-constellation td.font-medium {
             font-weight: 500;
@@ -400,7 +421,7 @@
             font-weight: 500;
             text-decoration: none;
             position: relative;
-            padding-bottom: 3px;
+            padding: 0.5em 0.2em; /* 모바일 터치 영역 확보 */
         }
         .luminous-link::after, a::after {
             content: '';
@@ -408,7 +429,7 @@
             width: 0;
             height: 1.5px;
             display: block;
-            left: 50%; bottom: 0;
+            left: 50%; bottom: 0.3em; /* 패딩에 맞춰 조정 */
             transform: translateX(-50%);
             background: linear-gradient(to right, var(--accent-aurora-cyan), var(--accent-aurora-pink));
             transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.4s ease;
@@ -527,9 +548,61 @@
             from {transform: scale(0.8) translateY(15px); opacity: 0;}
             to {transform: scale(1) translateY(0px); opacity: 1;}
         }
+
+        /* --- 모바일 반응형 디자인 수정 --- */
+        @media (max-width: 640px) {
+            /* 레이아웃: 모바일에서 과도한 패딩 축소 */
+            .hero-portal {
+                padding: 4rem 1rem 5rem;
+                margin-bottom: 3rem;
+            }
+            main {
+                padding: 1.5rem;
+            }
+            .content-portal {
+                padding: 1.5rem;
+            }
+            .nebula-conclusion {
+                padding: 2rem 1.5rem;
+            }
+            .container {
+                padding: 0.5rem;
+            }
+            
+            /* 타이포그래피: 모바일에서 제목 폰트 크기 조정 */
+            .hero-portal h1 {
+                 font-size: clamp(2rem, 10vw, 2.5rem);
+            }
+            main > h2 {
+                font-size: 2rem;
+            }
+            .content-portal h3 {
+                font-size: 1.5rem;
+            }
+            .content-portal h4 {
+                font-size: 1.25rem;
+            }
+            .nebula-conclusion h3 {
+                font-size: 2rem;
+            }
+
+            blockquote.echoes {
+                padding: 1.5rem;
+            }
+            blockquote.echoes::before {
+                font-size: 4rem;
+            }
+
+            /* 코드 블록 pre 태그 패딩 조정 */
+            pre.code-block {
+                padding: 1rem;
+            }
+        }
     </style>
 </head>
 <body class="antialiased">
+    <a href="#step5-content" class="skip-link">메인 콘텐츠로 건너뛰기</a>
+
     <div id="imageModal" class="image-modal">
         <span class="close-modal">&times;</span>
         <img class="modal-content-image" id="modalImageContent" loading="lazy">
@@ -539,13 +612,12 @@
 
         <header class="hero-portal interactive-element">
             <h1 class="mb-6">Step 5</h1>
-            <p>EKS 클러스터 진단 - 우리가 검토한 3가지 전략 비교 분석</p>
+            <p>EKS 클러스터 진단 - 3가지 전략 비교 분석</p>
         </header>
 
         <main id="step5-content" class="mb-20">
             <h2 class="text-4xl sm:text-5xl font-bold mb-16 pb-8 text-center">
-                Step 5. EKS 클러스터 진단 전략 비교
-                <span class="subtitle">- AI 기반 Kubernetes 진단: 핸즈온 최소화, 부담 없는 체험 관점 비교 -</span>
+                AI 기반 Kubernetes 진단: 부담 없는 체험 비교
             </h2>
 
             <section class="content-portal interactive-element">
@@ -555,7 +627,6 @@
                     <li>핸즈온 최소화, 부담 없는 체험 관점에서 다양한 AI 진단 수단 비교</li>
                     <li>고객이 MVP 단계부터 운영 환경, 보안에 민감한 환경까지 단계별로 적합한 도구를 선택할 수 있도록 가이드라인 설계</li>
                 </ul>
-                <!-- 이미지 삽입 영역 1 -->
                 <div class="image-insertion-area">
                     <img src="https://raw.githubusercontent.com/michaeljune0/mzc.github.io/refs/heads/main/k8sgpt/Step5-1-AI-Brain-1.png"
                          alt="AI 기반 진단 도구 선택의 고민 다이어그램"
@@ -593,7 +664,6 @@
                 <h3>전략 1: CLI 단독 실행 (최소 핸즈온 / MVP 용도)</h3>
                 <p><span class="highlight">기술 난이도: 하</span></p>
                 <p>kubectl과 K8sGPT CLI만 설치하면 즉시 사용 가능하며, Bedrock 인증 없이 직접 호출할 수 있어 인증 절차가 간소합니다 (Secret/IRSA 불필요).</p>
-                <!-- 이미지 삽입 영역 2 -->
                 <div class="image-insertion-area">
                     <img src="https://raw.githubusercontent.com/michaeljune0/mzc.github.io/refs/heads/main/k8sgpt/Step5-2-Step1-Standalone-dark.png"
                          alt="전략 1 아키텍처 다이어그램"
@@ -607,13 +677,11 @@
                     <li>클러스터 영향 없이 독립 실행 가능</li>
                 </ul>
                 <h4>실행 화면 예시</h4>
-                <!-- 이미지 삽입 영역 3 -->
                 <div class="image-insertion-area">
                     <img src="https://raw.githubusercontent.com/michaeljune0/mzc.github.io/refs/heads/main/k8sgpt/Step5-3-Bedrock-screen.png"
                          alt="CLI 실행 화면 (k8sgpt analyze 결과)"
                          loading="lazy">
                 </div>
-                <!-- 이미지 삽입 영역 4 -->
                 <div class="image-insertion-area">
                     <img src="https://raw.githubusercontent.com/michaeljune0/mzc.github.io/refs/heads/main/k8sgpt/Step5-4-Bedrock-screen.png"
                          alt="CLI 실행 화면 (한글 설명)"
@@ -633,7 +701,6 @@
                 <h3>전략 2: Operator + CRD 기반 운영 (Slack 연동 포함)</h3>
                 <p><span class="highlight">기술 난이도: 상</span></p>
                 <p>Helm으로 K8sGPT Operator를 설치하고, IRSA + IAM Policy를 통해 Bedrock 권한을 구성합니다. CRD 정의를 통해 스케줄 기반 진단 및 Slack 전송이 가능합니다.</p>
-                <!-- 이미지 삽입 영역 5 -->
                 <div class="image-insertion-area">
                     <img src="https://raw.githubusercontent.com/michaeljune0/mzc.github.io/refs/heads/main/k8sgpt/Step5-5-Operator+CRD-Dark.png"
                          alt="CLI 실행 화면 (실제 서비스 상태 kubectl get 결과)"
@@ -644,24 +711,22 @@
                 <h4>주요 특징 및 장점</h4>
                 <ul class="dream-list mt-4">
                     <li>Slack Webhook 연동 가능</li>
+                    <li>분석 주기 수동 설정 가능 (CronJob 필요)</li>
                     <li>비용 저렴: 월 $30 이하 예상</li>
-                    <li>분석 이력이 CR(Custom Resource)로 남아 관리 용이 (kubeclt 명령어를 이용하여 분석 결과 조회 가능)</li>
+                    <li>분석 이력이 CR(Custom Resource)로 남아 관리 용이 (CLI로 분석 결과 조회 가능)</li>
                 </ul>
 
                 <h4>실행 화면 예시</h4>
-                <!-- 이미지 삽입 영역 7 -->
                 <div class="image-insertion-area">
                     <img src="https://raw.githubusercontent.com/michaeljune0/mzc.github.io/refs/heads/main/k8sgpt/Step5-7-Operator+CRD.png"
                          alt="Operator 결과 CR 조회 및 describe 결과"
                          loading="lazy">
                 </div>
-                <!-- 이미지 삽입 영역 6 -->
                 <div class="image-insertion-area">
                     <img src="https://raw.githubusercontent.com/michaeljune0/mzc.github.io/refs/heads/main/k8sgpt/Step5-6-Operator+CRD.png"
                          alt="전략 2 아키텍처 다이어그램"
                          loading="lazy">
                 </div>
-                <!-- 이미지 삽입 영역 8 -->
                 <div class="image-insertion-area">
                     <img src="https://raw.githubusercontent.com/michaeljune0/mzc.github.io/refs/heads/main/k8sgpt/Step5-8-Operator+CRD-Slack.png"
                          alt="Slack 알림 메시지 예시"
@@ -682,8 +747,7 @@
                 <h3>전략 3: Ollama 연동 (내부망 / 보안 민감 고객)</h3>
                 <p><span class="highlight">기술 난이도: 상</span></p>
                 <p>EC2에 Ollama를 설치 후, LLM 모델을 로컬에서 구동합니다 (EC2 사양에 따라 최적화된 모델 사용 가능). K8sGPT CLI가 localhost:11434 등으로 로컬 모델을 호출합니다.</p>
-                <!-- 이미지 삽입 영역 9 -->
-                 <div class="image-insertion-area">
+                <div class="image-insertion-area">
                     <img src="https://raw.githubusercontent.com/michaeljune0/mzc.github.io/refs/heads/main/k8sgpt/Step5-9-Ollama-Dark.png"
                          alt="전략 3 아키텍처 다이어그램"
                          loading="lazy">
@@ -695,8 +759,7 @@
                 </ul>
 
                 <h4>실행 화면 예시</h4>
-                <!-- 이미지 삽입 영역 10 -->
-                 <div class="image-insertion-area">
+                <div class="image-insertion-area">
                     <img src="https://raw.githubusercontent.com/michaeljune0/mzc.github.io/refs/heads/main/k8sgpt/Step5-10-Ollama-screen.png"
                          alt="Ollama 연동 CLI 실행 화면"
                          loading="lazy">
@@ -784,7 +847,7 @@
 
         </main>
         <footer class="cosmic-dust text-center">
-            <p class="interactive-element">&copy; <script>document.write(new Date().getFullYear())</script> copyright 2025 megazoncloud corp. All rights reserved</p>
+            <p class="interactive-element">&copy; <script>document.write(new Date().getFullYear())</script> megazoncloud corp. All rights reserved</p>
             <p class="slogan">Our Vision: Transform Tomorrow Together</p>
         </footer>
 
