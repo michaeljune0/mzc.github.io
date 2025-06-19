@@ -113,69 +113,6 @@
             position: relative;
             z-index: 1;
         }
-        
-        @media (max-width: 768px) {
-            .step-navigation-grid {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-            .step-card:nth-child(2n) { justify-self: center; }
-            .step-card:nth-child(2n+1) { justify-self: center; }
-
-            /* [수정] 헤더 좌우 여백 축소 */
-            #site-header {
-                padding: 1rem 1.5rem;
-            }
-
-            /* [추가] 헤더 로고 크기 조정 */
-            #site-header .logo {
-                font-size: 1.3rem;
-            }
-            
-            /* [수정] 기본 컨테이너 좌우 여백 축소 */
-            .container-mx {
-                padding: 0 1rem;
-            }
-            
-            /* [수정] 히어로 섹션: 상하 여백 및 텍스트 잘림 방지 */
-            .cosmic-gateway-hero {
-                padding: 8rem 1rem 6rem;
-            }
-            .cosmic-gateway-hero h1, .cosmic-gateway-hero .tagline {
-                overflow-wrap: break-word; /* 긴 단어 자동 줄바꿈 */
-                word-break: keep-all;     /* 한글 단어 보호 */
-            }
-            .cosmic-gateway-hero h1 {
-                font-size: clamp(2.2rem, 8vw, 3rem);
-            }
-
-            /* 시리즈 안내 섹션: 상하 여백 축소 */
-            .navigation-nexus {
-                padding: 5rem 0;
-            }
-            .navigation-nexus h2 {
-                margin-bottom: 4rem;
-            }
-
-            /* 카드: 내부 여백을 줄여 모바일에서 더 넓게 보이도록 조정 */
-            .step-card {
-                padding: 2rem;
-            }
-            .step-card h3 {
-                font-size: 1.3rem; /* 카드 제목 폰트 크기 조정 */
-            }
-
-            /* 파트너 로고 섹션: 상하 여백 축소 */
-            .logo-partners-section {
-                padding: 5rem 0;
-            }
-
-            /* 푸터: 상하 여백 축소 */
-            .cosmic-footer {
-                padding: 3rem 1rem;
-                margin-top: 4rem;
-            }
-        }
 
         .step-card {
             background-color: rgba(10, 0, 40, 0.6);
@@ -298,6 +235,119 @@
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: var(--bg-deep-space); }
         ::-webkit-scrollbar-thumb { background: linear-gradient(var(--accent-neon-cyan), var(--accent-cyber-purple)); border-radius: 0.5rem; }
+
+        /*
+        ===============================================================
+        === 가이드라인 기반 모바일 베스트 프랙티스 최적화 코드 시작 ===
+        ===============================================================
+        */
+        @media (max-width: 768px) {
+            /* --- 1. 레이아웃 & 여백 (Layout & Spacing) --- */
+            /* 가이드: 간결한 인터페이스, 명확한 시각적 계층 구조 */
+            .container-mx {
+                padding: 0 1rem;
+            }
+            .cosmic-gateway-hero {
+                padding: 8rem 1rem 6rem;
+            }
+            .navigation-nexus {
+                padding: 5rem 0;
+            }
+            .navigation-nexus h2 {
+                margin-bottom: 4rem;
+                font-size: clamp(1.8rem, 6vw, 2.2rem);
+            }
+            .step-navigation-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+            .logo-partners-section {
+                padding: 5rem 0;
+            }
+            .cosmic-footer {
+                padding: 3rem 1rem;
+                margin-top: 4rem;
+            }
+
+            /* --- 2. 헤더 및 내비게이션 (Header & Navigation) --- */
+            /* 가이드: 터치 제어기 및 탭 버튼 크기 확보 */
+            #site-header {
+                padding: 0.5rem 1rem;
+            }
+            #site-header .container {
+                flex-direction: column; /* 로고와 메뉴를 세로로 쌓음 */
+                gap: 0.5rem;
+            }
+            #site-header .logo {
+                font-size: 1.5rem;
+            }
+            #site-header nav {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+            #site-header nav a {
+                margin: 0;
+                padding: 0.5rem 1rem; /* 터치 영역 확보 */
+                border-radius: 0.5rem;
+            }
+            #site-header nav a:hover::after {
+                width: 0; /* 모바일에서 밑줄 효과 제거 */
+            }
+
+
+            /* --- 3. 타이포그래피 (Typography) & 가독성 --- */
+            /* 가이드: 유동적인 타이포그래피, 텍스트 잘림 방지 */
+            .cosmic-gateway-hero h1, .cosmic-gateway-hero .tagline {
+                overflow-wrap: break-word;
+                word-break: keep-all;
+            }
+            .cosmic-gateway-hero h1 {
+                font-size: clamp(2.2rem, 8vw, 3.2rem);
+            }
+            .step-card {
+                padding: 2rem;
+            }
+            .step-card h3 {
+                font-size: clamp(1.2rem, 5vw, 1.4rem); /* 유동적 폰트 크기 적용 */
+            }
+            .step-card p {
+                font-size: 0.9rem;
+                line-height: 1.7;
+            }
+
+            /* --- 4. 성능 최적화 (Performance) --- */
+            /* 가이드: 불필요한 애니메이션 줄이기 */
+            .step-card:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            .step-card .step-card-glow {
+                display: none; /* 마우스 호버 효과 제거 */
+            }
+            .cta-button {
+                animation: none; /* 버튼 반짝임 효과 제거 */
+            }
+            .logo-stream {
+                animation-play-state: paused; /* 로고 흐름 효과 정지 */
+            }
+        }
+
+        /* --- 5. 접근성: 동작 줄이기 설정 (Accessibility) --- */
+        /* 가이드: W3C WCAG 2.1 준수 */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+        /*
+        =============================================================
+        === 가이드라인 기반 모바일 베스트 프랙티스 최적화 코드 끝 ===
+        =============================================================
+        */
     </style>
 </head>
 <body class="antialiased">
@@ -316,7 +366,7 @@
 
     <header class="cosmic-gateway-hero">
         <h1>EKS 운영의 어려움, AI 진단으로 해결하기</h1>
-        <p class="tagline">복잡한 EKS 클러스터 관리, 운영 노하우와 AI 기반 자동 진단으로 안정성과 효율성을 동시에 높이는 방법을 제시합니다.</p>
+        <p class="tagline">복잡한 EKS 클러스터 관리, 운영 노하우와 AI 기반 자동 진단으로<br>안정성과 효율성을 동시에 높이는 방법을 제시합니다.</p>
     </header>
 
     <main>
@@ -478,3 +528,4 @@
     </script>
 </body>
 </html>
+이것도 베스트 프렉티스 기반으로 내용은 절대 건드리지 말고 변경해줘요
