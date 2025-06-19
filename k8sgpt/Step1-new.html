@@ -590,6 +590,137 @@
             box-shadow: 0 0 10px var(--accent-cosmic-glow);
         }
 
+        /*
+        ===============================================================
+        === 가이드라인 기반 모바일 베스트 프랙티스 최적화 코드 시작 ===
+        ===============================================================
+        */
+
+        @media (max-width: 768px) {
+            /* --- 1. 레이아웃 & 여백 (Layout & Spacing) --- */
+            /* 가이드: 간결한 인터페이스, 충분한 여백 */
+            .container.mx-auto {
+                padding-left: 1rem; /* 좌우 여백 확보 */
+                padding-right: 1rem;
+            }
+            .hero-portal {
+                padding: 4rem 1rem;
+                margin-bottom: 3rem;
+            }
+            .main-content-nebula {
+                padding: 1.5rem 1rem;
+            }
+            .content-portal {
+                padding: 1.5rem;
+                margin-bottom: 2.5rem;
+            }
+            .diagram-node {
+                padding: 1.5rem;
+                min-height: auto;
+            }
+             .nebula-conclusion {
+                padding: 2.5rem 1.5rem;
+                margin-top: 2.5rem;
+            }
+            footer.cosmic-dust {
+                margin-top: 4rem;
+                padding-top: 2.5rem;
+            }
+
+
+            /* --- 2. 타이포그래피 (Typography) & 가독성 --- */
+            /* 가이드: 유동적인 타이포그래피, 명확한 대비 및 간격 */
+            .hero-portal h1 {
+                font-size: clamp(2rem, 10vw, 2.8rem);
+            }
+            .hero-portal p {
+                font-size: clamp(1rem, 4vw, 1.15rem);
+            }
+            .main-content-nebula > h2 {
+                /* text-align: left; 제거하여 가운데 정렬 유지 */
+                font-size: clamp(1.8rem, 7vw, 2.2rem);
+                padding-bottom: 1rem;
+                margin-bottom: 2rem;
+            }
+            .content-portal h3 {
+                font-size: clamp(1.4rem, 6vw, 1.7rem);
+            }
+            .content-portal p, .content-portal li {
+                font-size: 1rem;
+                word-break: keep-all; /* 한글 단어 보호 */
+                overflow-wrap: break-word; /* 강제 줄바꿈 */
+                line-height: 1.75; /* 행간 추가 확보 */
+            }
+            blockquote.echoes {
+                padding: 1.5rem;
+                font-size: 1rem;
+            }
+            .nebula-conclusion h3 {
+                font-size: clamp(1.6rem, 7vw, 2rem);
+            }
+            .nebula-conclusion p {
+                font-size: 1.05rem;
+            }
+
+
+            /* --- 3. UI/UX 요소 (UI/UX Elements) --- */
+            /* 가이드: 터치 제어기 및 탭 버튼 크기 확보 */
+            .dream-list-decimal li {
+                gap: 0.8rem; /* 아이콘과 텍스트 사이 간격 */
+            }
+            .dream-list-decimal li::before {
+                width: 2.75rem; /* 약 44px, 터치 영역 확보 */
+                height: 2.75rem;
+                font-size: 1rem;
+                flex-shrink: 0;
+            }
+            .table-constellation {
+                display: block;
+                width: 100%;
+                overflow-x: auto; /* 테이블 가로 스크롤 */
+                -webkit-overflow-scrolling: touch;
+                /* 스크롤 가능함을 알려주는 시각적 힌트 (UX 개선) */
+                -webkit-mask-image: linear-gradient(to right, transparent, black 15px, black 90%, transparent);
+                mask-image: linear-gradient(to right, transparent, black 15px, black 90%, transparent);
+            }
+            table.data-constellation {
+                min-width: 650px; /* 테이블 최소 너비 확보 */
+            }
+            table.data-constellation td, table.data-constellation th {
+                padding: 1rem 1.25rem;
+            }
+
+            /* --- 4. 성능 최적화 (Performance) --- */
+            /* 가이드: 불필요한 애니메이션 줄이기 */
+            .content-portal:hover, .diagram-node:hover,
+            .operational-flow-step:hover, .nebula-conclusion:hover,
+            blockquote.echoes:hover, .dream-list li:hover::before,
+            .dream-list-decimal li:hover::before {
+                transform: none; /* 모바일에서 hover로 인한 transform 효과 제거 */
+                box-shadow: none; /* 그림자 효과도 제거하여 성능 확보 */
+            }
+            .content-portal::before, .dream-list li::before {
+                animation: none; /* 회전 및 펄스 애니메이션 비활성화 */
+            }
+        }
+
+        /* --- 5. 접근성: 동작 줄이기 설정 (Accessibility) --- */
+        /* 가이드: W3C WCAG 2.1 준수 */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /*
+        =============================================================
+        === 가이드라인 기반 모바일 베스트 프랙티스 최적화 코드 끝 ===
+        =============================================================
+        */
+
     </style>
 </head>
 <body class="antialiased">
@@ -597,14 +728,13 @@
 
         <header class="hero-portal interactive-element">
             <h1 class="mb-6">Step 1</h1>
-            <p>이 주제가 중요한 이유 - 운영자의 시야에서 통찰을 얻다</p>
+            <p>운영자의 시야에서 통찰을 얻다</p>
         </header>
 
         <section id="step1-content" class="mb-20">
             <div class="main-content-nebula">
                 <h2 class="text-4xl sm:text-5xl font-bold mb-16 pb-8 text-center">
-                    Step 1. 이 주제가 중요한 이유
-                    <span class="subtitle">- 운영자의 시야에서 -</span>
+                    이 주제가 중요한 이유
                 </h2>
 
                 <div class="content-portal interactive-element">
@@ -656,7 +786,7 @@
                            <li><p>"경고 알람은 확인했지만, 너무 많은 정보 속에서 실제로 어떤 부분을 집중적으로 점검하고 조치해야 할지 막막할 때가 많습니다."</p></li>
                         </ul>
                     </blockquote>
-                    <p class="mt-9 text-xl font-semibold text-center">이러한 문제들은 단순히 특정 기술의 부족함에서 비롯된 것이 아닙니다. <br>근본적으로는 운영 상황을 정확히 꿰뚫어 볼 수 있는 <span class="text-red-400 underline decoration-wavy decoration-red-500/70 hover:decoration-red-300 transition-all duration-300 text-2xl filter hover:brightness-150">'시야(Visibility)'의 부재</span>에서 기인하는 경우가 많습니다.</p>
+                    <p class="mt-9 text-xl font-semibold text-center">이러한 문제들은 단순히 특정 기술의 부족함에서 비롯된 것이 아닙니다. 근본적으로는 운영 상황을 정확히 꿰뚫어 볼 수 있는 <span class="text-red-400 underline decoration-wavy decoration-red-500/70 hover:decoration-red-300 transition-all duration-300 text-2xl filter hover:brightness-150">'시야(Visibility)'의 부재</span>에서 기인하는 경우가 많습니다.</p>
                 </div>
 
                 <div class="content-portal interactive-element">
@@ -725,7 +855,7 @@
                                     <td>Kubernetes 비용 흐름의 상세 시각화 (누가, 얼마나, 왜 특정 리소스를 사용하는지 분석)</td>
                                 </tr>
                                 <tr>
-                                    <td class="font-medium">K8sGPT (+ Bedrock)</td>
+                                    <td class="font-medium">K8sGPT + Bedrock</td>
                                     <td>AI 기반 Kubernetes 클러스터 이상 징후 자동 탐지 및 분석, Slack 등을 통한 알림 전송</td>
                                 </tr>
                             </tbody>
@@ -736,7 +866,7 @@
 
                 <div class="nebula-conclusion mt-16 interactive-element">
                     <h3>결론: 단순한 도구를 넘어, 운영의 '시야'를 확장하는 전략</h3>
-                    <p class="mb-6 text-xl">여기서 제시된 구조는 단순히 여러 도구를 나열한 것이 아닙니다. <br>이는 클라우드 운영의 <strong class="highlight">가시성을 획기적으로 개선</strong>하고, 잠재된 문제를 더욱 신속하고 정확하게 감지할 수 있도록 지원하는 <strong class="sub-highlight">실질적이고 통합적인 운영 가이드</strong>입니다.</p>
+                    <p class="mb-6 text-xl">여기서 제시된 구조는 단순히 여러 도구를 나열한 것이 아닙니다. 이는 클라우드 운영의 <strong class="highlight">가시성을 획기적으로 개선</strong>하고, 잠재된 문제를 더욱 신속하고 정확하게 감지할 수 있도록 지원하는 <strong class="sub-highlight">실질적이고 통합적인 운영 가이드</strong>입니다.</p>
                     <p class="font-bold text-2xl text-sky-200 mt-9">이러한 시스템을 성공적으로 도입하고 운영하기 위해서는, 각 도구의 기술적인 이해도 중요하지만, 그보다 <strong class="underline decoration-2 decoration-dotted hover:decoration-solid transition-all duration-300 filter brightness-110">실제 운영 흐름에 맞는 명확한 활용 목적 설정과, 어떤 대상(팀, 서비스, 리소스)에 적용할 것인지 구체적으로 정의하는 과정</strong>이 더욱 중요합니다.</p>
                 </div>
 
@@ -744,7 +874,7 @@
         </section>
 
         <footer class="cosmic-dust text-center">
-            <p class="interactive-element">&copy; <script>document.write(new Date().getFullYear())</script> copyright 2025 megazoncloud corp. All rights reserved</p>
+            <p class="interactive-element">&copy; <script>document.write(new Date().getFullYear())</script> megazoncloud corp. All rights reserved</p>
             <p class="slogan">Our Vision: Transform Tomorrow Together</p>
         </footer>
 
