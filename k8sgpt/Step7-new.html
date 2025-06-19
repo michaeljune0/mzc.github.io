@@ -318,14 +318,16 @@
             top: 0.5rem;
             line-height: 1;
         }
+        /* ▼▼▼▼▼ 수정된 부분 ▼▼▼▼▼ */
         blockquote.echoes pre {
-            white-space: pre-wrap;
-            word-wrap: break-word;
+            white-space: pre; /* pre-wrap에서 pre로 변경하여 자동 줄바꿈 방지 */
+            overflow-x: auto; /* 내용이 넘칠 경우 가로 스크롤바 생성 */
             font-family: var(--font-code);
             font-size: 1em;
             color: var(--text-luminous);
             margin-top: 0.75rem;
         }
+        /* ▲▲▲▲▲ 수정된 부분 ▲▲▲▲▲ */
 
         .table-constellation { margin-top: 2.5rem; margin-bottom: 2.5rem; overflow-x: auto; }
         table.data-constellation {
@@ -396,7 +398,7 @@
             background: linear-gradient(to right, var(--accent-aurora-cyan), var(--accent-aurora-pink));
             transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
-        .luminous-link:hover::after, a::hover::after { width: 100%; }
+        .luminous-link:hover::after, a:hover::after { width: 100%; }
 
         .nebula-conclusion {
             background: radial-gradient(ellipse at center, rgba(20, 184, 166, 0.05) 0%, transparent 70%),
@@ -463,25 +465,67 @@
             width: 100%;
             height: 400px;
         }
+
+        /* --- 모바일 반응형 및 웹 베스트 프랙티스 --- */
+        @media (max-width: 768px) {
+            /* 레이아웃: 모바일에서 과도한 패딩 축소 */
+            main {
+                padding: 1.5rem;
+            }
+            .content-portal {
+                padding: 1.5rem;
+            }
+            .hero-portal {
+                padding: 4rem 1rem 5rem;
+                margin-bottom: 2rem;
+            }
+
+            /* 타이포그래피: 모바일에서 제목 폰트 크기 조정 */
+            .hero-portal h1 {
+                font-size: clamp(1.8rem, 8vw, 2.5rem);
+            }
+            main > h2 {
+                font-size: clamp(2rem, 8vw, 2.5rem);
+            }
+            .content-portal h3 {
+                font-size: 1.5rem;
+            }
+            
+            /* 블록 인용문 및 코드 블록 패딩 조정 */
+            blockquote.echoes {
+                padding: 1rem 1rem 1rem 1.5rem;
+            }
+            blockquote.echoes p {
+                font-size: 0.9rem;
+            }
+            .code-block pre {
+                padding: 1rem;
+            }
+
+            /* 테이블은 이미 overflow-x: auto로 설정되어 있어 스크롤됩니다. */
+            table.data-constellation {
+                min-width: 700px;
+            }
+        }
     </style>
 </head>
 <body class="antialiased">
+
     <div id="imageModal" class="image-modal">
         <span class="close-modal">&times;</span>
-        <img class="modal-content-image" id="modalImageContent">
+        <img class="modal-content-image" id="modalImageContent" alt="확대된 이미지">
     </div>
 
     <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
 
         <header class="hero-portal interactive-element">
-            <h1 class="mb-6">더 이상 복잡한 명령어는 그만,<br>kubectl-ai로 대화하듯 관리하세요</h1>
-            <p>강력한 <strong>오픈소스</strong>와 <strong>Google의 AI</strong>를 결합하여 Kubernetes 클러스터 관리를 혁신하세요.</p>
+            <h1 class="mb-6">대화하듯 K8s를 관리하세요</h1>
+            <p>강력한 <strong>오픈소스</strong>와 <strong>Google의 AI</strong>를 결합하여 Kubernetes 클러스터 관리를 해보세요.</p>
         </header>
 
         <main id="main-content">
             <h2 class="text-4xl sm:text-5xl font-bold mb-16 pb-8 text-center">
-                kubectl-ai 상세 가이드
-                <span class="subtitle">- AI 기반 Kubernetes 관리: 설치부터 고급 활용까지 -</span>
+                AI 기반 Kubernetes 관리: 설치부터 활용까지
             </h2>
 
             <section class="content-portal interactive-element">
@@ -504,7 +548,7 @@
                 <p>토큰은 AI 모델이 텍스트를 처리하는 <strong class="text-accent-stardust-gold">기본 단위</strong>입니다. API 사용 요금은 바로 이 <strong class="text-accent-stardust-gold">'토큰'의 수를 기준으로 책정</strong>됩니다. 일반적으로 단어 하나가 1~2개의 토큰에 해당하지만, 한글과 같은 언어에서는 글자나 형태소 단위로 더 잘게 나뉘기도 합니다.</p>
                 <blockquote class="echoes">
                   <p><strong>예시)</strong> "쿠버네티스 파드 로그 보여줘" 라는 문장은 다음과 같이 토큰으로 분리될 수 있습니다:<br>
-                  <code class="text-white">["쿠버네티스", " ", "파드", " ", "로그", " ", "보여줘"]</code>
+                  <pre>["쿠버네티스", " ", "파드", " ", "로그", " ", "보여줘"]</pre>
                   </p>
                   <p class="mt-4">이 경우 약 7개의 토큰이 사용된 것으로 계산될 수 있습니다. 이처럼 입력하는 프롬프트와 AI가 생성하는 답변의 길이에 따라 사용되는 토큰의 양이 결정됩니다.</p>
                 </blockquote>
@@ -777,7 +821,7 @@ time="2025-06-14T01:10:05Z" level=info msg="Starting CNI-Metrics-Helper"</span><
 
         </main>
         <footer class="cosmic-dust text-center">
-            <p class="interactive-element">&copy; <script>document.write(new Date().getFullYear())</script> copyright 2025 megazoncloud corp. All rights reserved</p>
+            <p class="interactive-element">&copy; <script>document.write(new Date().getFullYear())</script> megazoncloud corp. All rights reserved</p>
             <p class="slogan">Our Vision: Transform Tomorrow Together</p>
         </footer>
 
