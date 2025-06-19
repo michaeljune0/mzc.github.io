@@ -7,31 +7,23 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* --- [수정사항] 원본 디자인 요소는 그대로 유지합니다. --- */
         :root {
-            --bg-abyss: #03001C; /* Deepest abyss black-blue */
-            --bg-nebula-start: #150050; /* Dark nebula purple */
-            --bg-nebula-end: #3F0071;   /* Lighter nebula violet */
-            --bg-starfield: transparent; /* Starfield will be pseudo-elements */
-
-            --text-luminous: #E0FBFC;  /* Luminous cyan-white */
-            --text-ethereal: #C7D2FE; /* Ethereal lavender */
-            --text-whisper: #A7B3D6;  /* Soft whisper blue */
-
+            --bg-abyss: #03001C;
+            --bg-nebula-start: #150050;
+            --bg-nebula-end: #3F0071;
+            --text-luminous: #E0FBFC;
+            --text-ethereal: #C7D2FE;
+            --text-whisper: #A7B3D6;
             --accent-aurora-cyan: #30BCED;
             --accent-aurora-pink: #D741A7;
             --accent-stardust-gold: #FBD46D;
             --accent-cosmic-glow: rgba(48, 188, 237, 0.7);
-            /* Step2 specific accents - Kubecost Green/Blue */
             --accent-kubecost-green: #2ECC71;
             --accent-kubecost-blue: #3498DB;
-
-
             --font-primary: 'Inter', 'Noto Sans KR', sans-serif;
-            --font-display: 'Orbitron', 'Noto Sans KR', sans-serif; /* For titles */
-
-            --border-radius-celestial: 1rem; /* 16px */
-            --border-radius-dream: 0.75rem; /* 12px */
+            --font-display: 'Orbitron', 'Noto Sans KR', sans-serif;
+            --border-radius-celestial: 1rem;
+            --border-radius-dream: 0.75rem;
         }
 
         html {
@@ -45,10 +37,9 @@
             overflow-x: hidden;
             line-height: 1.8;
             min-height: 100vh;
-            position: relative; /* For starfield */
+            position: relative;
         }
 
-        /* --- 원본 배경 효과 (수정 없음) --- */
         body::before, body::after {
             content: '';
             position: fixed;
@@ -58,17 +49,13 @@
             z-index: -1;
         }
         body::before {
-            background-image: radial-gradient(circle at 20% 30%, var(--text-ethereal) 0.5px, transparent 1px),
-                              radial-gradient(circle at 80% 70%, var(--text-ethereal) 0.5px, transparent 1px),
-                              radial-gradient(circle at 50% 50%, var(--text-whisper) 0.3px, transparent 1px);
+            background-image: radial-gradient(circle at 20% 30%, var(--text-ethereal) 0.5px, transparent 1px), radial-gradient(circle at 80% 70%, var(--text-ethereal) 0.5px, transparent 1px), radial-gradient(circle at 50% 50%, var(--text-whisper) 0.3px, transparent 1px);
             background-size: 100px 100px, 150px 150px, 50px 50px;
             opacity: 0.3;
             animation: twinkle 20s linear infinite alternate;
         }
         body::after {
-            background-image: radial-gradient(circle at 10% 90%, var(--text-luminous) 1px, transparent 1.5px),
-                              radial-gradient(circle at 70% 10%, var(--text-luminous) 1px, transparent 1.5px),
-                              radial-gradient(circle at 30% 60%, var(--accent-stardust-gold) 0.8px, transparent 1.2px);
+            background-image: radial-gradient(circle at 10% 90%, var(--text-luminous) 1px, transparent 1.5px), radial-gradient(circle at 70% 10%, var(--text-luminous) 1px, transparent 1.5px), radial-gradient(circle at 30% 60%, var(--accent-stardust-gold) 0.8px, transparent 1.2px);
             background-size: 200px 200px, 250px 250px, 180px 180px;
             opacity: 0.5;
             animation: twinkle 15s linear infinite alternate-reverse;
@@ -80,26 +67,20 @@
             100% { opacity: 0.2; transform: scale(1); }
         }
 
-        /* --- 원본 전환/애니메이션 효과 (수정 없음) --- */
-        .interactive-element, .content-portal, table, blockquote,
-        .dream-list li::before, .dream-list-decimal li::before, .luminous-link::after,
-        .nebula-conclusion, .kubecost-feature-card, .kubecost-flow-step, .cost-nexus-visual > div, .nexus-resolver-icon {
+        .interactive-element, .content-portal, table, blockquote, .dream-list li::before, .dream-list-decimal li::before, .luminous-link::after, .nebula-conclusion, .kubecost-feature-card, .kubecost-flow-step, .cost-nexus-visual > div, .nexus-resolver-icon {
             transition-property: all;
             transition-duration: 0.5s;
             transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
         }
 
-        /* --- Hero Portal --- */
         .hero-portal {
-            /* [공백 수정] 상하 패딩과 하단 마진을 줄여서 본문과의 간격을 좁혔습니다. */
             padding: 4rem 2rem 5rem;
-            margin-bottom: 3rem; 
+            margin-bottom: 3rem;
             border-radius: var(--border-radius-celestial);
             text-align: center;
             position: relative;
             overflow: visible;
-            background: radial-gradient(ellipse at 50% -50%, rgba(46, 204, 113, 0.15) 0%, transparent 60%), /* Top Kubecost green glow */
-                        radial-gradient(ellipse at 50% 150%, rgba(52, 152, 219, 0.1) 0%, transparent 60%); /* Bottom Kubecost blue glow */
+            background: radial-gradient(ellipse at 50% -50%, rgba(46, 204, 113, 0.15) 0%, transparent 60%), radial-gradient(ellipse at 50% 150%, rgba(52, 152, 219, 0.1) 0%, transparent 60%);
         }
         .hero-portal h1 {
             font-family: var(--font-display);
@@ -110,7 +91,7 @@
             letter-spacing: 0.05em;
             margin-bottom: 1.5rem;
             animation: fadeInGlow 2s ease-out forwards;
-            opacity:0;
+            opacity: 0;
         }
         @keyframes fadeInGlow {
             0% { opacity: 0; transform: translateY(20px) scale(0.95); text-shadow: 0 0 5px var(--accent-cosmic-glow); }
@@ -130,11 +111,9 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- Main Content Nebula --- */
         .main-content-nebula {
             background: linear-gradient(170deg, var(--bg-nebula-start) 0%, var(--bg-nebula-end) 100%);
-            /* [공백 수정] 내부 패딩을 약간 줄여 콘텐츠가 더 채워진 느낌을 줍니다. */
-            padding: 2.5rem; 
+            padding: 2.5rem;
             border-radius: var(--border-radius-celestial);
             box-shadow: 0 0 60px rgba(0,0,0,0.5), inset 0 0 30px rgba(0,0,0,0.3);
             border: 1px solid rgba(224, 251, 252, 0.1);
@@ -148,10 +127,9 @@
             font-weight: 500;
             letter-spacing: 0.02em;
             padding-bottom: 1.5rem;
-            /* [공백 수정] 제목 아래의 큰 간격을 줄였습니다. */
-            margin-bottom: 2.5rem; 
+            margin-bottom: 2.5rem;
         }
-         .main-content-nebula > h2 .subtitle {
+        .main-content-nebula > h2 .subtitle {
             display: block;
             font-size: 0.6em;
             color: var(--text-ethereal);
@@ -161,16 +139,14 @@
             font-weight: 400;
         }
 
-        /* --- Content Portals (Cards) --- */
         .content-portal {
             background-color: rgba(3, 0, 28, 0.7);
             backdrop-filter: blur(10px) saturate(150%);
             -webkit-backdrop-filter: blur(10px) saturate(150%);
             padding: 2.5rem;
             border-radius: var(--border-radius-dream);
-            /* [공백 수정] 카드와 카드 사이의 간격을 줄여 연속성을 부여했습니다. */
-            margin-bottom: 2.5rem; 
-            border: 1px solid rgba(46, 204, 113, 0.2); /* Kubecost Green border */
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(46, 204, 113, 0.2);
             box-shadow: 0 10px 30px rgba(0,0,0,0.4);
             position: relative;
             overflow: hidden;
@@ -180,12 +156,7 @@
             position: absolute;
             top: -50%; left: -50%;
             width: 200%; height: 200%;
-            background: conic-gradient(
-                transparent,
-                rgba(46, 204, 113, 0.15) 20%, /* Kubecost Green */
-                rgba(52, 152, 219, 0.15) 40%, /* Kubecost Blue */
-                transparent 60%
-            );
+            background: conic-gradient( transparent, rgba(46, 204, 113, 0.15) 20%, rgba(52, 152, 219, 0.15) 40%, transparent 60% );
             opacity: 0;
             transform-origin: center center;
             transition: opacity 0.7s ease, transform 0.7s ease;
@@ -197,7 +168,11 @@
         .content-portal:hover {
             transform: translateY(-10px) scale(1.015);
             box-shadow: 0 15px 40px rgba(0,0,0,0.45), 0 0 25px var(--accent-kubecost-green);
-            border-color: rgba(52, 152, 219, 0.3); /* Kubecost Blue border on hover */
+            border-color: rgba(52, 152, 219, 0.3);
+        }
+        .content-portal:hover::before {
+            opacity: 1;
+            animation-play-state: running;
         }
         .content-portal h3 {
             font-family: var(--font-display);
@@ -215,15 +190,13 @@
             color: var(--accent-kubecost-green);
             font-weight: 600;
         }
-         .content-portal .sub-highlight {
+        .content-portal .sub-highlight {
             color: var(--accent-kubecost-blue);
             font-weight: 500;
         }
 
-        /* --- Cost Nexus Visualizer (Replaces cost-concept-container) --- */
         .cost-nexus-container {
-            /* [공백 수정] 다이어그램 상하 간격을 조정했습니다. */
-            margin: 2.5rem auto; 
+            margin: 2.5rem auto;
             padding: 2rem;
             background-color: rgba(21, 0, 80, 0.3);
             border-radius: var(--border-radius-dream);
@@ -231,17 +204,16 @@
         }
         .cost-nexus-visual {
             display: flex;
-            flex-direction: column; /* Mobile first: stack elements */
+            flex-direction: column;
             align-items: center;
-            gap: 1.5rem; /* Gap between elements when stacked */
+            gap: 1.5rem;
         }
-        @media (min-width: 768px) { /* Tailwind md: 768px */
+        @media (min-width: 768px) {
             .cost-nexus-visual {
-                flex-direction: row; /* Side-by-side on larger screens */
-                /* [공백 수정] 요소들이 화면 양쪽 끝으로 흩어지지 않고 중앙에 모이도록 수정했습니다. */
-                justify-content: center; 
-                align-items: center; /* Vertically align items */
-                gap: 2rem; /* 요소 간 간격 명시적 지정 */
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
             }
         }
         .nexus-node {
@@ -250,13 +222,13 @@
             padding: 1.5rem;
             text-align: center;
             width: 100%;
-            max-width: 320px; /* Max width for each node */
+            max-width: 320px;
             border: 1px solid transparent;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 200px; /* Ensure some height */
+            min-height: 200px;
             justify-content: center;
         }
         .nexus-node:hover {
@@ -267,65 +239,65 @@
             border-color: var(--accent-aurora-pink);
         }
         .nexus-node.cost-complexity:hover {
-             box-shadow: 0 8px 25px rgba(0,0,0,0.4), 0 0 20px var(--accent-aurora-pink);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4), 0 0 20px var(--accent-aurora-pink);
         }
         .nexus-node.resource-inefficiency {
             border-color: var(--accent-kubecost-green);
         }
-         .nexus-node.resource-inefficiency:hover {
-             box-shadow: 0 8px 25px rgba(0,0,0,0.4), 0 0 20px var(--accent-kubecost-green);
+        .nexus-node.resource-inefficiency:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4), 0 0 20px var(--accent-kubecost-green);
         }
-        .concept-icon { /* Reused from previous for icons inside nodes */
+        .concept-icon {
             font-size: 2.8rem;
             margin-bottom: 1rem;
             display: block;
             line-height: 1;
             text-shadow: 0 0 10px currentColor;
         }
-        .concept-title { /* Reused */
+        .concept-title {
             font-family: var(--font-display);
             color: var(--text-luminous);
             font-size: 1.2rem;
             font-weight: 500;
             margin-bottom: 0.75rem;
         }
-        .concept-description { /* Reused */
+        .concept-description {
             font-size: 0.9rem;
             color: var(--text-ethereal);
             line-height: 1.6;
         }
         .nexus-connector {
             display: flex;
-            flex-direction: column; /* Stack lines and icon on mobile */
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 0.5rem 0; /* Padding for mobile */
+            padding: 0.5rem 0;
         }
         @media (min-width: 768px) {
             .nexus-connector {
-                flex-direction: row; /* Row layout for desktop */
-                padding: 0 1rem; /* Padding for desktop */
-                flex-grow: 0; /* [공백 수정] 커넥터가 불필요하게 늘어나지 않도록 수정 */
+                flex-direction: row;
+                padding: 0 1rem;
+                flex-grow: 0;
             }
         }
         .connector-line {
-            width: 3px; /* Desktop: horizontal line thickness */
-            height: 30px; /* Mobile: vertical line length */
+            width: 3px;
+            height: 30px;
             background: linear-gradient(to bottom, var(--accent-stardust-gold), rgba(251, 212, 109, 0.3));
             border-radius: 2px;
-            margin: 0.5rem 0; /* Mobile: vertical margin */
+            margin: 0.5rem 0;
             opacity: 0.7;
         }
         @media (min-width: 768px) {
             .connector-line {
-                width: 40px; /* Desktop: horizontal line length */
-                height: 3px; /* Desktop: horizontal line thickness */
-                margin: 0 0.5rem; /* Desktop: horizontal margin */
+                width: 40px;
+                height: 3px;
+                margin: 0 0.5rem;
                 background: linear-gradient(to right, var(--accent-stardust-gold), rgba(251, 212, 109, 0.3));
             }
         }
         .nexus-resolver-icon {
-            font-size: 2.8rem; /* Icon size */
+            font-size: 2.8rem;
             color: var(--accent-stardust-gold);
             text-shadow: 0 0 15px var(--accent-stardust-gold);
             padding: 0.5rem;
@@ -333,8 +305,8 @@
             background-color: rgba(251, 212, 109, 0.1);
             box-shadow: 0 0 10px rgba(251, 212, 109, 0.3);
             animation: pulseResolverIcon 2.5s infinite ease-in-out;
-            line-height: 1; /* Ensure icon is centered if it's text-based */
-            display: inline-flex; /* For proper sizing if text-based */
+            line-height: 1;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
         }
@@ -342,20 +314,18 @@
             0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(251, 212, 109, 0.3); }
             50% { transform: scale(1.1); box-shadow: 0 0 20px var(--accent-stardust-gold); }
         }
-        .diagram-caption { /* Reused */
+        .diagram-caption {
             margin-top: 2rem;
             text-align: center;
             font-style: italic;
             color: var(--text-whisper);
         }
 
-        /* --- Kubecost Features Grid --- */
         .kubecost-features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
-            /* [공백 수정] 상하 간격을 줄였습니다. */
-            margin: 2.5rem 0; 
+            margin: 2.5rem 0;
         }
         .kubecost-feature-card {
             background-color: rgba(21, 0, 80, 0.5);
@@ -392,14 +362,12 @@
             flex-grow: 1;
         }
 
-        /* --- Kubecost Flow Diagram --- */
         .kubecost-flow-diagram {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 1rem;
-            /* [공백 수정] 상하 간격을 줄였습니다. */
-            margin: 2.5rem auto; 
+            margin: 2.5rem auto;
             padding: 1rem;
             position: relative;
         }
@@ -427,7 +395,7 @@
             align-items: center;
             position: relative;
         }
-         .kubecost-flow-step .icon {
+        .kubecost-flow-step .icon {
             font-size: 2.5rem;
             margin-bottom: 0.75rem;
             color: var(--accent-stardust-gold);
@@ -457,21 +425,22 @@
             }
         }
 
-        /* --- Echoes (Blockquotes) --- */
         blockquote.echoes {
             border-left: 4px solid var(--accent-stardust-gold);
             background: linear-gradient(to right, rgba(251, 212, 109, 0.03), transparent);
             color: var(--accent-stardust-gold);
-            padding: 2rem; /* [공백 수정] 패딩 약간 축소 */
-            /* [공백 수정] 상하 간격을 줄였습니다. */
-            margin: 2.5rem 0; 
+            padding: 2rem;
+            margin: 2.5rem 0;
             border-radius: var(--border-radius-dream);
             font-style: normal;
             font-size: 1.2rem;
             box-shadow: inset 0 0 20px rgba(251, 212, 109, 0.1);
             position: relative;
         }
-        blockquote.echoes p { color: var(--accent-stardust-gold) !important; opacity: 0.9; }
+        blockquote.echoes p {
+            color: var(--accent-stardust-gold) !important;
+            opacity: 0.9;
+        }
         blockquote.echoes::before {
             content: '“';
             font-family: serif;
@@ -487,8 +456,15 @@
             transform: translateX(3px);
             box-shadow: inset 0 0 25px rgba(251, 212, 109, 0.15), 0 3px 10px rgba(0,0,0,0.2);
         }
-         blockquote.echoes ul { list-style-type: none; padding-left: 0; }
-        blockquote.echoes ul li { margin-bottom: 0.5rem; position:relative; padding-left: 1.5em; }
+        blockquote.echoes ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        blockquote.echoes ul li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.5em;
+        }
         blockquote.echoes ul li::before {
             content: "•";
             color: var(--accent-stardust-gold);
@@ -500,19 +476,21 @@
             left: 0.5em;
         }
 
-        /* --- Data Constellations (Tables) --- */
-        .table-constellation { margin-top: 2.5rem; margin-bottom: 2.5rem; }
+        .table-constellation {
+            margin-top: 2.5rem;
+            margin-bottom: 2.5rem;
+        }
         table.data-constellation {
             border-radius: var(--border-radius-dream);
             box-shadow: 0 0 30px rgba(0,0,0,0.5);
-            border: 1px solid rgba(46, 204, 113, 0.15); /* Kubecost Green border */
+            border: 1px solid rgba(46, 204, 113, 0.15);
             border-collapse: separate;
             border-spacing: 0;
             width: 100%;
             overflow: hidden;
         }
         table.data-constellation thead th {
-            background: linear-gradient(to right, rgba(46, 204, 113, 0.15), rgba(52, 152, 219, 0.15)); /* Kubecost colors */
+            background: linear-gradient(to right, rgba(46, 204, 113, 0.15), rgba(52, 152, 219, 0.15));
             backdrop-filter: blur(5px);
             color: var(--text-luminous);
             font-weight: 600;
@@ -526,12 +504,16 @@
             background-color: rgba(21, 0, 80, 0.2);
             border-bottom: 1px solid rgba(224, 251, 252, 0.05);
         }
-        table.data-constellation tbody tr:last-child { border-bottom: none; }
+        table.data-constellation tbody tr:last-child {
+            border-bottom: none;
+        }
         table.data-constellation tbody tr:hover {
-            background-color: rgba(46, 204, 113, 0.1); /* Kubecost Green hover */
+            background-color: rgba(46, 204, 113, 0.1);
             transform: scale(1.003);
         }
-        table.data-constellation tbody tr:hover td { color: var(--text-luminous); }
+        table.data-constellation tbody tr:hover td {
+            color: var(--text-luminous);
+        }
         table.data-constellation td {
             padding: 1.25rem;
             color: var(--text-ethereal);
@@ -541,8 +523,10 @@
             color: var(--text-luminous);
         }
 
-        /* --- Dream Lists --- */
-        .dream-list { list-style: none; padding-left: 0; }
+        .dream-list {
+            list-style: none;
+            padding-left: 0;
+        }
         .dream-list li {
             padding-left: 1.2rem;
             margin-bottom: 1rem;
@@ -551,8 +535,10 @@
         .dream-list li::before {
             content: '';
             position: absolute;
-            left: -0.5rem; top: 0.5em;
-            width: 8px; height: 8px;
+            left: -0.5rem;
+            top: 0.5em;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             background-color: var(--accent-kubecost-green);
             box-shadow: 0 0 8px var(--accent-kubecost-green), 0 0 12px var(--accent-kubecost-green);
@@ -560,8 +546,14 @@
             transition: all 0.4s ease;
         }
         @keyframes pulseOrb {
-            0%, 100% { transform: scale(1); opacity: 0.7; }
-            50% { transform: scale(1.3); opacity: 1; }
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.3);
+                opacity: 1;
+            }
         }
         .dream-list li:hover::before {
             background-color: var(--accent-kubecost-blue);
@@ -569,7 +561,6 @@
             transform: scale(1.5) rotate(360deg);
         }
 
-        /* --- Luminous Links & Accents --- */
         .luminous-link, a {
             color: var(--accent-aurora-cyan);
             font-weight: 500;
@@ -583,26 +574,29 @@
             width: 0;
             height: 1.5px;
             display: block;
-            left: 50%; bottom: 0;
+            left: 50%;
+            bottom: 0;
             transform: translateX(-50%);
             background: linear-gradient(to right, var(--accent-aurora-cyan), var(--accent-aurora-pink));
             transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.4s ease;
             opacity: 0.7;
         }
-        .luminous-link:hover::after, a:hover::after { width: 100%; opacity: 1; }
-        a:hover { color: var(--accent-aurora-pink); }
+        .luminous-link:hover::after, a:hover::after {
+            width: 100%;
+            opacity: 1;
+        }
+        a:hover {
+            color: var(--accent-aurora-pink);
+        }
 
-        /* --- Nebula Conclusion --- */
         .nebula-conclusion {
-            background: radial-gradient(ellipse at center, rgba(46, 204, 113, 0.05) 0%, transparent 70%),
-                        linear-gradient(160deg, rgba(21,0,80,0.3) 0%, rgba(63,0,113,0.3) 100%);
+            background: radial-gradient(ellipse at center, rgba(46, 204, 113, 0.05) 0%, transparent 70%), linear-gradient(160deg, rgba(21,0,80,0.3) 0%, rgba(63,0,113,0.3) 100%);
             border-top: 2px solid;
             border-image-slice: 1;
             border-image-source: linear-gradient(to right, var(--accent-kubecost-green), var(--accent-kubecost-blue));
             padding: 3.5rem;
             border-radius: var(--border-radius-dream) var(--border-radius-dream) 0 0;
-            /* [공백 수정] 위쪽 간격을 줄였습니다. */
-            margin-top: 3rem; 
+            margin-top: 3rem;
             box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
         }
         .nebula-conclusion:hover {
@@ -631,23 +625,26 @@
             font-weight: 600;
         }
 
-        /* --- Footer --- */
         footer.cosmic-dust {
             border-top: 1px solid rgba(224, 251, 252, 0.08);
             padding-top: 3.5rem;
-            /* [공백 수정] 결론 섹션과 푸터 사이의 간격을 대폭 줄였습니다. */
-            margin-top: 4rem; 
-            opacity:0.8;
+            margin-top: 4rem;
+            opacity: 0.8;
         }
         footer.cosmic-dust p {
             color: var(--text-whisper);
             font-size: 0.9rem;
         }
-        footer.cosmic-dust p:hover { color: var(--text-ethereal); }
+        footer.cosmic-dust p:hover {
+            color: var(--text-ethereal);
+        }
 
-        /* --- Scrollbar Styling --- */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-abyss); }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-abyss);
+        }
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(var(--accent-aurora-cyan), var(--accent-aurora-pink));
             border-radius: 10px;
@@ -656,23 +653,147 @@
             box-shadow: 0 0 10px var(--accent-cosmic-glow);
         }
 
+        /*
+        ===============================================================
+        === 가이드라인 기반 모바일 베스트 프랙티스 최적화 코드 시작 ===
+        ===============================================================
+        */
+        @media (max-width: 768px) {
+            /* --- 1. 레이아웃 & 여백 (Layout & Spacing) --- */
+            /* 가이드: 간결한 인터페이스, 충분한 여백 */
+            .container.mx-auto {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            .hero-portal {
+                padding: 4rem 1rem;
+                margin-bottom: 2rem;
+            }
+            .main-content-nebula {
+                padding: 2rem 1rem;
+            }
+            .content-portal {
+                padding: 1.5rem;
+                margin-bottom: 2rem;
+            }
+            .kubecost-features-grid, .kubecost-flow-diagram, .cost-nexus-container {
+                margin-top: 2rem;
+                margin-bottom: 2rem;
+            }
+            blockquote.echoes {
+                padding: 1.5rem;
+                margin: 2rem 0;
+            }
+             .nebula-conclusion {
+                padding: 2.5rem 1.5rem;
+                margin-top: 2rem;
+            }
+            footer.cosmic-dust {
+                margin-top: 3rem;
+                padding-top: 2rem;
+            }
+
+            /* --- 2. 타이포그래피 (Typography) & 가독성 --- */
+            /* 가이드: 유동적인 타이포그래피, 명확한 대비 및 간격 */
+            .hero-portal h1 {
+                font-size: clamp(2rem, 10vw, 2.8rem);
+            }
+            .hero-portal p {
+                font-size: clamp(1rem, 4vw, 1.15rem);
+            }
+            .main-content-nebula > h2 {
+                font-size: clamp(1.8rem, 7vw, 2.2rem);
+                padding-bottom: 1rem;
+                margin-bottom: 2rem;
+            }
+            .content-portal h3 {
+                font-size: clamp(1.4rem, 6vw, 1.7rem);
+            }
+            .content-portal p, .content-portal li {
+                font-size: 1rem;
+                word-break: keep-all;
+                overflow-wrap: break-word;
+                line-height: 1.75;
+            }
+            blockquote.echoes {
+                font-size: 1rem;
+            }
+            blockquote.echoes ul li {
+                padding-left: 1.2em;
+            }
+            .nebula-conclusion h3 {
+                font-size: clamp(1.6rem, 7vw, 2rem);
+            }
+            .nebula-conclusion p {
+                font-size: 1.05rem;
+            }
+
+            /* --- 3. UI/UX 요소 (UI/UX Elements) --- */
+            /* 가이드: 터치 제어기 및 탭 버튼 크기 확보 */
+            .nexus-node, .kubecost-feature-card, .kubecost-flow-step {
+                min-height: auto; /* 모바일에서 고정 높이 제거 */
+                padding: 1.5rem;
+            }
+            .kubecost-features-grid {
+                grid-template-columns: 1fr; /* 모바일에서는 항상 한 줄로 표시 */
+            }
+            .table-constellation {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                -webkit-mask-image: linear-gradient(to right, transparent, black 15px, black 90%, transparent);
+                mask-image: linear-gradient(to right, transparent, black 15px, black 90%, transparent);
+            }
+            table.data-constellation {
+                min-width: 650px;
+            }
+            table.data-constellation td, table.data-constellation th {
+                padding: 1rem 1.25rem;
+            }
+
+            /* --- 4. 성능 최적화 (Performance) --- */
+            /* 가이드: 불필요한 애니메이션 줄이기 */
+            .content-portal:hover, .nexus-node:hover, .kubecost-feature-card:hover,
+            .kubecost-flow-step:hover, .nebula-conclusion:hover,
+            blockquote.echoes:hover, .dream-list li:hover::before {
+                transform: none;
+                box-shadow: none;
+            }
+            .content-portal::before, .dream-list li::before, .nexus-resolver-icon {
+                animation: none;
+            }
+        }
+
+        /* --- 5. 접근성: 동작 줄이기 설정 (Accessibility) --- */
+        /* 가이드: W3C WCAG 2.1 준수 */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+        /*
+        =============================================================
+        === 가이드라인 기반 모바일 베스트 프랙티스 최적화 코드 끝 ===
+        =============================================================
+        */
     </style>
 </head>
 <body class="antialiased">
     <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
 
-        <!-- [수정사항] 아래 HTML 문구와 구조는 원본과 동일합니다. -->
-
         <header class="hero-portal interactive-element">
             <h1 class="mb-6">Step 2</h1>
-            <p>비용을 보이게 만드는 도구 - Kubecost를 통한 클라우드 비용 투명성 확보</p>
+            <p>비용을 보이게 만드는 도구 - Kubecost</p>
         </header>
 
         <section id="step2-content" class="mb-20">
             <div class="main-content-nebula">
                 <h2 class="text-4xl sm:text-5xl font-bold pb-8 text-center">
-                    Step 2. 비용을 보이게 만드는 도구 – Kubecost
-                    <span class="subtitle">- Kubernetes 비용 가시성 확보 및 최적화의 첫걸음 -</span>
+                    Kubernetes 비용 가시성 확보 및 최적화의 첫걸음
                 </h2>
 
                 <div class="content-portal interactive-element">
@@ -820,13 +941,6 @@
                         <li>최종 분석 결과는 사용자가 접근하기 쉬운 다양한 인터페이스(UI, Grafana, API, Slack, 보고서 등)를 통해 효과적으로 전달됩니다.</li>
                     </ul>
                 </div>
-                    
-                    <ul class="dream-list mt-8 space-y-3">
-                        <li>Prometheus가 클러스터의 상세한 사용량 메트릭을 수집합니다.</li>
-                        <li>Kubecost Core 엔진이 이 데이터를 기반으로 정교한 비용 분석 및 최적화 로직을 수행합니다.</li>
-                        <li>최종 분석 결과는 사용자가 접근하기 쉬운 다양한 인터페이스(UI, Grafana, API, Slack, 보고서 등)를 통해 효과적으로 전달됩니다.</li>
-                    </ul>
-                </div>
 
 
                 <div class="nebula-conclusion mt-16 interactive-element">
@@ -840,7 +954,7 @@
         </section>
 
         <footer class="cosmic-dust text-center">
-            <p class="interactive-element">&copy; <script>document.write(new Date().getFullYear())</script> copyright 2025 megazoncloud corp. All rights reserved</p>
+            <p class="interactive-element">&copy; <script>document.write(new Date().getFullYear())</script> megazoncloud corp. All rights reserved</p>
             <p class="slogan">Our Vision: Transform Tomorrow Together</p>
         </footer>
 
