@@ -11,30 +11,59 @@
             --bg-abyss: #03001C;
             --bg-nebula-start: #150050;
             --bg-nebula-end: #3F0071;
+            --bg-starfield: transparent;
+
             --text-luminous: #E0FBFC;
             --text-ethereal: #C7D2FE;
             --text-whisper: #A7B3D6;
+
             --accent-aurora-cyan: #30BCED;
             --accent-aurora-pink: #D741A7;
             --accent-stardust-gold: #FBD46D;
+            --accent-cosmic-glow: rgba(48, 188, 237, 0.7);
             --accent-ai-teal: #14B8A6;
             --accent-ai-purple: #8B5CF6;
+            --accent-kubecost-blue: #207AB9;
+            --accent-kubecost-green: #38A169;
+
             --font-primary: 'Inter', 'Noto Sans KR', sans-serif;
             --font-display: 'Orbitron', 'Noto Sans KR', sans-serif;
             --font-code: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", monospace;
+
             --border-radius-celestial: 1rem;
             --border-radius-dream: 0.75rem;
         }
-        html { scroll-behavior: smooth; }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: var(--font-primary);
             background-color: var(--bg-abyss);
             color: var(--text-luminous);
             overflow-x: hidden;
             line-height: 1.8;
+            min-height: 100vh;
             position: relative;
         }
-        /* --- ✨ 수정된 기능: 움직이는 별 배경 효과 --- */
+
+        ::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(3, 0, 28, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--accent-ai-purple);
+            border-radius: 10px;
+            border: 2px solid var(--bg-abyss);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: var(--accent-aurora-cyan);
+        }
+
         body::before, body::after {
             content: '';
             position: fixed;
@@ -66,108 +95,307 @@
             100% { opacity: 0.2; transform: scale(1); }
         }
 
+        .interactive-element, .content-portal, table, blockquote,
+        .dream-list li::before, .dream-list-decimal li::before, .luminous-link::after,
+        .nebula-conclusion, .ai-feature-card, .ai-flow-step, .bedrock-layer-card-animated {
+            transition-property: transform, box-shadow, border-color, opacity;
+            transition-duration: 0.5s;
+            transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
         .hero-portal {
             padding: 6rem 2rem 8rem;
+            border-radius: var(--border-radius-celestial);
+            margin-bottom: 5rem;
             text-align: center;
+            position: relative;
+            overflow: visible;
             background: radial-gradient(ellipse at 50% -50%, rgba(20, 184, 166, 0.15) 0%, transparent 60%),
                         radial-gradient(ellipse at 50% 150%, rgba(139, 92, 246, 0.1) 0%, transparent 60%);
         }
         .hero-portal h1 {
             font-family: var(--font-display);
+            color: var(--text-luminous);
             font-weight: 500;
             font-size: clamp(2.5rem, 5vw, 4rem);
             text-shadow: 0 0 15px var(--accent-ai-teal), 0 0 30px var(--accent-ai-purple);
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+            animation: fadeInGlow 2s ease-out forwards;
+            opacity:0;
         }
+        @keyframes fadeInGlow {
+            0% { opacity: 0; transform: translateY(20px) scale(0.95); text-shadow: 0 0 5px var(--accent-cosmic-glow); }
+            100% { opacity: 1; transform: translateY(0) scale(1); text-shadow: 0 0 15px var(--accent-ai-teal), 0 0 30px var(--accent-ai-purple); }
+        }
+        .hero-portal p {
+            color: var(--text-ethereal);
+            font-size: clamp(1.1rem, 2.8vw, 1.35rem);
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0;
+            animation: fadeInSimple 2s 0.5s ease-out forwards;
+            line-height: 1.7;
+        }
+        @keyframes fadeInSimple {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         main {
             background: linear-gradient(170deg, var(--bg-nebula-start) 0%, var(--bg-nebula-end) 100%);
             padding: 3.5rem;
             border-radius: var(--border-radius-celestial);
+            box-shadow: 0 0 60px rgba(0,0,0,0.5), inset 0 0 30px rgba(0,0,0,0.3);
             border: 1px solid rgba(224, 251, 252, 0.1);
         }
         main > h2 {
             font-family: var(--font-display);
+            color: var(--text-luminous);
             border-bottom: 2px solid;
-            border-image: linear-gradient(to right, var(--accent-ai-teal), var(--accent-ai-purple)) 1;
+            border-image-slice: 1;
+            border-image-source: linear-gradient(to right, var(--accent-ai-teal), var(--accent-ai-purple));
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            padding-bottom: 1.5rem;
+            margin-bottom: 3rem;
         }
+        main > h2 .subtitle {
+            display: block;
+            font-size: 0.6em;
+            color: var(--text-ethereal);
+            font-family: var(--font-primary);
+            letter-spacing: normal;
+            margin-top: 0.5rem;
+            font-weight: 400;
+        }
+
         .content-portal {
             background-color: rgba(3, 0, 28, 0.7);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px) saturate(150%);
+            -webkit-backdrop-filter: blur(10px) saturate(150%);
             padding: 2.5rem;
             border-radius: var(--border-radius-dream);
+            margin-bottom: 3rem;
             border: 1px solid rgba(20, 184, 166, 0.2);
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .content-portal::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: conic-gradient(
+                transparent,
+                rgba(20, 184, 166, 0.15) 20%,
+                rgba(139, 92, 246, 0.15) 40%,
+                transparent 60%
+            );
+            opacity: 0;
+            transform-origin: center center;
+            transition: opacity 0.7s ease, transform 0.7s ease;
+            animation: portalSpin 15s linear infinite paused;
+            z-index: -1;
+        }
+        @keyframes portalSpin {
+            100% { transform: rotate(1turn); }
         }
         .content-portal:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 25px var(--accent-ai-teal);
+            transform: translateY(-10px) scale(1.015);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.45), 0 0 25px var(--accent-ai-teal);
+            border-color: rgba(139, 92, 246, 0.3);
         }
-        h3 { font-family: var(--font-display); text-shadow: 0 0 8px var(--accent-ai-teal); }
-        h4 { font-family: var(--font-display); color: var(--accent-ai-purple); text-shadow: 0 0 6px var(--accent-ai-purple); }
+        .content-portal h3 {
+            font-family: var(--font-display);
+            color: var(--text-luminous);
+            font-weight: 500;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 8px var(--accent-ai-teal);
+        }
+        .content-portal h4 { 
+            font-family: var(--font-display);
+            color: var(--accent-ai-purple); 
+            font-weight: 500;
+            font-size: 1.4rem; 
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 6px var(--accent-ai-purple);
+        }
+        .content-portal p, .content-portal li {
+            color: var(--text-ethereal);
+            font-size: 1.05rem;
+        }
+        
         .code-block-container {
             background-color: #0A0A14;
             border-radius: var(--border-radius-dream);
+            margin: 1rem 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             border: 1px solid rgba(139, 92, 246, 0.3);
-            position: relative;
         }
+
         .code-block-header {
             background: linear-gradient(90deg, rgba(139, 92, 246, 0.25) 0%, rgba(20, 184, 166, 0.25) 100%);
             padding: 0.8rem 1.5rem;
             font-family: var(--font-display);
+            font-size: 0.9rem;
+            color: var(--text-luminous);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.3);
         }
+        
+        .code-block-content {
+            overflow-x: auto;
+        }
+
         .code-block pre {
             padding: 1.5rem;
             font-family: var(--font-code);
-            white-space: pre-wrap;
-            word-wrap: break-word;
+            font-size: 0.9em;
+            color: #DCDCDC;
+            white-space: pre;
         }
+
+        pre .command { color: #9CDCFE; }
+        pre .variable { color: #CE9178; }
+        pre .string { color: #4EC9B0; }
+        pre .comment { color: #6A9955; font-style: italic; }
+        pre .parameter { color: #c586c0; }
+        pre .output { color: var(--text-ethereal); }
+
         .image-insertion-area {
-            margin: 1rem auto;
-            padding: 1.5rem;
+            margin: 0.5rem auto; 
+            padding: 1rem; 
             text-align: center;
             background-color: rgba(18, 2, 50, 0.5); 
             border: 2px dashed var(--accent-ai-purple);
             border-radius: var(--border-radius-dream);
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.2);
         }
+
         .image-insertion-area img {
+            display: block;
+            margin: 0.5rem auto; 
+            max-width: 100%;
+            height: auto;
+            object-fit: contain; 
+            border-radius: calc(var(--border-radius-dream) - 8px);
+            border: 1px solid var(--accent-ai-purple); 
+            background-color: rgba(0,0,0,0.3);
             cursor: zoom-in;
             transition: transform 0.2s ease-in-out;
         }
-        .image-insertion-area img:hover {
+
+         .image-insertion-area img:hover {
             transform: scale(1.02);
         }
+        .image-insertion-area .instruction-text {
+            color: var(--text-luminous);
+            font-size: 0.9rem;
+        }
+        .image-insertion-area .source-note {
+            font-size: 0.8rem;
+            color: var(--text-whisper);
+        }
+
         blockquote.echoes {
             border-left: 4px solid var(--accent-stardust-gold);
             background: linear-gradient(to right, rgba(251, 212, 109, 0.03), transparent);
-            padding: 1.5rem;
+            color: var(--accent-stardust-gold);
+            padding: 1.5rem 1.5rem 1.5rem 2.5rem;
+            margin: 1rem 0;
+            border-radius: var(--border-radius-dream);
+            font-style: normal;
+            font-size: 1.1rem;
+            position: relative;
         }
-        blockquote.echoes p { color: var(--text-ethereal); }
-        .dream-list { list-style: none; padding-left: 0; }
-        .dream-list li { padding-left: 1.5rem; position: relative; }
-        .dream-list li::before {
-            content: '✦';
+        blockquote.echoes p { 
+            color: var(--text-ethereal) !important;
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+        blockquote.echoes::before {
+            content: '“';
+            font-family: serif;
+            font-size: 3rem;
+            color: rgba(251, 212, 109, 0.2);
             position: absolute;
-            left: 0;
-            color: var(--accent-ai-teal);
+            left: 0.5rem;
+            top: 0.5rem;
+            line-height: 1;
+        }
+        blockquote.echoes pre {
+            white-space: pre;
+            overflow-x: auto;
+            font-family: var(--font-code);
+            font-size: 1em;
+            color: var(--text-luminous);
+            margin-top: 0.75rem;
+        }
+
+        .dream-list { list-style: none; padding-left: 0; }
+        
+        /* --- ▼▼▼▼▼ 수정된 부분 ▼▼▼▼▼ --- */
+        .dream-list li {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem; /* 목록 항목 간 여백 증가 */
+            position: relative;
+        }
+        /* --- ▲▲▲▲▲ 수정된 부분 ▲▲▲▲▲ --- */
+
+        .dream-list li::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0.5em;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background-color: var(--accent-ai-teal);
+            box-shadow: 0 0 8px var(--accent-ai-teal), 0 0 12px var(--accent-ai-teal);
             animation: pulseOrb 2s infinite ease-in-out;
         }
-        @keyframes pulseOrb { 50% { opacity: 0.5; } }
-        .luminous-link {
-            color: var(--accent-aurora-cyan);
-            position: relative;
-            padding-bottom: 2px;
+        @keyframes pulseOrb {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.3); opacity: 1; }
         }
-        .luminous-link::after {
+
+        .luminous-link, a {
+            color: var(--accent-aurora-cyan);
+            font-weight: 500;
+            text-decoration: none;
+            position: relative;
+            padding-bottom: 3px;
+        }
+        .luminous-link::after, a::after {
             content: '';
             position: absolute;
             width: 0;
             height: 1.5px;
-            bottom: 0;
-            left: 50%;
+            display: block;
+            left: 50%; bottom: 0;
             transform: translateX(-50%);
             background: linear-gradient(to right, var(--accent-aurora-cyan), var(--accent-aurora-pink));
-            transition: width 0.4s;
+            transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
-        .luminous-link:hover::after { width: 100%; }
+        .luminous-link:hover::after, a:hover::after { width: 100%; }
+
+        .nebula-conclusion {
+            background: radial-gradient(ellipse at center, rgba(20, 184, 166, 0.05) 0%, transparent 70%),
+                        linear-gradient(160deg, rgba(21,0,80,0.3) 0%, rgba(63,0,113,0.3) 100%);
+            border-top: 2px solid;
+            border-image-slice: 1;
+            border-image-source: linear-gradient(to right, var(--accent-ai-teal), var(--accent-ai-purple));
+            padding: 3.5rem;
+            border-radius: var(--border-radius-dream);
+            margin-top: 4rem;
+        }
+        
+        footer.cosmic-dust {
+            border-top: 1px solid rgba(224, 251, 252, 0.08);
+            padding-top: 3.5rem;
+            margin-top: 6rem;
+        }
 
         .image-modal {
             display: none; 
@@ -211,6 +439,37 @@
             from {transform: scale(0.8); opacity: 0;}
             to {transform: scale(1); opacity: 1;}
         }
+
+        @media (max-width: 768px) {
+            main {
+                padding: 1.5rem;
+            }
+            .content-portal {
+                padding: 1.5rem;
+            }
+            .hero-portal {
+                padding: 4rem 1rem 5rem;
+                margin-bottom: 2rem;
+            }
+            .hero-portal h1 {
+                font-size: clamp(1.8rem, 8vw, 2.5rem);
+            }
+            main > h2 {
+                font-size: clamp(2rem, 8vw, 2.5rem);
+            }
+            .content-portal h3 {
+                font-size: 1.5rem;
+            }
+            blockquote.echoes {
+                padding: 1rem 1rem 1rem 1.5rem;
+            }
+            blockquote.echoes p {
+                font-size: 0.9rem;
+            }
+            .code-block pre {
+                padding: 1rem;
+            }
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -220,18 +479,18 @@
     </div>
 
     <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
-        <header class="hero-portal mb-20">
-            <h1 class="text-4xl md:text-6xl mb-6">EKS 관리, <br>아직도 복잡한 명령어를 사용하시나요?</h1>
-            <p class="text-lg md:text-xl text-ethereal max-w-3xl mx-auto">AI 네이티브 IDE, Cursor에서 자연어로 EKS 클러스터를 직접 관리하는 궁극의 개발 워크플로우를 경험하세요.</p>
+        <header class="hero-portal interactive-element">
+            <h1 class="mb-6">EKS 관리, <br>아직도 복잡한 명령어를 사용하시나요?</h1>
+            <p>AI 네이티브 IDE, Cursor에서 자연어로 EKS 클러스터를 직접 관리하는 궁극의 개발 워크플로우를 경험하세요.</p>
         </header>
 
         <main id="main-content">
-            <h2 class="text-3xl md:text-4xl font-bold mb-16 pb-6 text-center">
+            <h2 class="text-4xl sm:text-5xl font-bold mb-16 pb-8 text-center">
                 개발자 생산성을 위한 EKS 운영 혁신: <br>Cursor와 AI로 터미널 없이 관리하기
-                <span class="block text-lg font-normal text-ethereal mt-3">- 터미널을 떠나지 않고 AI로 EKS 관리하기 -</span>
+                <span class="subtitle">- 터미널을 떠나지 않고 AI로 EKS 관리하기 -</span>
             </h2>
 
-            <section class="content-portal mb-12">
+            <section class="content-portal interactive-element">
                 <h3 class="text-2xl mb-4">Cursor MCP 연동이란?</h3>
                 <p>Cursor는 <span class="font-semibold" style="color:var(--accent-ai-teal);">AI 기능</span>을 깊이 통합한 코드 에디터로, 개발 생산성을 극대화합니다. <br>여기에 포함된 <span class="font-semibold" style="color:var(--accent-stardust-gold);">MCP(Model Context Protocol)</span>는 Cursor 에디터와 외부 커맨드라인 도구(<span class="font-semibold" style="color:var(--accent-ai-purple);">`kubectl-ai`</span> 등)를 연결하는 강력한 브릿지 역할을 합니다.</p>
                 <p class="mt-4">이 연동을 통해, 개발자는 터미널로 전환할 필요 없이 <span class="font-semibold" style="color:var(--accent-aurora-cyan);">익숙한 에디터 환경 내에서 직접 자연어로 `kubectl-ai`를 호출</span>하여 EKS 클러스터를 관리할 수 있습니다. 이는 <span class="font-semibold" style="color:var(--accent-ai-teal);">컨텍스트 스위칭 비용을 획기적으로 줄여</span>, 코딩과 인프라 관리의 경계를 허무는 차세대 개발 경험을 제공합니다.</p>
@@ -242,28 +501,31 @@
                 </div>
             </section>
 
-            <section class="content-portal mb-12">
+            <section class="content-portal interactive-element">
                 <h3>MCP 연동 설정 과정</h3>
                 <p>몇 가지 간단한 설정만으로 Cursor와 `kubectl-ai`를 연동할 수 있습니다. 설정의 핵심은 `kubectl-ai`가 설치된 <span class="font-semibold" style="color:var(--accent-stardust-gold);">WSL(Windows Subsystem for Linux)</span> 환경을 Cursor가 인식할 수 있도록 경로를 정확히 지정하는 것입니다.</p>
                 
-                <h4 class="text-xl mt-8 mb-4">전제 조건</h4>
+                <h4>전제 조건</h4>
                 <ul class="dream-list mb-6">
                     <li>Windows 환경에 <span class="font-semibold" style="color:var(--accent-aurora-cyan);">WSL</span> 및 <span class="font-semibold" style="color:var(--accent-aurora-cyan);">`kubectl-ai`</span>가 설치되어 있어야 합니다.</li>
                     <li><span class="font-semibold" style="color:var(--accent-aurora-cyan);">Cursor</span> 코드 에디터가 설치되어 있어야 합니다.</li>
                 </ul>
 
-                <h4 class="text-xl mt-8 mb-4">1단계: mcp.json 파일 찾기</h4>
+                <h4>1단계: mcp.json 파일 찾기</h4>
                 <p>Windows 탐색기를 열고 아래 경로로 이동하여 <span class="font-semibold" style="color:var(--accent-ai-teal);">`mcp.json`</span> 파일을 찾습니다. 이 파일은 Cursor의 MCP 서버 설정을 담고 있습니다.</p>
                 <div class="code-block-container mt-4">
                     <div class="code-block-header">mcp.json File Path</div>
-                    <pre><code>C:\Users\[사용자 이름]\.cursor\mcp.json</code></pre>
+                    <div class="code-block-content">
+                        <pre><code>C:\Users\[사용자 이름]\.cursor\mcp.json</code></pre>
+                    </div>
                 </div>
 
-                <h4 class="text-xl mt-8 mb-4">2단계: 서버 설정 추가</h4>
+                <h4>2단계: 서버 설정 추가</h4>
                 <p>`mcp.json` 파일을 열고, `mcpServers` 객체 안에 아래의 `kubectl-ai-local` 서버 설정을 추가합니다.</p>
                 <div class="code-block-container mt-4">
                     <div class="code-block-header">mcp.json Configuration</div>
-                    <pre id="mcpConfig"><code>{
+                    <div class="code-block-content">
+                        <pre id="mcpConfig"><code>{
   "mcpServers": {
     "kubectl-ai-local": {
       "type": "stdio",
@@ -282,13 +544,14 @@
     }
   }
 }</code></pre>
+                    </div>
                 </div>
-                 <blockquote class="echoes my-6 !py-4 !px-6">
-                    <p class="!text-sm"><span class="font-semibold" style="color:var(--accent-stardust-gold);">중요:</span> `args` 내부의 경로는 사용자의 WSL 환경에 따라 다를 수 있습니다. WSL 터미널에서 <code class="bg-black/30 p-1 rounded">which kubectl-ai</code> 와 <code class="bg-black/30 p-1 rounded">ls ~/.kube/config</code> 명령어로 실제 경로를 확인하고 반드시 수정하세요.</p>
+                 <blockquote class="echoes my-6">
+                    <p><span class="font-semibold" style="color:var(--accent-stardust-gold);">중요:</span> `args` 내부의 경로는 사용자의 WSL 환경에 따라 다를 수 있습니다. WSL 터미널에서 <code class="bg-black/30 p-1 rounded">which kubectl-ai</code> 와 <code class="bg-black/30 p-1 rounded">ls ~/.kube/config</code> 명령어로 실제 경로를 확인하고 반드시 수정하세요.</p>
                 </blockquote>
             </section>
             
-            <section class="content-portal mb-12">
+            <section class="content-portal interactive-element">
                 <h3 class="text-2xl mb-6 text-center">Cursor와 함께하는 EKS 관리: 7가지 실전 예시</h3>
                 <blockquote class="echoes">
                      <p>설정이 완료되었다면, 이제 Cursor의 AI 채팅(<span class="font-semibold" style="color:var(--accent-aurora-cyan);">agent mode</span>)에서 아래와 같은 작업들을 수행할 수 있습니다.</p>
@@ -301,7 +564,9 @@
                             <p>클러스터의 모든 노드 상태를 확인하여 비정상 노드가 있는지 신속하게 파악합니다.</p>
                             <div class="code-block-container !my-2">
                                 <div class="code-block-header">입력 프롬프트</div>
-                                <pre><code>현재 클러스터의 모든 노드 상태와 리소스(메모리, CPU) 현황을 보여줘</code></pre>
+                                <div class="code-block-content">
+                                    <pre><code>현재 클러스터의 모든 노드 상태와 리소스(메모리, CPU) 현황을 보여줘</code></pre>
+                                </div>
                             </div>
                             <div class="code-block-container">
                                 <div class="code-block-header">Execution Result</div>
@@ -317,7 +582,9 @@
                             <p>파드가 특정 노드에 스케줄링되지 못하는 이유를 이벤트를 통해 상세하게 분석합니다.</p>
                             <div class="code-block-container !my-2">
                                 <div class="code-block-header">입력 프롬프트</div>
-                                <pre><code>최근 1시간 내 스케쥴링에 실패한 파드와 그 원인을 정리해줘</code></pre>
+                                <div class="code-block-content">
+                                    <pre><code>최근 1시간 내 스케쥴링에 실패한 파드와 그 원인을 정리해줘</code></pre>
+                                </div>
                             </div>
                             <div class="code-block-container">
                                 <div class="code-block-header">Execution Result</div>
@@ -333,7 +600,9 @@
                             <p>HPA의 현재 상태, 메트릭, 복제본 수를 확인하여 오토스케일링이 정상적으로 동작하는지 점검합니다.</p>
                             <div class="code-block-container !my-2">
                                 <div class="code-block-header">입력 프롬프트</div>
-                                <pre><code>현재 클러스터에서 동작 중인 HPA 목록과 각 hpa의 상태를 보여줘</code></pre>
+                                <div class="code-block-content">
+                                    <pre><code>현재 클러스터에서 동작 중인 HPA 목록과 각 hpa의 상태를 보여줘</code></pre>
+                                </div>
                             </div>
                            <div class="code-block-container">
                                 <div class="code-block-header">Execution Result</div>
@@ -349,7 +618,9 @@
                             <p>PVC가 PV(Persistent Volume)에 바인딩되지 못하고 Pending 상태에 머무는 원인을 파악합니다.</p>
                             <div class="code-block-container !my-2">
                                 <div class="code-block-header">입력 프롬프트</div>
-                                <pre><code>바인딩에 실패한 pvc와 관련 이벤트를 알려줘</code></pre>
+                                <div class="code-block-content">
+                                    <pre><code>바인딩에 실패한 pvc와 관련 이벤트를 알려줘</code></pre>
+                                </div>
                             </div>
                             <div class="code-block-container">
                                 <div class="code-block-header">Execution Result</div>
@@ -365,7 +636,9 @@
                             <p>클러스터 전반의 경고 및 에러 이벤트를 확인하여 잠재적인 문제점을 사전에 인지합니다.</p>
                            <div class="code-block-container !my-2">
                                 <div class="code-block-header">입력 프롬프트</div>
-                                <pre><code>최근 10분간 Warnning 또는 Error 이벤트만 추려서 보여줘</code></pre>
+                                <div class="code-block-content">
+                                    <pre><code>최근 10분간 Warnning 또는 Error 이벤트만 추려서 보여줘</code></pre>
+                                </div>
                             </div>
                             <div class="code-block-container">
                                 <div class="code-block-header">Execution Result</div>
@@ -381,7 +654,9 @@
                             <p>Ingress와 연결된 서비스, 그리고 서비스 엔드포인트가 정상적으로 연결되어 있는지 확인합니다.</p>
                            <div class="code-block-container !my-2">
                                 <div class="code-block-header">입력 프롬프트</div>
-                                <pre><code>현재 클러스터의 ingress와 서비스 엔드포인트 현황을 한눈에 보여줘</code></pre>
+                                <div class="code-block-content">
+                                    <pre><code>현재 클러스터의 ingress와 서비스 엔드포인트 현황을 한눈에 보여줘</code></pre>
+                                </div>
                             </div>
                            <div class="code-block-container">
                                 <div class="code-block-header">Execution Result</div>
@@ -397,7 +672,9 @@
                             <p>현재 노드들의 리소스 사용량을 분석하고, 파드 스케줄링을 위해 노드 추가가 필요한지 AI에게 제안받습니다.</p>
                             <div class="code-block-container !my-2">
                                 <div class="code-block-header">입력 프롬프트</div>
-                                <pre><code>현재 리소스 사용량을 기준으로 노드 증설 또는 축소가 필요한지 제안해줘</code></pre>
+                                <div class="code-block-content">
+                                    <pre><code>현재 리소스 사용량을 기준으로 노드 증설 또는 축소가 필요한지 제안해줘</code></pre>
+                                </div>
                             </div>
                            <div class="code-block-container">
                                 <div class="code-block-header">Execution Result</div>
@@ -410,7 +687,7 @@
                 </div>
             </section>
             
-            <div class="nebula-conclusion mt-16">
+            <div class="nebula-conclusion mt-16 interactive-element">
                 <h3 class="text-3xl text-center mb-6">결론: 진정한 AI 네이티브 개발 환경</h3>
                 <p class="text-center max-w-3xl mx-auto text-ethereal">
                     <span class="font-semibold" style="color:var(--accent-ai-teal);">`kubectl-ai`</span>와 <span class="font-semibold" style="color:var(--accent-ai-purple);">Cursor MCP</span>의 결합이 제시하는 핵심 가치는 '<span class="font-semibold" style="color:var(--accent-stardust-gold);">개발자 경험의 통합</span>'입니다. 이는 단순히 터미널을 에디터에 옮겨온 것을 넘어, 인프라와 상호작용하는 방식을 '<span class="font-semibold" style="color:var(--accent-aurora-pink);">명령</span>'에서 '<span class="font-semibold" style="color:var(--accent-aurora-cyan);">질문과 대화</span>'로 전환시킵니다.
@@ -420,15 +697,15 @@
                 <div class="mt-8">
                     <h4 class="text-lg font-semibold mt-8 mb-3">Reference</h4>
                     <ul class="dream-list">
-                       <li><a href="https://github.com/GoogleCloudPlatform/kubectl-ai/blob/main/docs/mcp.md" target="_blank" class="luminous-link text-lg">kubectl-ai 공식 MCP 연동 가이드</a></li>
+                       <li><a href="https://github.com/GoogleCloudPlatform/kubectl-ai/blob/main/docs/mcp-server.md" target="_blank" class="luminous-link text-lg">kubectl-ai 공식 MCP 연동 가이드</a></li>
                        <li><a href="https://www.cursor.com/" target="_blank" class="luminous-link text-lg">Cursor</a></li>
                     </ul>
                 </div>
             </div>
 
         </main>
-        <footer class="text-center py-12 border-t border-t-gray-800 mt-16">
-            <p>&copy; <script>document.write(new Date().getFullYear())</script> copyright 2025 megazoncloud corp. All rights reserved</p>
+        <footer class="cosmic-dust text-center">
+            <p class="interactive-element">&copy; <script>document.write(new Date().getFullYear())</script> megazoncloud corp. All rights reserved</p>
             <p class="slogan">Our Vision: Transform Tomorrow Together</p>
         </footer>
 
