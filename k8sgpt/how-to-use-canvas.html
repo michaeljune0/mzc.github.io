@@ -3,442 +3,419 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gemini Canvas 인터랙티브 가이드</title>
+    <title>메가존클라우드 | AI 자동화 세일즈 솔루션</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Warm Neutral -->
-    <!-- Application Structure Plan: 탭 기반의 SPA 구조를 채택하여 사용자가 '소개', 'UI/UX 디자인 원칙', 'UX 라이팅 가이드라인', '활용 팁' 섹션을 쉽게 전환하며 탐색할 수 있도록 설계했습니다. 이 구조는 긴 매뉴얼을 논리적인 단위로 분할하여 정보 과부하를 줄이고, 각 주제에 대한 집중도를 높입니다. 특히 'UI/UX 디자인' 섹션에서는 Canvas의 핵심 기능인 '텍스트 수정/개선'을 시뮬레이션하는 인터랙티브 요소를 추가하여, 사용자가 기능을 직접 체험해보는 듯한 능동적인 학습 경험을 제공합니다. 이 접근 방식은 정적인 텍스트를 읽는 것보다 훨씬 높은 참여와 이해를 유도하기 때문에 채택되었습니다. -->
-    <!-- Visualization & Content Choices: 
-        - 정보: Gemini Canvas 소개 및 핵심 기능 -> 목표: 정보 제공 -> 표현 방식: 아이콘 기반의 인터랙티브 카드 -> 상호작용: 클릭 시 상세 내용 표시 -> 정당성: 텍스트 목록보다 시각적으로 흥미롭고 탐색을 유도함.
-        - 정보: UI/UX 디자인 5대 원칙 -> 목표: 관계 시각화 및 정보 구성 -> 표현 방식: Chart.js를 이용한 Radar 차트, 아코디언 목록 -> 상호작용: 차트를 통한 원칙 간의 균형 시각화, 아코디언 클릭 시 상세 내용 확장, 시뮬레이션 버튼 클릭 시 텍스트 동적 변경 -> 정당성: Radar 차트는 5가지 추상적 원칙의 상호연결성과 균형을 효과적으로 시각화합니다. 아코디언은 복잡한 정보를 깔끔하게 정리하며, 시뮬레이션은 Canvas의 핵심 가치를 직접적으로 보여줍니다. (라이브러리: Chart.js)
-        - 정보: UX 라이팅 가이드라인 -> 목표: 비교 및 정보 구성 -> 표현 방식: 아코디언 목록 내 '좋은 예/나쁜 예' 비교 테이블 -> 상호작용: 아코디언 확장 -> 정당성: 명확한 비교를 통해 가이드라인의 효과를 직관적으로 이해시킵니다.
-        - 정보: 공유 및 추가 프롬프트 -> 목표: 정보 제공 -> 표현 방식: 아코디언 형태의 FAQ -> 상호작용: 클릭 시 답변 확장 -> 정당성: 질문/답변 형식은 정보를 간결하게 전달하는 데 효과적입니다.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
     <style>
-        body { font-family: 'Noto Sans KR', sans-serif; background-color: #FDFBF8; }
-        .tab-active { border-color: #4A5568; color: #2D3748; background-color: #F7FAFC; font-weight: 500; }
-        .tab-inactive { border-color: transparent; color: #718096; }
-        .content-panel { display: none; }
-        .content-active { display: block; }
-        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
-        .chart-container { position: relative; width: 100%; max-width: 500px; margin-left: auto; margin-right: auto; height: 300px; max-height: 40vh; }
-        @media (min-width: 768px) { .chart-container { height: 400px; } }
+        /* 기본 폰트 설정 */
+        body {
+            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        /* 각 섹션의 제목 스타일 */
+        .section-title {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 900;
+        }
+        /* 영문 폰트 스타일 */
+        .eng-title {
+            font-family: 'Inter', sans-serif;
+        }
+        /* 히어로 섹션 그라데이션 */
+        .hero-gradient {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #dbeafe 100%);
+        }
+        /* CTA 버튼 스타일 */
+        .cta-button {
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        /* 카드 호버 효과 */
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+        /* 스크롤 애니메이션을 위한 기본 스타일 */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        /* 스크롤 시 나타나는 스타일 */
+        .visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* 프롬프트 박스 스타일 */
+        .prompt-box {
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+            font-size: 14px;
+            line-height: 1.7; /* 줄간격 조정 */
+        }
     </style>
 </head>
-<body class="text-gray-800">
+<body class="bg-gray-100">
 
-    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
-        <header class="text-center mb-8 md:mb-12">
-            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">🎨 Gemini Canvas</h1>
-            <p class="text-lg md:text-xl text-gray-600">아이디어부터 완벽한 콘텐츠까지, 인터랙티브 가이드</p>
+    <!-- 프롬프트 표시 및 복사 섹션 -->
+    <div class="bg-gray-800 text-white p-4 md:p-6">
+        <div class="container mx-auto">
+            <p class="text-center text-sm text-gray-400 mb-4">이 페이지는 아래 프롬프트를 기반으로 생성되었습니다.</p>
+            <div class="bg-gray-900 rounded-lg shadow-lg">
+                <div class="flex justify-between items-center px-4 py-2 border-b border-gray-700">
+                    <h3 class="text-lg font-semibold text-gray-300">Generation Prompt</h3>
+                    <button id="copy-button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded-md text-sm transition-colors">
+                        Copy
+                    </button>
+                </div>
+                <div class="p-4 md:p-6 overflow-x-auto">
+                    <pre id="prompt-text" class="prompt-box text-gray-300 whitespace-pre-wrap"><code># Gemini Canvas 세일즈 웹페이지 디자인 프롬프트 (최적화 버전)
+
+[페르소나]
+당신은 세계 최고 마케팅 디자이너이자, 복잡한 IT B2B 솔루션을 시각적으로 명확하고 설득력 있게 전달하는 전문가입니다 [사용자 지시]. 귀하의 임무는 AI를 활용하여 완벽한 세일즈 덱을 생성하는 방법을 제시함으로써, 이커머스 기업의 세일즈 프로세스를 혁신하고 비즈니스 성장을 가속화하는 비전을 제시하는 것입니다.
+
+[대상 고객]
+AI 기술에 대한 이해도가 낮은 이커머스 업종의 잠재 고객을 위한 초기 미팅 자료입니다 [사용자 지시]. 내용은 전문성을 유지하되, 쉬운 기술 설명이 필수적입니다. 고객이 요구하는 '기능'을 넘어 고객이 해결하고 싶은 '근본적인 문제(JTBD)'에 집중하여, 고객의 비즈니스 목표, 문제점, 원하는 솔루션을 이해하고 그에 맞는 맞춤형 정보를 제공해야 합니다.
+
+[작업 지시]
+이커머스 고객을 위한 AI 자동화 세일즈 웹페이지 (모바일 반응형) 초안을 Gemini Canvas에 디자인해주세요 [사용자 지시, 35, 61, 80]. 다음 내용을 포함하여 시각적으로 매력적인 인포그래픽 중심의 페이지를 생성하고, 각 섹션에 대한 HTML/React 구조 및 시각적 요소 설명을 제공해주세요. Gemini Canvas의 '듀얼-페인(Dual-Pane) 협업' 및 '실시간 미리보기' 기능을 적극 활용하여, 직관적이고 사용자 친화적인 디자인 제안을 부탁드립니다.
+
+[세일즈 웹페이지 구성 및 내용 상세화]
+
+1. 메인 히어로 섹션 (Hero Section - Engaging Opening Statement)
+   목표: 이커머스 고객의 현재 운영 과제에 대한 공감을 얻고, AI 자동화가 제공할 혁신적 변화에 대한 강력한 호기심을 유발합니다.
+   내용: "귀사의 이커머스 비즈니스, 아직도 수작업과 비효율에 갇혀 있나요? AI 자동화로 잠재력을 깨우고 무한한 성장을 경험할 시간입니다." 와 같은 질문형 헤드라인과 비전 제시를 포함합니다.
+   시각적 요소: 혁신과 성장을 상징하는 깨끗하고 미래 지향적인 이미지 또는 아이콘을 사용하며, 간결하고 명료하게 메가존클라우드의 브랜드 아이덴티티를 제시합니다. 모바일 환경에서 시선을 사로잡는 강력한 시각적 후크(Hook)를 적용합니다.
+   HTML/React 구조 제안: &lt;section id="hero" className="hero-section"&gt;
+
+2. 문제 정의 및 공감 섹션 (Problem & Empathy)
+   목표: AI 도입의 필요성을 명확히 인식시키고, 고객의 이커머스 운영에서 발생하는 '근본적인 페인 포인트(JTBD)'를 정확히 짚어냅니다.
+   내용: 이커머스 환경에서 흔히 겪는 문제점(예: 비효율적인 수동 판매 덱 제작, 개인화 부족으로 인한 고객 이탈, 복잡한 데이터 분석의 어려움)을 간결하게 제시하고, 이로 인해 발생하는 시간 및 리소스 낭비 문제를 강조합니다.
+   시각적 요소: 문제점을 상징하는 직관적인 아이콘 또는 간단한 시각적 비유(예: 엉킨 실타래, 쌓여있는 서류 더미)를 사용하여 시각적으로 쉽게 이해되도록 합니다.
+   HTML/React 구조 제안: &lt;section id="problem" className="problem-section"&gt;
+
+3. 솔루션 소개: AI 자동화 세일즈 덱 (Solution Introduction)
+   목표: AI 자동화 세일즈 덱이 무엇인지 쉽고 전문적으로 설명하며, 고객의 '문제 해결'에 초점을 맞춥니다.
+   내용: "메가존클라우드의 AI 자동화 세일즈 덱은 인공지능 기술(챗GPT 등)을 활용하여 고객 맞춤형 세일즈 프레젠테이션 자료를 자동으로 생성하는 혁신적인 시스템입니다. 이는 기존의 시간과 노력이 많이 들었던 세일즈 덱 제작 과정을 자동화하여, 영업 담당자가 고객 관계 구축 및 거래 성사에 집중할 수 있도록 돕습니다." 와 같은 정의를 포함합니다.
+   시각적 요소: AI와 프레젠테이션, 그리고 '생성' 개념이 결합된 모습을 보여주는 깔끔한 인포그래픽을 제안합니다. Gemini Canvas의 '캔버스(Canvas)' 개념처럼, 아이디어가 실시간으로 문서나 코드로 변환되는 시각적 흐름을 표현할 수 있습니다.
+   HTML/React 구조 제안: &lt;section id="solution-intro" className="solution-intro-section"&gt;
+
+4. 핵심 이점 인포그래픽 섹션 (Key Benefits Infographic)
+   목표: AI 자동화 세일즈 덱이 고객의 이커머스 비즈니스에 제공하는 구체적인 '가치'를 시각적으로 명확하게 강조합니다.
+   내용: 다음 6가지 이점을 각각의 소제목과 간결한 설명, 직관적인 아이콘/그래프와 함께 인포그래픽으로 표현합니다.
+     시간 및 비용 절감: AI는 기존 수동 작업을 자동화하여 세일즈 담당자의 시간을 절약하고, 절약된 시간을 고객 관계 구축 및 거래 성사에 집중하도록 돕습니다.
+     개인화된 콘텐츠: 고객 데이터를 분석하여 각 고객의 요구 사항에 맞는 맞춤형 콘텐츠를 생성하고, 이는 고객의 관심을 끌고 전환율을 높이는 데 효과적입니다.
+     브랜딩 일관성: 회사의 브랜딩 가이드라인을 준수하여 모든 세일즈 덱에서 일관된 디자인과 메시지를 유지하며, 회사의 전문적인 이미지를 강화합니다.
+     확장성: 대량의 세일즈 덱을 빠르고 효율적으로 생성하여 회사가 더 많은 잠재 고객에게 도달하고 더 많은 거래를 성사시키는 데 기여합니다.
+     데이터 기반 개선: 세일즈 덱의 성과를 추적하고 분석하여 효과적인 콘텐츠와 디자인을 파악하고, 이러한 데이터 기반 인사이트는 지속적인 개선에 활용됩니다.
+     매출 성장 및 시장 점유율 확대: 궁극적으로 기업의 매출 성장을 이루고 시장 점유율을 확대하는 데 필수적인 도구가 됩니다.
+   시각적 요소: 각 이점을 상징하는 컬러풀하지만 전문적인 아이콘 또는 간략한 성장 그래프를 사용하여 정보를 효과적으로 전달합니다. '정보의 덩어리(Chunking)' 기법을 활용하여 모바일 화면에서 가독성을 최대화합니다.
+   HTML/React 구조 제안: &lt;section id="benefits" className="benefits-section"&gt;
+
+5. 간소화된 작동 원리 섹션 (Simplified Workflow)
+   목표: AI 자동화 세일즈 덱의 작동 원리를 고객이 AI를 처음 접하더라도 쉽게 이해할 수 있도록 설명합니다.
+   내용: "요구 사항 분석 → 데이터 수집 → AI 모델 학습 → 세일즈 덱 생성 → 성과 측정 및 개선"의 5단계 프로세스를 간단한 흐름도 또는 아이콘 기반 인포그래픽으로 표현합니다. 복잡한 기술 용어는 피하고 직관적인 설명에 집중합니다.
+   시각적 요소: 단계별 아이콘과 간략한 연결선으로 구성된 흐름도를 사용하여 간결하고 명확하게 시각화합니다.
+   HTML/React 구조 제안: &lt;section id="workflow" className="workflow-section"&gt;
+
+6. 성공 사례 / 신뢰성 구축 섹션 (Social Proof / Credibility)
+   목표: 실제 적용 사례(가상의 이커머스 성공 사례)를 통해 고객의 신뢰를 얻고, ROI(투자 수익률)에 대한 기대를 설정합니다.
+   내용: "[사용자 직접 삽입 영역: 이커머스 업종의 AI 자동화 세일즈 성공 사례 요약 및 주요 수치 (예: 매출액 00% 증가, 고객 만족도 00% 향상)]" 와 같이 구체적인 수치를 포함하여 가치를 입증합니다. 고객사의 로고(예시: 'A사', 'B사' placeholder)와 함께 주요 성과 지표(숫자)를 크게 강조합니다.
+   시각적 요소: 성공 사례를 보여주는 인포그래픽 차트나 고객 만족도를 나타내는 별점 아이콘 등을 활용합니다.
+   HTML/React 구조 제안: &lt;section id="success-stories" className="success-stories-section"&gt;
+
+7. 클로징 멘트 및 행동 유도 (Closing & Call-to-Action)
+   목표: 고객이 다음 단계로 나아가도록 명확하고 설득력 있는 요청을 합니다.
+   내용: "메가존클라우드의 AI 자동화 솔루션이 귀사의 이커머스 비즈니스 혁신과 성장을 어떻게 실현할 수 있을지, 지금 바로 전문가와 함께 심층적으로 논의해 보세요. 귀사의 성공을 위한 첫걸음을 함께하겠습니다. 저희는 귀사의 데이터 기반 의사 결정을 통해 세일즈 전략을 지속적으로 개선하고 성공을 지원할 준비가 되어 있습니다. 지금 바로 메가존클라우드 전문가와 컨설팅을 예약하여 귀사에 최적화된 AI 세일즈 자동화 전략을 수립하십시오."
+   시각적 요소: 눈에 띄는 CTA 버튼 (예: "지금 미팅 요청하기" 또는 "데모 신청하기")을 포함하여 잠재 고객이 다음에 해야 할 일을 쉽게 알 수 있도록 합니다. 문의 양식 또는 상담 연결 전화번호를 명확하게 제시합니다.
+   HTML/React 구조 제안: &lt;section id="cta" className="cta-section"&gt;
+
+[디자인 가이드라인 - 모바일 웹페이지 최적화]
+   전반적 스타일: 깔끔하고 현대적이며 전문적인 B2B 미니멀리즘 디자인을 지향합니다. 메가존클라우드의 브랜드 아이덴티티(신뢰감, 혁신)를 간접적으로 반영합니다.
+   모바일 반응성: 모든 요소가 모바일 환경에서 완벽하게 작동하고 가독성을 유지하도록 최적화된 레이아웃을 제안합니다. 터치 기반 상호작용을 고려합니다 [사용자 지시].
+   콘텐츠 구성: 정보의 '덩어리(Chunking)'를 작게 나누어 한눈에 들어오도록 하고, 과도한 텍스트 대신 시각적 요소를 적극 활용합니다. 스크롤만으로도 핵심 메시지가 전달되도록 합니다.
+   내비게이션: 직관적인 스크롤 경험을 제공하여 사용자가 쉽게 내용을 탐색할 수 있도록 합니다.
+   색상 및 폰트: 차분하고 전문적인 주조색에 핵심 요소를 강조하는 포인트 색상을 활용하고, 모바일 화면에서 가독성이 높은 폰트를 사용합니다.
+   HTML/React 구조: 각 섹션별로 semantic한 HTML 태그 사용을 제안합니다 (예: &lt;section&gt;, &lt;h2&gt;, &lt;p&gt;, &lt;img&gt;, &lt;ul&gt;, &lt;li&gt; 등).
+   Gemini Canvas 기능 활용: Gemini Canvas의 코드 생성 및 실시간 미리보기 기능을 통해 제안된 구조와 시각적 요소가 즉시 반영될 수 있도록 지시합니다.</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bg-white">
+        <!-- Header / Navigation Bar -->
+        <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+            <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <div class="text-2xl font-bold text-gray-900 eng-title">
+                    <span class="text-blue-600">Megazone</span>Cloud
+                </div>
+                <a href="#cta" class="bg-blue-600 text-white font-bold py-2 px-5 rounded-lg cta-button text-sm md:text-base">
+                    전문가 컨설팅 예약
+                </a>
+            </nav>
         </header>
 
-        <nav class="mb-8 border-b border-gray-200">
-            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center">
-                <li class="mr-2">
-                    <button class="tab-btn inline-block p-4 border-b-2 rounded-t-lg" data-tab="intro">소개</button>
-                </li>
-                <li class="mr-2">
-                    <button class="tab-btn inline-block p-4 border-b-2 rounded-t-lg" data-tab="uiux">UI/UX 디자인 원칙</button>
-                </li>
-                <li class="mr-2">
-                    <button class="tab-btn inline-block p-4 border-b-2 rounded-t-lg" data-tab="uxwriting">UX 라이팅 가이드라인</button>
-                </li>
-                <li>
-                    <button class="tab-btn inline-block p-4 border-b-2 rounded-t-lg" data-tab="tips">활용 팁</button>
-                </li>
-            </ul>
-        </nav>
-
         <main>
-            <div id="intro" class="content-panel">
-                <section class="bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-xl shadow-sm ring-1 ring-gray-200/50">
-                    <h2 class="text-2xl font-bold mb-4">Gemini Canvas란?</h2>
-                    <p class="text-gray-600 leading-relaxed mb-8">
-                        Gemini Canvas는 제미니(Gemini) 내에 설계된 혁신적인 빠른 반복을 위한 인터랙티브 공간입니다. 사용자가 실시간 AI 기반 제안을 통해 문서 및 코드를 효율적으로 작업할 수 있도록 돕습니다. 즉, 여러분의 아이디어를 빠르게 현실화하고, 다듬고, 공유하는 데 최적화된 도구입니다. 프롬프트 바에서 '캔버스'를 선택하여 시작할 수 있습니다.
-                    </p>
-                    <h3 class="text-xl font-bold mb-6 text-center">핵심 기능 살펴보기</h3>
-                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
-                        <div class="bg-gray-50 p-5 rounded-lg border border-gray-200/80">
-                            <div class="text-3xl mb-2">🚀</div>
-                            <h4 class="font-semibold mb-1">초안 생성</h4>
-                            <p class="text-sm text-gray-500">아이디어를 고품질 초안으로 즉시 전환합니다.</p>
-                        </div>
-                        <div class="bg-gray-50 p-5 rounded-lg border border-gray-200/80">
-                            <div class="text-3xl mb-2">✍️</div>
-                            <h4 class="font-semibold mb-1">빠른 편집</h4>
-                            <p class="text-sm text-gray-500">톤, 길이, 형식을 쉽게 조정하고 다듬습니다.</p>
-                        </div>
-                        <div class="bg-gray-50 p-5 rounded-lg border border-gray-200/80">
-                            <div class="text-3xl mb-2">💡</div>
-                            <h4 class="font-semibold mb-1">즉각적인 피드백</h4>
-                            <p class="text-sm text-gray-500">AI의 제안으로 작업을 빠르게 개선합니다.</p>
-                        </div>
-                        <div class="bg-gray-50 p-5 rounded-lg border border-gray-200/80">
-                            <div class="text-3xl mb-2">🤝</div>
-                            <h4 class="font-semibold mb-1">원활한 협업</h4>
-                            <p class="text-sm text-gray-500">창작, 다듬기, 공유 과정을 매끄럽게 합니다.</p>
-                        </div>
+            <!-- 1. 메인 히어로 섹션 (Hero Section) -->
+            <section id="hero" class="hero-gradient text-center py-20 md:py-32">
+                <div class="container mx-auto px-6">
+                    <div class="max-w-4xl mx-auto">
+                        <span class="text-blue-600 font-semibold eng-title">AI-Powered Sales Automation</span>
+                        <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 mt-4 mb-6 leading-tight section-title">
+                            귀사의 이커머스 비즈니스,<br>아직도 수작업과 비효율에 갇혀 있나요?
+                        </h1>
+                        <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-10">
+                            AI 자동화로 잠재력을 깨우고 무한한 성장을 경험할 시간입니다. 메가존클라우드가 귀사의 세일즈 혁신을 이끌겠습니다.
+                        </p>
+                        <a href="#benefits" class="bg-gray-900 text-white font-bold py-3 px-8 rounded-lg cta-button text-lg">
+                            핵심 이점 알아보기
+                        </a>
                     </div>
-                </section>
-            </div>
+                </div>
+            </section>
 
-            <div id="uiux" class="content-panel">
-                <section class="bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-xl shadow-sm ring-1 ring-gray-200/50">
-                    <h2 class="text-2xl font-bold mb-2">예제 1: 웹사이트 UI/UX 디자인 원칙</h2>
-                    <p class="text-gray-600 leading-relaxed mb-8">
-                        좋은 웹사이트는 몇 가지 핵심 원칙들이 조화를 이룰 때 만들어집니다. 아래 차트는 5가지 원칙이 어떻게 서로 균형을 이루어야 하는지 한눈에 보여줍니다. 각 원칙을 클릭해 자세한 설명을 확인하고, 'Canvas로 편집하기'로 AI가 문장을 다듬는 과정을 체험해보세요.
-                    </p>
-                    <div class="lg:flex lg:gap-8">
-                        <div class="lg:w-1/2 space-y-3 mb-8 lg:mb-0">
-                            <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
-                                <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
-                                    <span>1. 사용자 중심 디자인</span>
-                                    <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
-                                </button>
-                                <div class="accordion-content">
-                                    <div class="p-4 border-t border-gray-200">
-                                        <p id="uiux-text-user-centered" class="text-gray-600 leading-relaxed transition-opacity duration-300"></p>
-                                        <div class="mt-4 p-3 bg-blue-50 rounded-md border border-blue-200">
-                                            <p class="text-sm font-semibold text-blue-800 mb-2">Canvas로 편집하기</p>
-                                            <div class="flex flex-wrap gap-2">
-                                                <button class="edit-btn text-xs bg-white text-blue-700 px-2 py-1 rounded-full border border-blue-300 hover:bg-blue-100" data-target="user-centered" data-version="base">원본</button>
-                                                <button class="edit-btn text-xs bg-white text-blue-700 px-2 py-1 rounded-full border border-blue-300 hover:bg-blue-100" data-target="user-centered" data-version="short">짧게 요약</button>
-                                                <button class="edit-btn text-xs bg-white text-blue-700 px-2 py-1 rounded-full border border-blue-300 hover:bg-blue-100" data-target="user-centered" data-version="professional">전문적인 톤으로</button>
-                                                <button class="edit-btn text-xs bg-white text-blue-700 px-2 py-1 rounded-full border border-blue-300 hover:bg-blue-100" data-target="user-centered" data-version="mobile">모바일 관점 추가</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+            <!-- 2. 문제 정의 및 공감 섹션 (Problem & Empathy) -->
+            <section id="problem" class="py-16 md:py-24 bg-white">
+                <div class="container mx-auto px-6">
+                    <div class="text-center max-w-3xl mx-auto">
+                        <h2 class="text-3xl md:text-4xl section-title mb-4">이커머스 비즈니스의 보이지 않는 비용</h2>
+                        <p class="text-gray-600 text-lg mb-12">반복적인 수작업은 시간과 리소스 낭비를 넘어, 성장의 발목을 잡는 가장 큰 원인입니다.</p>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-8 text-center">
+                        <!-- Problem 1 -->
+                        <div class="bg-gray-50 p-8 rounded-xl fade-in-up">
+                            <div class="flex justify-center mb-4">
+                                <svg class="w-16 h-16 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             </div>
-                            <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
-                                <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
-                                    <span>2. 일관성</span>
-                                    <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
-                                </button>
-                                <div class="accordion-content">
-                                    <div class="p-4 border-t border-gray-200">
-                                        <p id="uiux-text-consistency" class="text-gray-600 leading-relaxed transition-opacity duration-300"></p>
-                                    </div>
-                                </div>
-                            </div>
-                             <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
-                                <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
-                                    <span>3. 접근성</span>
-                                    <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
-                                </button>
-                                <div class="accordion-content">
-                                    <div class="p-4 border-t border-gray-200">
-                                        <p id="uiux-text-accessibility" class="text-gray-600 leading-relaxed transition-opacity duration-300"></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
-                                <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
-                                    <span>4. 효율성</span>
-                                    <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
-                                </button>
-                                <div class="accordion-content">
-                                    <div class="p-4 border-t border-gray-200">
-                                        <p id="uiux-text-efficiency" class="text-gray-600 leading-relaxed transition-opacity duration-300"></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
-                                <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
-                                    <span>5. 신뢰성</span>
-                                    <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
-                                </button>
-                                <div class="accordion-content">
-                                    <div class="p-4 border-t border-gray-200">
-                                        <p id="uiux-text-reliability" class="text-gray-600 leading-relaxed transition-opacity duration-300"></p>
-                                    </div>
-                                </div>
-                            </div>
+                            <h3 class="text-xl font-bold mb-2">비효율적인 덱 제작</h3>
+                            <p class="text-gray-600">영업 자료 하나를 만드는 데 며칠씩 소요되어 정작 중요한 고객 미팅에 집중하지 못합니다.</p>
                         </div>
-                        <div class="lg:w-1/2 flex items-center justify-center">
-                            <div class="chart-container">
-                                <canvas id="uiuxChart"></canvas>
+                        <!-- Problem 2 -->
+                        <div class="bg-gray-50 p-8 rounded-xl fade-in-up" style="transition-delay: 0.2s;">
+                             <div class="flex justify-center mb-4">
+                                <svg class="w-16 h-16 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7a4 4 0 11-8 0 4 4 0 018 0zM9 14a6 6 0 00-6 6v1h12v-1a6 6 0 00-6-6zM21 14a6 6 0 00-6-6v1a5 5 0 015 5h1z"></path></svg>
                             </div>
+                            <h3 class="text-xl font-bold mb-2">개인화 부족과 고객 이탈</h3>
+                            <p class="text-gray-600">모두에게 똑같은 제안은 더 이상 통하지 않습니다. 고객은 자신을 위한 맞춤형 제안을 원합니다.</p>
+                        </div>
+                        <!-- Problem 3 -->
+                        <div class="bg-gray-50 p-8 rounded-xl fade-in-up" style="transition-delay: 0.4s;">
+                             <div class="flex justify-center mb-4">
+                                <svg class="w-16 h-16 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V7a2 2 0 012-2h5l4 4v10a2 2 0 01-2 2z"></path></svg>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">복잡한 데이터 분석</h3>
+                            <p class="text-gray-600">데이터는 쌓여가지만, 정작 어떤 고객에게 어떤 제안이 효과적인지 알기 어렵습니다.</p>
                         </div>
                     </div>
-                </section>
-            </div>
+                </div>
+            </section>
 
-            <div id="uxwriting" class="content-panel">
-                <section class="bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-xl shadow-sm ring-1 ring-gray-200/50">
-                    <h2 class="text-2xl font-bold mb-2">예제 2: IT 기술 설명을 위한 UX 라이팅</h2>
-                     <p class="text-gray-600 leading-relaxed mb-8">
-                        기술 제품이나 서비스의 웹사이트, 개발자 문서의 문구는 사용자의 이해도와 제품의 신뢰도에 직접적인 영향을 줍니다. 기능의 가치를 명확하게 전달하기 위한 라이팅 원칙을 살펴보세요.
-                    </p>
-                     <div class="space-y-3">
-                        <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
-                            <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
-                                <span>1. 직관성 및 명확성</span>
-                                <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
-                            </button>
-                            <div class="accordion-content">
-                                <div class="p-4 border-t border-gray-200">
-                                    <p class="text-gray-600 leading-relaxed mb-4">내부에서 쓰는 기술 용어 대신, 기능의 '가치'와 '혜택'을 중심으로 설명해야 합니다. 사용자가 "그래서 이게 나한테 뭐가 좋은데?"라는 질문에 바로 답할 수 있어야 합니다.</p>
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div class="p-3 bg-red-50 rounded-md border border-red-200"><strong class="text-red-700">나쁜 예:</strong> "본 시스템은 쿠버네티스 클러스터의 리소스 사용량을 실시간으로 집계하여 시계열 데이터베이스에 저장합니다."</div>
-                                        <div class="p-3 bg-green-50 rounded-md border border-green-200"><strong class="text-green-700">좋은 예:</strong> "대시보드에서 클러스터의 CPU, 메모리 사용량을 한눈에 확인하고, 과거 데이터와 비교하여 성능 변화를 추적하세요."</div>
-                                    </div>
-                                </div>
-                            </div>
+            <!-- 3. 솔루션 소개: AI 자동화 세일즈 덱 -->
+            <section id="solution-intro" class="py-16 md:py-24 bg-gray-100">
+                <div class="container mx-auto px-6">
+                    <div class="flex flex-col md:flex-row items-center gap-12">
+                        <div class="md:w-1/2 fade-in-up">
+                            <span class="text-blue-600 font-semibold eng-title">THE SOLUTION</span>
+                            <h2 class="text-3xl md:text-4xl section-title mt-2 mb-6">AI가 만드는 맞춤형 세일즈 덱</h2>
+                            <p class="text-gray-600 text-lg mb-4">
+                                메가존클라우드의 AI 자동화 세일즈 덱은 생성형 AI 기술을 활용하여 고객 데이터에 기반한 맞춤형 세일즈 자료를 **단 몇 분 만에** 자동으로 생성하는 혁신적인 솔루션입니다.
+                            </p>
+                            <p class="text-gray-600 text-lg">
+                                이제 영업 담당자는 자료 제작의 부담에서 벗어나 고객 관계 구축과 거래 성사에 집중할 수 있습니다.
+                            </p>
                         </div>
-                         <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
-                            <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
-                                <span>2. 간결함</span>
-                                <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
-                            </button>
-                            <div class="accordion-content">
-                                <div class="p-4 border-t border-gray-200">
-                                    <p class="text-gray-600 leading-relaxed mb-4">특히 가격 정책이나 기능 비교표에서는 불필요한 수식어를 모두 빼고 핵심만 전달해야 합니다. 사용자는 긴 설명보다 명확한 비교를 원합니다.</p>
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div class="p-3 bg-red-50 rounded-md border border-red-200"><strong class="text-red-700">나쁜 예:</strong> "저희의 엔터프라이즈 플랜을 선택하시면 귀사의 모든 개발팀 구성원들이 저희가 제공하는 모든 기능들을 아무런 제한 없이 자유롭게 사용하실 수 있는 권한을 부여받게 됩니다."</div>
-                                        <div class="p-3 bg-green-50 rounded-md border border-green-200"><strong class="text-green-700">좋은 예:</strong> "엔터프라이즈 플랜: 모든 기능, 팀원 수 무제한"</div>
+                        <div class="md:w-1/2 fade-in-up" style="transition-delay: 0.2s;">
+                            <div class="bg-white p-8 rounded-xl shadow-lg">
+                                <div class="flex items-center justify-center">
+                                    <div class="text-center">
+                                        <svg class="w-16 h-16 text-gray-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 1.1.9 2 2 2h12a2 2 0 002-2V7a2 2 0 00-2-2H6a2 2 0 00-2 2z"></path></svg>
+                                        <p class="font-bold mt-2">고객 데이터</p><p class="text-sm text-gray-500">CRM, 구매이력</p>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
-                            <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
-                                <span>3. 긍정적인 톤</span>
-                                <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
-                            </button>
-                            <div class="accordion-content">
-                                <div class="p-4 border-t border-gray-200">
-                                    <p class="text-gray-600 leading-relaxed mb-4">복잡한 설정이나 잠재적 위험을 설명할 때, 부정적인 경고보다는 긍정적인 가이드와 성공 경로를 제시하는 것이 사용자의 불안감을 줄여줍니다.</p>
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div class="p-3 bg-red-50 rounded-md border border-red-200"><strong class="text-red-700">나쁜 예:</strong> "경고: 설정 파일에 잘못된 값이 있으면 서버가 시작되지 않습니다."</div>
-                                        <div class="p-3 bg-green-50 rounded-md border border-green-200"><strong class="text-green-700">좋은 예:</strong> "설정 파일을 꼼꼼히 확인해 주세요. 올바르게 설정하면, 서버가 바로 실행됩니다! [설정 예시 보기]"</div>
+                                    <svg class="w-12 h-12 text-gray-300 mx-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                    <div class="text-center">
+                                         <svg class="w-20 h-20 text-blue-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                                        <p class="font-bold mt-2">AI 엔진</p><p class="text-sm text-gray-500">Gemini Canvas</p>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                         <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
-                            <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
-                                <span>4. 능동태 사용</span>
-                                <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
-                            </button>
-                            <div class="accordion-content">
-                                <div class="p-4 border-t border-gray-200">
-                                    <p class="text-gray-600 leading-relaxed mb-4">특히 개발자 문서에서, 모호한 수동태 문장은 기능의 주체를 불분명하게 만듭니다. 사용자가 직접 '호출'하고 '조회'하도록 명확하게 안내하세요.</p>
-                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div class="p-3 bg-red-50 rounded-md border border-red-200"><strong class="text-red-700">나쁜 예:</strong> "GET /users/{id} 엔드포인트를 통해 특정 사용자 정보가 조회될 수 있습니다."</div>
-                                        <div class="p-3 bg-green-50 rounded-md border border-green-200"><strong class="text-green-700">좋은 예:</strong> "GET /users/{id} 엔드포인트를 호출하여 특정 사용자 정보를 조회하세요."</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
-                            <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
-                                <span>5. 명확한 행동 유도</span>
-                                <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
-                            </button>
-                            <div class="accordion-content">
-                                <div class="p-4 border-t border-gray-200">
-                                    <p class="text-gray-600 leading-relaxed mb-4">버튼이나 링크의 텍스트는 클릭했을 때 어떤 일이 일어날지 정확히 예측할 수 있도록 구체적으로 작성해야 합니다. '실행'보다는 무엇을 실행하는지 알려주세요.</p>
-                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div class="p-3 bg-red-50 rounded-md border border-red-200"><strong class="text-red-700">나쁜 예:</strong> "실행"</div>
-                                        <div class="p-3 bg-green-50 rounded-md border border-green-200"><strong class="text-green-700">좋은 예:</strong> "원클릭으로 배포하기", "테스트 시작"</div>
+                                    <svg class="w-12 h-12 text-gray-300 mx-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                    <div class="text-center">
+                                        <svg class="w-16 h-16 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                        <p class="font-bold mt-2">맞춤형 세일즈 덱</p><p class="text-sm text-gray-500">PDF, PPTX</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
-            </div>
+                </div>
+            </section>
             
-            <div id="tips" class="content-panel">
-                <section class="bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-xl shadow-sm ring-1 ring-gray-200/50">
-                    <h2 class="text-2xl font-bold mb-8">웹페이지 공유 및 활용 팁</h2>
-                    <div class="space-y-3">
-                        <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
-                            <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
-                                <span>다양한 직군을 위한 활용 아이디어 10가지</span>
-                                <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
-                            </button>
-                            <div class="accordion-content">
-                                <div class="p-4 border-t border-gray-200">
-                                    <p class="text-gray-600 leading-relaxed mb-4">Gemini Canvas는 특정 직군에만 유용한 도구가 아닙니다. 다양한 부서에서 어떻게 업무 효율을 높일 수 있는지 확인해보세요.</p>
-                                    <ul class="list-disc list-inside space-y-3 text-gray-600">
-                                        <li><strong>개발자/IT 기술직:</strong> 복잡한 코드에 대한 기술 문서(주석, README 파일) 초안을 빠르게 작성하고, 코드 리팩토링 아이디어를 얻으세요.</li>
-                                        <li><strong>개발자/IT 기술직:</strong> 새로운 기능에 대한 테스트 케이스 시나리오를 생성하여 테스트 시간을 단축하세요.</li>
-                                        <li><strong>마케터:</strong> 신제품 홍보를 위한 블로그 게시물, 광고 카피, SNS 콘텐츠 등 다양한 버전의 마케팅 문구를 즉시 생성하고 비교 분석하세요.</li>
-                                        <li><strong>마케터:</strong> 고객 페르소나를 설정하고, 그에 맞는 이메일 뉴스레터 초안을 작성하여 타겟 마케팅을 강화하세요.</li>
-                                        <li><strong>인사(HR) 담당자:</strong> 채용 공고를 직무에 맞게 여러 버전으로 작성하고, 더 매력적인 표현으로 다듬어 우수 인재의 지원을 유도하세요.</li>
-                                        <li><strong>인사(HR) 담당자:</strong> 사내 정책 변경 안내, 워크샵 공지 등 내부 소통을 위한 이메일을 명확하고 친근한 톤으로 작성하세요.</li>
-                                        <li><strong>구매/총무 담당자:</strong> 여러 공급업체의 제안서를 긴급하게 비교해야 할 때, 각 제안서의 핵심 내용을 요약하여 장단점을 빠르게 파악하세요.</li>
-                                        <li><strong>일반 사무직:</strong> 외부 파트너나 고객에게 보내는 정중하고 전문적인 이메일 초안을 작성하여 커뮤니케이션 실수를 줄이세요.</li>
-                                        <li><strong>기획자/결정권자:</strong> 새로운 프로젝트나 사업 아이디어에 대한 발표 자료의 개요와 핵심 메시지를 구조화하여 설득력을 높이세요.</li>
-                                        <li><strong>모든 임직원:</strong> 긴 회의의 녹취록이나 복잡한 보고서를 입력하고 핵심 내용만 요약해달라고 요청하여 업무 파악 시간을 획기적으로 줄이세요.</li>
-                                    </ul>
-                                </div>
-                            </div>
+            <!-- 4. 핵심 이점 인포그래픽 섹션 (Key Benefits Infographic) -->
+            <section id="benefits" class="py-16 md:py-24 bg-white">
+                <div class="container mx-auto px-6">
+                    <div class="text-center max-w-3xl mx-auto">
+                        <h2 class="text-3xl md:text-4xl section-title mb-4">비즈니스를 변화시키는 6가지 핵심 가치</h2>
+                        <p class="text-gray-600 text-lg mb-12">AI 자동화는 단순한 효율 향상을 넘어, 비즈니스의 모든 영역에서 새로운 가치를 창출합니다.</p>
+                    </div>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Benefit Cards -->
+                         <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100 benefit-card transition-all duration-300 fade-in-up">
+                            <svg class="w-12 h-12 text-blue-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 15.536c-1.171 1.952-3.07 1.952-4.242 0-1.172-1.953-1.172-5.119 0-7.072 1.171-1.952 3.07-1.952 4.242 0 1.172 1.953 1.172 5.119 0 7.072z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 16v-2m8-6h-2m-14 0H4m13.657-5.657l-1.414-1.414m-9.9 9.9l-1.414-1.414M12 12l2.464 4.27a1 1 0 001.732 0L20 12"></path></svg>
+                            <h3 class="text-xl font-bold mb-2">시간 및 비용 절감</h3>
+                            <p class="text-gray-600">수동 작업을 자동화하여 핵심 업무에 집중할 시간을 확보하고 운영 비용을 획기적으로 줄입니다.</p>
                         </div>
-                        <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
-                            <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
-                                <span>Canvas에서 만든 콘텐츠는 어떻게 공유하나요?</span>
-                                <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
-                            </button>
-                            <div class="accordion-content">
-                                <div class="p-4 border-t border-gray-200">
-                                    <p class="text-gray-600 leading-relaxed">Gemini Canvas는 콘텐츠와 코드를 생성하고 다듬는 작업 공간입니다. Canvas 자체가 웹사이트를 직접 호스팅하거나 배포하지는 않습니다. 생성된 HTML/CSS/JS 코드를 실제 웹사이트로 만들려면, 이 콘텐츠를 복사하여 별도의 웹사이트 빌더(예: Wix, Framer)나 웹 호스팅 서비스(예: GitHub Pages)에 붙여넣어 웹페이지를 구축하고 공개해야 합니다.</p>
-                                </div>
-                            </div>
+                        <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100 benefit-card transition-all duration-300 fade-in-up" style="transition-delay: 0.1s;">
+                            <svg class="w-12 h-12 text-blue-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <h3 class="text-xl font-bold mb-2">개인화된 콘텐츠</h3>
+                            <p class="text-gray-600">고객 데이터를 분석하여 개별 고객의 니즈에 완벽하게 부합하는 맞춤형 콘텐츠를 제공합니다.</p>
                         </div>
-                        <div class="accordion-item bg-gray-50 rounded-lg border border-gray-200/80">
-                            <button class="accordion-header w-full text-left p-4 font-medium flex justify-between items-center">
-                                <span>더 효과적인 편집을 위한 프롬프트 팁이 있나요?</span>
-                                <span class="accordion-icon text-gray-500 transform transition-transform">▼</span>
-                            </button>
-                            <div class="accordion-content">
-                                <div class="p-4 border-t border-gray-200">
-                                    <p class="text-gray-600 leading-relaxed mb-4">구체적이고 명확하게 요청할수록 좋습니다. 다음은 몇 가지 유용한 프롬프트 예시입니다.</p>
-                                    <ul class="list-disc list-inside space-y-2 text-gray-600">
-                                        <li>"이 내용을 더 친근하면서도 전문적인 어조로 바꿔줘."</li>
-                                        <li>"각 항목에 UX 라이팅의 중요성을 강조하는 문구를 추가해줘."</li>
-                                        <li>"이 가이드라인을 초보자를 위한 블로그 게시물 형식으로 재구성해줘."</li>
-                                        <li>"핵심 내용만 남기고 50단어 이내로 요약해줘."</li>
-                                    </ul>
+                        <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100 benefit-card transition-all duration-300 fade-in-up" style="transition-delay: 0.2s;">
+                            <svg class="w-12 h-12 text-blue-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                            <h3 class="text-xl font-bold mb-2">브랜딩 일관성</h3>
+                            <p class="text-gray-600">모든 자료에 일관된 브랜딩 가이드라인을 적용하여 회사의 전문적인 이미지를 강화합니다.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100 benefit-card transition-all duration-300 fade-in-up" style="transition-delay: 0.3s;">
+                            <svg class="w-12 h-12 text-blue-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l-6-2m6 2l-3 9m-3-9l3-2m-3 2l3 9"></path></svg>
+                            <h3 class="text-xl font-bold mb-2">확장성</h3>
+                            <p class="text-gray-600">대량의 세일즈 덱을 신속하게 생성하여 더 많은 잠재 고객에게 도달하고 비즈니스를 확장합니다.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100 benefit-card transition-all duration-300 fade-in-up" style="transition-delay: 0.4s;">
+                            <svg class="w-12 h-12 text-blue-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                            <h3 class="text-xl font-bold mb-2">데이터 기반 개선</h3>
+                            <p class="text-gray-600">세일즈 덱의 성과를 추적, 분석하여 콘텐츠와 전략을 지속적으로 개선하고 최적화합니다.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100 benefit-card transition-all duration-300 fade-in-up" style="transition-delay: 0.5s;">
+                             <svg class="w-12 h-12 text-blue-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1m0 1H9.5M12 6h2.5m-5 12v-1m0 1H9.5M12 18h2.5M5.101 12.844l.895-1.69m12.008 1.69l-.895-1.69m-8.112-5.654l.895 1.69m-2.808 8.114l-.895 1.69M12 21a9 9 0 110-18 9 9 0 010 18z"></path></svg>
+                            <h3 class="text-xl font-bold mb-2">매출 성장 및 시장 점유율 확대</h3>
+                            <p class="text-gray-600">궁극적으로 전환율을 높여 기업의 매출 성장을 견인하고 시장 리더십을 강화합니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 5. 간소화된 작동 원리 섹션 (Simplified Workflow) -->
+            <section id="workflow" class="py-16 md:py-24 bg-gray-100">
+                <div class="container mx-auto px-6">
+                    <div class="text-center max-w-3xl mx-auto">
+                        <h2 class="text-3xl md:text-4xl section-title mb-4">AI는 이렇게 일합니다</h2>
+                        <p class="text-gray-600 text-lg mb-16">복잡한 기술은 메가존클라우드에 맡기세요. 고객은 단 5단계의 간단한 프로세스만 경험하면 됩니다.</p>
+                    </div>
+                    <div class="relative">
+                        <!-- Connecting line for desktop -->
+                        <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-gray-300 transform -translate-y-1/2"></div>
+                        <div class="relative flex flex-col md:flex-row justify-between items-start md:items-center text-center space-y-12 md:space-y-0">
+                            <!-- Steps -->
+                            <div class="w-full md:w-1/5 fade-in-up"><div class="relative"><div class="mx-auto w-24 h-24 flex items-center justify-center bg-white border-4 border-blue-600 rounded-full text-blue-600 font-bold text-3xl eng-title z-10">1</div></div><h3 class="text-xl font-bold mt-4">요구사항 분석</h3><p class="text-gray-600 mt-1">제안 대상과 목표 설정</p></div>
+                            <div class="w-full md:w-1/5 fade-in-up" style="transition-delay: 0.2s;"><div class="relative"><div class="mx-auto w-24 h-24 flex items-center justify-center bg-white border-4 border-blue-600 rounded-full text-blue-600 font-bold text-3xl eng-title z-10">2</div></div><h3 class="text-xl font-bold mt-4">데이터 수집</h3><p class="text-gray-600 mt-1">AI가 관련 데이터 자동 수집</p></div>
+                            <div class="w-full md:w-1/5 fade-in-up" style="transition-delay: 0.4s;"><div class="relative"><div class="mx-auto w-24 h-24 flex items-center justify-center bg-white border-4 border-blue-600 rounded-full text-blue-600 font-bold text-3xl eng-title z-10">3</div></div><h3 class="text-xl font-bold mt-4">AI 모델 학습</h3><p class="text-gray-600 mt-1">데이터 기반 맞춤형 학습</p></div>
+                            <div class="w-full md:w-1/5 fade-in-up" style="transition-delay: 0.6s;"><div class="relative"><div class="mx-auto w-24 h-24 flex items-center justify-center bg-white border-4 border-blue-600 rounded-full text-blue-600 font-bold text-3xl eng-title z-10">4</div></div><h3 class="text-xl font-bold mt-4">세일즈 덱 생성</h3><p class="text-gray-600 mt-1">AI가 맞춤 제안서 자동 생성</p></div>
+                            <div class="w-full md:w-1/5 fade-in-up" style="transition-delay: 0.8s;"><div class="relative"><div class="mx-auto w-24 h-24 flex items-center justify-center bg-white border-4 border-blue-600 rounded-full text-blue-600 font-bold text-3xl eng-title z-10">5</div></div><h3 class="text-xl font-bold mt-4">성과 측정 및 개선</h3><p class="text-gray-600 mt-1">성과 분석 및 자동 최적화</p></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. 성공 사례 / 신뢰성 구축 섹션 (Social Proof / Credibility) -->
+            <section id="success-stories" class="py-16 md:py-24 bg-blue-50">
+                <div class="container mx-auto px-6">
+                     <div class="text-center max-w-3xl mx-auto">
+                        <h2 class="text-3xl md:text-4xl section-title mb-4">이미 검증된 성공</h2>
+                        <p class="text-gray-600 text-lg mb-12">메가존클라우드의 AI 솔루션은 실제 비즈니스 성과로 그 가치를 증명하고 있습니다.</p>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-xl p-8 md:p-12 fade-in-up">
+                        <div class="flex flex-col md:flex-row items-center gap-8">
+                            <div class="md:w-1/3 text-center">
+                                <img src="https://placehold.co/150x60/000000/FFFFFF?text=A사+로고" alt="A사 로고" class="mx-auto mb-4" onerror="this.onerror=null;this.src='https://placehold.co/150x60/EFEFEF/AAAAAA?text=Logo';">
+                                <p class="text-gray-600">국내 대표 패션 이커머스</p>
+                                <h3 class="text-xl font-bold text-gray-900 mt-1">A사</h3>
+                            </div>
+                            <div class="md:w-2/3 md:pl-8">
+                                <blockquote class="text-lg md:text-xl italic text-gray-700 border-l-4 border-blue-500 pl-6">
+                                    "AI 세일즈 덱 도입 후, 제안서 준비 시간이 80% 이상 단축되었고, 고객 맞춤형 제안 덕분에 계약 전환율이 35%나 증가했습니다. 이제 저희 팀은 더 창의적이고 전략적인 활동에 집중할 수 있게 되었습니다."
+                                </blockquote>
+                                <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6 text-center">
+                                    <div class="bg-blue-100 p-4 rounded-lg">
+                                        <p class="text-3xl font-extrabold text-blue-600 eng-title">+35%</p>
+                                        <p class="text-gray-700 font-semibold">계약 전환율 증가</p>
+                                    </div>
+                                    <div class="bg-green-100 p-4 rounded-lg">
+                                        <p class="text-3xl font-extrabold text-green-600 eng-title">-80%</p>
+                                        <p class="text-gray-700 font-semibold">제안서 준비 시간 감소</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
-            </div>
+                </div>
+            </section>
+            
+            <!-- 7. 클로징 멘트 및 행동 유도 (Closing & Call-to-Action) -->
+            <section id="cta" class="py-20 md:py-28 bg-gray-900 text-white">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="text-3xl md:text-5xl font-extrabold mb-6 section-title">
+                        성공을 위한 첫걸음,<br>지금 바로 시작하세요.
+                    </h2>
+                    <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-10">
+                        메가존클라우드의 AI 전문가가 귀사의 비즈니스에 최적화된 AI 세일즈 자동화 전략 수립을 도와드립니다. 데이터 기반 의사결정으로 세일즈를 혁신하고 지속적인 성공을 경험하십시오.
+                    </p>
+                    <a href="mailto:sales@megazone.com?subject=AI 자동화 세일즈 솔루션 문의" class="bg-blue-600 text-white font-bold py-4 px-10 rounded-lg cta-button text-xl inline-block shadow-lg">
+                        지금 미팅 요청하기
+                    </a>
+                    <p class="mt-6 text-gray-400">또는 <a href="tel:02-2108-9100" class="underline hover:text-white">02-2108-9100</a>으로 문의하세요.</p>
+                </div>
+            </section>
         </main>
+        
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-gray-400 py-8">
+            <div class="container mx-auto px-6 text-center text-sm">
+                <p>&copy; 2025 MegazoneCloud Corp. All Rights Reserved.</p>
+            </div>
+        </footer>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const tabs = document.querySelectorAll('.tab-btn');
-            const contentPanels = document.querySelectorAll('.content-panel');
-            const accordions = document.querySelectorAll('.accordion-item');
+        // 프롬프트 복사 기능
+        const copyButton = document.getElementById('copy-button');
+        const promptTextElement = document.getElementById('prompt-text');
 
-            const uiuxData = {
-                'user-centered': {
-                    base: '친한 친구를 위해 앱을 만든다고 상상해보세요. 어떻게 하면 친구가 가장 편하고 쉽게 쓸 수 있을지 고민하겠죠? 바로 그 마음이 사용자 중심 디자인의 시작입니다. 모든 결정을 내릴 때, 실제로 이 서비스를 사용할 사람의 입장에서 생각하고 그들의 필요와 목표를 가장 먼저 챙기는 것입니다.',
-                    short: '사용자의 입장에서 생각하고, 그들이 가장 쉽고 편하게 목표를 달성할 수 있도록 돕는 것을 최우선으로 삼는 디자인 방식입니다.',
-                    professional: '사용자 중심 디자인(UCD)은 최종 사용자의 요구사항, 목표 및 피드백을 디자인 프로세스의 모든 단계에 적극적으로 통합하는 것을 핵심 철학으로 합니다. 이는 페르소나 정의, 사용성 테스트, 사용자 여정 맵핑과 같은 방법론을 통해 사용자의 맥락을 깊이 이해하고, 이를 바탕으로 직관적이고 효과적인 솔루션을 구축하는 것을 목표로 합니다.',
-                    mobile: '모바일 환경에서는 작은 화면과 터치 인터페이스의 특수성을 고려해야 합니다. 터치 타겟의 크기를 충분히 확보하고, 스크롤과 같은 제스처를 직관적으로 설계하며, 한 손 조작의 편의성을 높이는 것이 사용자 중심 모바일 디자인의 핵심입니다.'
-                },
-                consistency: { base: '자주 가는 카페를 생각해보세요. 컵, 의자, 메뉴판 디자인이 항상 같아서 편안함을 느끼죠? 웹사이트도 마찬가지입니다. 색상, 버튼 모양, 아이콘 등을 통일하면 사용자가 새로 배울 필요 없이 편안하고 익숙하게 서비스를 이용할 수 있습니다.' },
-                accessibility: { base: '엘리베이터나 휠체어 램프처럼, 웹사이트도 누구나 쉽게 이용할 수 있어야 합니다. 시력이 좋지 않은 사람, 나이가 많은 어르신 등 다양한 사람들이 불편함 없이 정보를 얻고 기능을 쓸 수 있도록 배려하는 디자인입니다.' },
-                efficiency: { base: '마트에서 계산할 때 줄이 길면 답답하죠? 사용자가 웹사이트에서 원하는 것을 얻기까지의 과정을 최대한 짧고 간단하게 만들어주는 것입니다. 불필요한 단계를 줄여 사용자의 시간과 노력을 아껴주는 디자인이 좋은 디자인입니다.' },
-                reliability: { base: '은행 앱에 들어갔을 때, 디자인이 갑자기 바뀌거나 정보가 틀리면 불안하겠죠? 사용자가 "아, 여긴 믿을 수 있어"라고 느끼게 만드는 것입니다. 항상 정확한 정보를 제공하고, 일관된 모습을 보여주어 사용자에게 안정감과 신뢰를 주어야 합니다.' }
-            };
-            
-            function updateUiuxText(target, version = 'base') {
-                const pElement = document.getElementById(`uiux-text-${target}`);
-                if (pElement) {
-                    pElement.style.opacity = '0';
-                    setTimeout(() => {
-                        pElement.innerHTML = uiuxData[target][version];
-                        pElement.style.opacity = '1';
-                    }, 150);
-                }
+        copyButton.addEventListener('click', () => {
+            const textToCopy = promptTextElement.textContent || promptTextElement.innerText;
+            const textArea = document.createElement('textarea');
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                copyButton.textContent = 'Copied!';
+                setTimeout(() => {
+                    copyButton.textContent = 'Copy';
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+                copyButton.textContent = 'Error';
+                 setTimeout(() => {
+                    copyButton.textContent = 'Copy';
+                }, 2000);
             }
+            document.body.removeChild(textArea);
+        });
 
-            function initTexts() {
-                Object.keys(uiuxData).forEach(key => updateUiuxText(key, 'base'));
-            }
-
-
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const tabId = tab.dataset.tab;
-
-                    tabs.forEach(t => {
-                        t.classList.remove('tab-active');
-                        t.classList.add('tab-inactive');
-                    });
-                    tab.classList.add('tab-active');
-                    tab.classList.remove('tab-inactive');
-
-                    contentPanels.forEach(panel => {
-                        panel.classList.remove('content-active');
-                    });
-                    document.getElementById(tabId).classList.add('content-active');
-                });
-            });
-
-            accordions.forEach(item => {
-                const header = item.querySelector('.accordion-header');
-                const content = item.querySelector('.accordion-content');
-                const icon = item.querySelector('.accordion-icon');
-
-                header.addEventListener('click', () => {
-                    const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
-                    
-                    if (isOpen) {
-                        content.style.maxHeight = '0px';
-                        icon.style.transform = 'rotate(0deg)';
-                    } else {
-                        content.style.maxHeight = content.scrollHeight + 'px';
-                        icon.style.transform = 'rotate(180deg)';
-                    }
-                });
-            });
-
-            document.querySelectorAll('.edit-btn').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const target = e.target.dataset.target;
-                    const version = e.target.dataset.version;
-                    updateUiuxText(target, version);
-                });
-            });
-
-            const ctx = document.getElementById('uiuxChart').getContext('2d');
-            const uiuxChart = new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: ['사용자 중심', '일관성', '접근성', '효율성', '신뢰성'],
-                    datasets: [{
-                        label: 'UI/UX 핵심 원칙',
-                        data: [10, 9, 8, 9, 10],
-                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
-                        borderColor: 'rgba(59, 130, 246, 1)',
-                        borderWidth: 2,
-                        pointBackgroundColor: 'rgba(59, 130, 246, 1)',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgba(59, 130, 246, 1)'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        r: {
-                            angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
-                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
-                            pointLabels: { font: { size: 14, family: "'Noto Sans KR', sans-serif" }, color: '#4A5568' },
-                            ticks: {
-                                display: false,
-                                stepSize: 2
-                            },
-                            suggestedMin: 0,
-                            suggestedMax: 10
-                        }
-                    },
-                    plugins: {
-                        legend: { display: false }
-                    }
+        // 스크롤 애니메이션 기능
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
                 }
             });
-            
-            document.querySelector('.tab-btn[data-tab="intro"]').click();
-            initTexts();
+        }, {
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
         });
     </script>
-
 </body>
 </html>
